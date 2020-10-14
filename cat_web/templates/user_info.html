@@ -1,0 +1,43 @@
+{% extends 'base_home.html'%}
+
+{% block head %}
+<title>Informacion del Usurio</title>
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Hola {{current_user.username}}!!!, Puedes Editar tu Infomacion</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group mr-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+      </div>
+      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        <span data-feather="calendar"></span>
+        This week
+      </button>
+    </div>
+  </div>
+  <div class="jumbotron">
+    <div class="card" >
+        <h5 class="card-header">Informacion del Usuario</h5>
+        <div class="row no-gutters">
+            <div class="col-md-2">
+                <img src="{{image_file}}" class="img-fluid" alt="" >  
+              </div>
+
+              <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{current_user.username}}</h5>
+                    <p class="card-text">{{current_user.email}}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                  </div>
+               </div>
+        </div>
+      </div>
+    <hr class="my-4">
+    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+  </div>
+
+{% endblock %}

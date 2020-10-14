@@ -27,7 +27,7 @@
     {% block head%}{%endblock%}
 </head>
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <nav class="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href=" {{url_for('home_page')}}"><i class='fas fa-hat-wizard'></i>&bscr;Pixies</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -49,7 +49,7 @@
 <div class="container-fluid">
   <div class="row">
       <!--Menu de la izquierda-->
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
@@ -58,34 +58,34 @@
               home <span class="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/Countries">
+          <li class="nav-item ">
+            <a class="nav-link text-white" href="/Countries">
                 <i class="fas fa-flag-usa"></i>
               Pais
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link text-white" href="#">
               <span data-feather="shopping-cart"></span>
               Films
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/Clients">
+            <a class="nav-link text-white" href="/Clients">
               <span data-feather="users"></span>
               Customers
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link text-white" href="#">
               <span data-feather="bar-chart-2"></span>
               Reports
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Integrations
+            <a class="nav-link text-white" href="{{url_for('usuario')}}">
+              <i class="fas fa-address-card"></i>
+              User Information
             </a>
           </li>
         </ul>

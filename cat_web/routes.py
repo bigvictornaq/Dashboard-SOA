@@ -40,8 +40,14 @@ def home_page():
     return render_template('inicio.html')
 
 
+@app.route('/informacion_usuario')
+@login_required
+def usuario():
+    image_file = url_for('static',filename='profile_img/'+ current_user.image_file)
+    return render_template('user_info.html',image_file = image_file)
 
 @app.route('/logout')
 def salir_sesion():
     logout_user()
     return redirect(url_for('index'))
+
