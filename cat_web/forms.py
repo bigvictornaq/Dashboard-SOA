@@ -1,4 +1,6 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField,FileAllowed
+from flask_login import current_user
 from wtforms import StringField,PasswordField,SubmitField,BooleanField
 from wtforms.validators import DataRequired,Length,Email,EqualTo,ValidationError
 from cat_web.models import User
@@ -25,4 +27,22 @@ class LoginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired(),Email()],render_kw={"placeholder":"Correo"})
     password = PasswordField('Password',validators=[DataRequired()],render_kw={"placeholder":"Contrasena"})
     remember = BooleanField('Remember ME')
-    submit = SubmitField('Login')
+    submit = SubmitField('Login') 
+
+class UpdateCuentaForm(FlaskForm):
+    username = StringField('username',validators=[DataRequired(),Length(min=2,max=25)],render_kw={"placeholder":"Usuername"})
+    email = StringField('Email',validators=[DataRequired(),Email()],render_kw={"placeholder":"Correo"})
+    foto = FileField('Update Profile Picture', validators=[FileAllowed(['jpg','png','gif'])])
+   
+    submit = SubmitField('Update')
+
+    def validate_username(self,username):
+        if username.data != current_user.username:
+                uuario = User.query.filter_by(username=username.data).first()
+                if uuario:
+                        raise ValidationError('That usario ya existe por favor agregue al decente')
+    def validate_email(self,email):
+        if email.data != current_user.email:
+                    uuario = User.query.filter_by(email=email.data).first()
+                    if uuario:
+                            raise ValidationError('That Correo ya existe por favor agregue al decente')    

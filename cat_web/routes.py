@@ -1,6 +1,8 @@
-from flask import render_template, url_for,flash,redirect
+import os
+import secrets
+from flask import render_template, url_for,flash,redirect,request
 from cat_web import app,db,bcrypt
-from cat_web.forms import RegistrationForm,LoginForm
+from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm
 from cat_web.models import User
 from flask_login import login_user,current_user,logout_user,login_required
 
@@ -39,12 +41,29 @@ def register():
 def home_page():
     return render_template('inicio.html')
 
-
-@app.route('/informacion_usuario')
+def save_foto(form_picture):
+    random_hex = secrets.token_hex(8)
+    _,f_ext = os.path.splitext(form_picture.filename)
+    
+@app.route('/informacion_usuario',methods=['GET','POST'])
 @login_required
 def usuario():
+    form= UpdateCuentaForm()
+    if form.validate_on_submit():
+        if form.foto.data:
+            pass
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Tu cuenta fue actualizada exitosamente','success')
+        redirect(url_for('usuario'))
+    elif request.method == 'GET':
+        form.username.data =  current_user.username
+        form.email.data = current_user.email
+
     image_file = url_for('static',filename='profile_img/'+ current_user.image_file)
-    return render_template('user_info.html',image_file = image_file)
+    return render_template('user_info.html',
+                           image_file = image_file,form=form)
 
 @app.route('/logout')
 def salir_sesion():
