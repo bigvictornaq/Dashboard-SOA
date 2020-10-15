@@ -9,7 +9,8 @@ class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
     username= db.Column(db.String(20),unique=True,nullable=False)
     email= db.Column(db.String(120),unique=True,nullable=False)
-    image_file = db.Column(db.String(20),nullable=False,default='defualt.jpg')
+    image_file = db.Column(db.String(150),nullable=False,default='https://res.cloudinary.com/pixies/image/upload/v1602729197/project/df_xbqa96.jpg')
+    public_id = db.Column(db.String(120),default='project/df_xbqa96')
     password = db.Column(db.String(60),nullable=False)
     
     def __repr__(self):

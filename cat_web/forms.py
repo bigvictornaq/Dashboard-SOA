@@ -33,7 +33,7 @@ class UpdateCuentaForm(FlaskForm):
     username = StringField('username',validators=[DataRequired(),Length(min=2,max=25)],render_kw={"placeholder":"Usuername"})
     email = StringField('Email',validators=[DataRequired(),Email()],render_kw={"placeholder":"Correo"})
     foto = FileField('Update Profile Picture', validators=[FileAllowed(['jpg','png','gif'])])
-   
+    public_id = StringField('Public ID',validators=[DataRequired()])
     submit = SubmitField('Update')
 
     def validate_username(self,username):
