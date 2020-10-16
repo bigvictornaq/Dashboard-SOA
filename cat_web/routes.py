@@ -3,7 +3,7 @@ import secrets
 from flask import render_template, url_for,flash,redirect,request
 from cat_web import app,db,bcrypt,cloud
 import cloudinary.uploader
-from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm
+from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
 from cat_web.models import User
 from flask_login import login_user,current_user,logout_user,login_required
 
@@ -82,3 +82,27 @@ def salir_sesion():
     logout_user()
     return redirect(url_for('index'))
 
+def send_reset_email(usr):
+    pass
+
+@app.route('/reset_password',methods=['GET','POST'])
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An Email Has been sent with instructions to reset your password')
+    return render_template('reset_request.html',form=form)
+
+@app.route('/reset_password/<token>',methods=['GET','POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('that is invalid or expired','warning')
+        return redirect(url_for('reset_password'))
+    form = ResetPasswordForm()
+    return render_template('reset_token.html',form=form)    

@@ -45,4 +45,19 @@ class UpdateCuentaForm(FlaskForm):
         if email.data != current_user.email:
                     uuario = User.query.filter_by(email=email.data).first()
                     if uuario:
-                            raise ValidationError('That Correo ya existe por favor agregue al decente')    
+                            raise ValidationError('That Correo ya existe por favor agregue al decente')
+
+class RequestResetForm(FlaskForm):
+    email = StringField('Email',validators=[DataRequired(),Email()],render_kw={"placeholder":"Correo"})
+    submit = SubmitField('Request Password Reset')
+    
+    def validate_email(self,email):
+        uuario = User.query.filter_by(email=email.data).first()
+        if uuario is None:
+            raise ValidationError('There is no account with that email.!!')    
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password',validators=[DataRequired()],render_kw={"placeholder":"Contrasena"})
+    Confirm_password = PasswordField('Confirm Password',
+                                        validators=[DataRequired(),EqualTo('password')],render_kw={"placeholder":"Re Ingrese la contrasena"})
+    submit = SubmitField('Reset Password')                                  
