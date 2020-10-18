@@ -32,4 +32,34 @@ class User(db.Model,UserMixin):
         return f"User( '{self.username}','{self.email}','{self.image_file}')"
 
 
+class ClienteP(db.Model):
+    __tablename__ = 'Cliente'
+    cliente_id =db.Column(db.Integer,primary_key=True)
+    Firstname = db.Column(db.String(50))
+    LastName = db.Column(db.String(50))
+    Email  = db.Column(db.String(50))
+    Country = db.Column(db.String(50))
+    def __init__(self,FirstName,LastName,Email,Country):
+        self.Firstname = FirstName
+        self.LastName = LastName
+        self.Email = Email
+        self.Country = Country
+    def __repr__(self):
+        return '<cliente_id{}>'.format(self.cliente_id)
 
+# Model from mssql database AdventureWorks2017 
+class ClienteM(db.Model):
+    __bind_key__ = 'mssql'
+    __tablename__ = 'cliente'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    FirstName = db.Column(db.String(50))
+    LastName = db.Column(db.String(50))
+    Country   =db.Column(db.String(50))
+    Email  =db.Column(db.String(50))
+    def __init__(cls, FirstName, LastName, Email, Country):
+        self.Firstname = FirstName
+        self.LastName = LastName
+        self.Email = Email
+        self.Country = Country
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente)    
