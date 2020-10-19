@@ -1,10 +1,10 @@
 import os
 import secrets
-from flask import render_template, url_for,flash,redirect,request
+from flask import render_template, url_for,flash,redirect,request,json,jsonify
 from cat_web import app,db,bcrypt,cloud
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM
+from cat_web.models import User,ClienteM,add_tableM
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -107,8 +107,20 @@ def reset_token(token):
     form = ResetPasswordForm()
     return render_template('reset_token.html',form=form) 
 
+
 @app.route('/analis_tablas_mssql_and_posgresql',methods=['GET','POST'])
 @login_required   
 def analisis():
     clienteM =  ClienteM.query.all()
     return render_template("an_tables.html",clienteM=clienteM)
+
+
+@app.route('/analis_tablas_mssql')
+def dMsql():
+    dotos = add_tableM()
+    existe = hasattr(dotos,"an_attribute")
+    if existe != True:
+        no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
+        return jsonify({"Data":no_data})
+    datos = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
+    return jsonify({"Data":datos})    

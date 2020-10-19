@@ -1,0 +1,17 @@
+from cat_web import db
+from cat_web.models import ClienteM
+from sqlalchemy import text
+
+
+
+#consulta
+sql = text("SELECT [CustomerID],[Person].[Person].[nombre],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where Sales.SalesTerritory.CountryRegionCode = 'US'; ")
+
+usa = db.get_engine(bind='mssql').execute(sql)
+
+for u in usa:
+    clientee = ClienteM(u[1],u[2],"United States",u[4])
+    db.session.add(clientee)
+    db.session.commit()
+    
+db.session.close()
