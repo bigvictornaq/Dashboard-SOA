@@ -8,6 +8,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(db.Model,UserMixin):
+    #__bind_key__ = 'anali'
     id = db.Column(db.Integer,primary_key=True)
     username= db.Column(db.String(20),unique=True,nullable=False)
     email= db.Column(db.String(120),unique=True,nullable=False)
@@ -83,62 +84,36 @@ class ClientesA(db.Model):
 
 def usa_info():
     try:
-        sql = text("SELECT [Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where Sales.SalesTerritory.CountryRegionCode = 'US'; ")
+        sql = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where Sales.SalesTerritory.CountryRegionCode = 'US'; ")
+        sql_m = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where NOT Sales.SalesTerritory.CountryRegionCode = 'US'; ")
         data_USA = db.get_engine(bind='mssql').execute(sql)
-        datos_clienteM = ClienteM.query.filter_by(Country = 'United States').all()
-
+        data_all = db.get_engine(bind='mssql').execute(sql_m)
+        #datos_clienteM = ClienteM.query.filter_by(Country = 'United States').all()
+        datos_clienteM = ClienteM.query.all()
         if datos_clienteM:
             return datos_clienteM
         else:
-           #"United States"
-            for u in data_USA:
-                    #u[0],u[1],"United States",u[3]
-                    clin =  ClienteM( FirstName=u[0],LastName=u[1],Country="United States",Email=u[3])
-                    db.session.add(clin)
+             for u in data_USA:
+                    clientee = ClienteM(u[1],u[2],"United States",u[4])
+                    db.session.add(clientee)
                     db.session.commit()
-            db.session.close()
-            return datos_clienteM   
+             for c in data_all:
+                clin2 = ClienteM(c[1],c[2],c[3],c[4])
+                db.session.add(clin2)
+                db.session.commit()   
+             db.session.close()
+             return datos_clienteM   
     except IndentationError:
         db.session.rollback()
         return None
 #Agreagr los datos en nueva tablas para anbas base de datos
-def add_tableM():
-    # Se agrega primero lo de estados unidos ya cuentan diferentes locaciones
-    sql = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where Sales.SalesTerritory.CountryRegionCode = 'US'; ")
-    sql_m = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where NOT Sales.SalesTerritory.CountryRegionCode = 'US'; ")
-    try:
-        #Database AdventureWorks2017
-        datos_clienteM = ClienteM.query.all()
-        existe = hasattr(datos_clienteM,"an_attribute")
-        if existe:
-            print("Hay datos")
-            return datos_clienteM
-        else:
-            print("NO hay datos")
-            
-            data_USA = db.get_engine(bind='mssql').execute(sql)
-            data_all = db.get_engine(bind='mssql').execute(sql_m)
-            for u in data_USA:
-                clin =  ClienteM(u[1],u[2],u[4],"United States")
-                db.session.add(clin)
-                db.session.commit()
-            for c in data_all:
-                clin2 = ClienteM(c[1],c[2],c[4],c[3])
-                db.session.add(clin2)
-                db.session.commit()
-            db.session.close()
-            return datos_clienteM       
-    except IndentationError:
-        db.session.rollback()
-        return None
-
 def add_tablePos():
      try:
          slq_pos = text("SELECT customer_id, first_name, last_name, email,  public.country.country FROM public.customer INNER JOIN public.address ON public.customer.address_id = public.address.address_id INNER JOIN public.city on public.city.city_id =  public.address.city_id INNER JOIN public.country ON public.country.country_id = public.city.country_id;")
          #Database Posgresql
          datos_ClienteP = ClienteP.query.all()
          existe = hasattr(datos_ClienteP,"an_attribute")
-         if existe:
+         if datos_ClienteP:
                 return datos_ClienteP
          else:
                 pos_d = db.session.execute(slq_pos)
@@ -146,8 +121,8 @@ def add_tablePos():
                    todo_pos = ClienteP(bd[1],bd[2],bd[3],bd[4])
                    db.session.add(todo_pos)
                    db.session.commit()
-                db.session.close()
-                datos_ClienteP = ClienteP.query.all()
+                   db.session.close()
+                
                 return datos_ClienteP   
      except IndentationError:
         db.session.rollback()

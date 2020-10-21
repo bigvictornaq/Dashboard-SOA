@@ -2,9 +2,10 @@ import os
 import secrets
 from flask import render_template, url_for,flash,redirect,request,json,jsonify
 from cat_web import app,db,bcrypt,cloud
+from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,add_tableM
+from cat_web.models import User,ClienteM,ClienteP,ClientesA
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -111,16 +112,54 @@ def reset_token(token):
 @app.route('/analis_tablas_mssql_and_posgresql',methods=['GET','POST'])
 @login_required   
 def analisis():
-    clienteM =  ClienteM.query.all()
-    return render_template("an_tables.html",clienteM=clienteM)
+    #roshi =  ClienteM.query.all()
+    sql = text("SELECT * FROM [AdventureWorks2017].[dbo].[cliente]")
+    roshi = db.get_engine(bind='mssql').execute(sql)
+    return render_template("an_tables.html",roshi=roshi)
 
 
 @app.route('/analis_tablas_mssql')
 def dMsql():
-    dotos = add_tableM()
-    existe = hasattr(dotos,"an_attribute")
-    if existe != True:
+    dotos =  ClienteM.query.all()
+    #existe = hasattr(dotos,"an_attribute")
+    if dotos:
+        datos = [{"ID":a.ID_Cliente,"FirstName":a.nombre,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
+        return jsonify({"data":datos})
+    else:
         no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
-        return jsonify({"Data":no_data})
-    datos = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
-    return jsonify({"Data":datos})    
+        return jsonify({"data":no_data})
+
+    
+@app.route('/analis_tablas_pos')
+def dpos():
+    dotos =  ClienteP.query.all()
+    #existe = hasattr(dotos,"an_attribute")
+    if dotos:
+        datos = [{"ID":a.cliente_id,"FirstName":a.Firstname,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
+        return jsonify({"data":datos})
+    else:
+        no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
+        return jsonify({"data":no_data})
+
+#unir los daos base de datos en una
+@app.route('/analis_tablas_pos')
+def dcorporado():
+    base1 = ClienteM.query.all()
+    base2 = ClienteP.query.all()
+    base_resultado = ClientesA.query.all()
+    if base_resultado:
+        dResultado = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in base_resultado]
+        return jsonify({"data":dResultado})
+    else:
+        for dato1 in base1:
+            rs = ClientesA(dato1.nombre,dato1.LastName,dato1.Email,dato1.Country)    
+            db.session.add(rs)
+            db.session.commit()
+        db.session.close()
+        for dato2 in base2:
+            rs2 = ClientesA(dato2.Firstname,dato2.LastName,dato2.Email,dato2.Country)
+            db.session.add(rs)
+            db.session.commit()
+        db.session.close()
+        dResultado = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in base_resultado]
+        return jsonify({"data":dResultado})      

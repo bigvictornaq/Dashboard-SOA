@@ -26,28 +26,133 @@
 
   <h2>(Base de datos AdventureWorks2017)</h2>
   <div class="table-responsive">
-    <table class="table table-striped table-sm table-hover">
+    <table id="tbl_ad" class="table table-striped table-sm table-hover">
       <thead>
         <tr>
           <th>ID</th>
           <th>Nombre</th>
           <th>Apellido</th>
-          <th>Email</th>
           <th>Pais</th>
+          <th>Email</th>
         </tr>
       </thead>
       <tbody>
-       {% for data in clienteM %}
-               <tr>
-                   <td>{{data.ID_Cliente}}</td>
-                   <td>{{data.FirstName}}</td>
-                   <td>{{data.LastName}}</td>
-                   <td>{{data.Email}}</td>
-                   <td>{{data.Country}}</td>
-               </tr>
-       {% endfor %}
       </tbody>
     </table>
   </div>
+  <h2>(Base de datos Progressql dvdrental)</h2>
+  <div class="table-responsive">
+    <table id="tbl_dvd" class="table table-striped table-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Pais</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="card border-bottom text-white bg-primary">
+    <div class="card-header">
+      Analisis de datos 
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Nueva Base de datos {{griselda}}</h5>
+      <p class="card-text">Siguiente Informacion contierne los datos obtenidos de la base de datos dvdrental y ADVENTUREWORKS2017</p>
+      <form action="" method="POST">
+        <button type="submit" name="submit_button" value="Hola bebe" class="btn btn-outline-info">Unir datos</button>
+      <button type="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button>
+      </form>
+      
+    </div>
+    <div class="card-footer text-muted">
+     Equipo Desarrollo: Alex Cassio,Hiram Sifuentes y Victor Nava
+    </div>
+  </div>
+
+{% endblock %}
+{% block tail_js %}
+
+<script>
+  $(document).ready( function () {
+    //tabla dde MS-SQL
+    var table = $('#tbl_ad').DataTable({
+      processing:true,
+    ajax:"{{url_for('dMsql')}}",
+    columns:[
+            { "data": "ID" },
+            { "data": "FirstName" },
+            { "data": "LastName" },
+            { "data": "Country" },
+            { "data": "Email" }
+
+    ],
+    dom:'Bfrtilp',
+    buttons:[
+
+    {
+                "extend":'pdfHtml5',
+                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+                "titleAttr":'Exportar a PDF',
+                "className":'btn btn-outline-danger'
+            },
+            {
+                "extend":'print',
+                "text":'<i class="fas fa-print">&nbsp;Print</i>',
+                "titleAttr":'Print',
+                "className":'btn btn-outline-info'
+            },
+            {
+                "extend":'excel',
+                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
+                "titleAttr":'excel',
+                "className":'btn-outline-success'
+            },
+
+    ]
+  });
+  //tabla Posgresal
+  var table2 = $('#tbl_dvd').DataTable({
+    processing:true,
+    ajax:"{{url_for('dpos')}}",
+    columns:[
+            { "data": "ID" },
+            { "data": "FirstName" },
+            { "data": "LastName" },
+            { "data": "Country" },
+            { "data": "Email" }
+
+    ],
+    dom:'Bfrtilp',
+    buttons:[
+
+    {
+                "extend":'pdfHtml5',
+                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+                "titleAttr":'Exportar a PDF',
+                "className":'btn btn-outline-danger'
+            },
+            {
+                "extend":'print',
+                "text":'<i class="fas fa-print">&nbsp;Print</i>',
+                "titleAttr":'Print',
+                "className":'btn btn-outline-info'
+            },
+            {
+                "extend":'excel',
+                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
+                "titleAttr":'excel',
+                "className":'btn-outline-success'
+            },
+    ]
+  });
+  });//final
+
+</script>
 
 {% endblock %}
