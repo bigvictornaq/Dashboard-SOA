@@ -64,10 +64,10 @@
     <div class="card-body">
       <h5 class="card-title">Nueva Base de datos {{griselda}}</h5>
       <p class="card-text">Siguiente Informacion contierne los datos obtenidos de la base de datos dvdrental y ADVENTUREWORKS2017</p>
-      <form action="" method="POST">
-        <button type="submit" name="submit_button" value="Hola bebe" class="btn btn-outline-info">Unir datos</button>
-      <button type="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button>
-      </form>
+     
+        <button id="btnMostrar" name="submit_button" value="Hola bebe" class="btn btn-outline-info">Unir datos</button>
+      <button id="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button>
+      
       
     </div>
     <div class="card-footer text-muted">
@@ -75,10 +75,33 @@
     </div>
   </div>
 
+<div id="informacion" style="display: none;">
+  <div class="table-responsive border-bottom">
+    <table id="tbl_cutipa" class="table table-striped table-sm table-hover">
+      <thead>
+        <tr class="table-primary">
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Pais</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>  
+      </tbody>
+    </table>
+    <hr>
+    
+  </div>
+  <hr>
+ <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
+</div>
 {% endblock %}
 {% block tail_js %}
 
 <script>
+  var btn1 = $('#btnMostrar');
+
   $(document).ready( function () {
     //tabla dde MS-SQL
     var table = $('#tbl_ad').DataTable({
@@ -151,7 +174,54 @@
             },
     ]
   });
+
+btn1.on("click", function(){
+  mostrarDatos();
+  $('#informacion').show();
+});
+
   });//final
+
+function mostrarDatos() {
+  //Tabla de analisis con los datos unidos
+  var table2 = $('#tbl_cutipa').DataTable({
+    processing:true,
+    ajax:"{{url_for('dcorporado')}}",
+    columns:[
+            { "data": "ID" },
+            { "data": "FirstName" },
+            { "data": "LastName" },
+            { "data": "Country" },
+            { "data": "Email" }
+
+    ],
+    dom:'Bfrtilp',
+    buttons:[
+
+    {
+                "extend":'pdfHtml5',
+                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+                "titleAttr":'Exportar a PDF',
+                "className":'btn btn-outline-danger'
+            },
+            {
+                "extend":'print',
+                "text":'<i class="fas fa-print">&nbsp;Print</i>',
+                "titleAttr":'Print',
+                "className":'btn btn-outline-info'
+            },
+            {
+                "extend":'excel',
+                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
+                "titleAttr":'excel',
+                "className":'btn-outline-success'
+            },
+    ]
+  });
+
+}
+
+
 
 </script>
 

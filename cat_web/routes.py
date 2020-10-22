@@ -142,7 +142,7 @@ def dpos():
         return jsonify({"data":no_data})
 
 #unir los daos base de datos en una
-@app.route('/analis_tablas_pos')
+@app.route('/analisUnidos')
 def dcorporado():
     base1 = ClienteM.query.all()
     base2 = ClienteP.query.all()
