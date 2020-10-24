@@ -1,3 +1,4 @@
+import os
 from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
 from flask_login import UserMixin
@@ -69,16 +70,19 @@ class ClienteM(db.Model):
 # New Table from Database containe with database from diferent DatabaseManager
 class ClientesA(db.Model):
     __bind_key__ = 'anali'
+    __tablename__ = 'clientes'
     ID_Cliente = db.Column(db.Integer,primary_key=True)
-    FirstName = db.Column(db.String(50))
-    LastName = db.Column(db.String(50))
-    Country   =db.Column(db.String(50))
-    Email  =db.Column(db.String(50))
-    def __init__(self, FirstName, LastName, Email, Country):
-        self.Firstname = FirstName
-        self.LastName = LastName
-        self.Email = Email
-        self.Country = Country
+    firstname = db.Column(db.String(50))
+    lastname = db.Column(db.String(50))
+    country   =db.Column(db.String(50))
+    email  =db.Column(db.String(50))
+    phone  =db.Column(db.String(50))
+    def __init__(self, firstname, lastname, email, country,phone):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.email = email
+        self.country = country
+        self.phone = phone
     def __repr__(self):
         return '<ID_Cliente{}>'.format(self.ID_Cliente) 
 
@@ -86,6 +90,10 @@ def usa_info():
     try:
         sql = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where Sales.SalesTerritory.CountryRegionCode = 'US'; ")
         sql_m = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID where NOT Sales.SalesTerritory.CountryRegionCode = 'US'; ")
+        sql_all = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress,[Person].[PersonPhone].[PhoneNumber] FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID INNER JOIN [AdventureWorks2017].[Person].[PersonPhone] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[PersonPhone].BusinessEntityID where NOT Sales.SalesTerritory.CountryRegionCode = 'US';")
+        sql_us = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress,[Person].[PersonPhone].[PhoneNumber] FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID INNER JOIN [AdventureWorks2017].[Person].[PersonPhone] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[PersonPhone].BusinessEntityID where  Sales.SalesTerritory.CountryRegionCode = 'US';")
+        sql_null1 = text("SELECT [CustomerID] ,Sales.SalesTerritory.Name FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID where [PersonID]  is NULL AND Sales.SalesTerritory.CountryRegionCode = 'US'")
+        sql_null2 = text("SELECT [CustomerID] ,Sales.SalesTerritory.Name FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID where [PersonID]  is NULL AND NOT Sales.SalesTerritory.CountryRegionCode = 'US'")
         data_USA = db.get_engine(bind='mssql').execute(sql)
         data_all = db.get_engine(bind='mssql').execute(sql_m)
         #datos_clienteM = ClienteM.query.filter_by(Country = 'United States').all()
@@ -127,5 +135,52 @@ def add_tablePos():
      except IndentationError:
         db.session.rollback()
         return None     
+
+
+#metodo para insertar datos
+def todosDatos():
+        sql_all = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress,[Person].[PersonPhone].[PhoneNumber] FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID INNER JOIN [AdventureWorks2017].[Person].[PersonPhone] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[PersonPhone].BusinessEntityID where NOT Sales.SalesTerritory.CountryRegionCode = 'US';")
+        sql_us = text("SELECT [CustomerID],[Person].[Person].[FirstName],[Person].[Person].[LastName],Sales.SalesTerritory.Name,Person.[EmailAddress].EmailAddress,[Person].[PersonPhone].[PhoneNumber] FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].Person.Person  ON [AdventureWorks2017].[Sales].[Customer].PersonID = [AdventureWorks2017].Person.Person.BusinessEntityID INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID INNER JOIN [AdventureWorks2017].[Person].[EmailAddress] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[EmailAddress].BusinessEntityID INNER JOIN [AdventureWorks2017].[Person].[PersonPhone] ON [AdventureWorks2017].Person.Person.BusinessEntityID =[AdventureWorks2017].[Person].[PersonPhone].BusinessEntityID where  Sales.SalesTerritory.CountryRegionCode = 'US';")
+        sql_null1 = text("SELECT [CustomerID] ,Sales.SalesTerritory.Name FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID where [PersonID]  is NULL AND Sales.SalesTerritory.CountryRegionCode = 'US'")
+        sql_null2 = text("SELECT [CustomerID] ,Sales.SalesTerritory.Name FROM [AdventureWorks2017].[Sales].[Customer] INNER JOIN [AdventureWorks2017].[Sales].[SalesTerritory] ON  [AdventureWorks2017].[Sales].[Customer].[TerritoryID] = [AdventureWorks2017].[Sales].[SalesTerritory].TerritoryID where [PersonID]  is NULL AND NOT Sales.SalesTerritory.CountryRegionCode = 'US'")
+        slq_pos = text("SELECT customer_id, first_name, last_name, public.country.country,email,phone   FROM public.customer INNER JOIN public.address ON public.customer.address_id = public.address.address_id INNER JOIN public.city on public.city.city_id =  public.address.city_id INNER JOIN public.country ON public.country.country_id = public.city.country_id;")
+        data_USA = db.get_engine(bind='mssql').execute(sql_us)
+        data_all = db.get_engine(bind='mssql').execute(sql_all)
+        data_all2 = db.get_engine(bind='mssql').execute(sql_null2)
+        data_USA2 = db.get_engine(bind='mssql').execute(sql_null1)
+        pos = db.session.execute(slq_pos)
+        #Database Posgresql
+
+        f = open('sol.txt','w')
+
+        for u in data_USA:
+            f.write(str(u[1]) + ','+str(u[2])+ ','+'United States'+ ','+str(u[4])+ ','+str(u[5]) + '\n')
+        f.close()
+        
+        f2 = open('sol.txt','a')
+        for a in data_all:
+            f2.write(str(a[1]) + ','+str(a[2])+ ','+str(a[3])+ ','+str(a[4])+ ','+str(a[5]) + '\n')
+        f2.close()
+        
+        f3 = open('sol.txt','a')
+        for x in data_USA2:
+            f3.write('' + ','+''+ ','+'United States'+ ','+''+ ','+''+ '\n')
+        f3.close()
+        
+        f4 = open('sol.txt','a')
+        for r in data_all2:
+            f4.write('' + ','+''+ ','+str(r[1])+ ','+''+ ','+''+ '\n')
+        f4.close()
+
+        f5 = open('sol.txt','a')
+        for g in pos:
+            f5.write(str(g[1]) + ','+str(g[2])+ ','+str(g[3])+ ','+str(g[4])+ ','+str(g[5]) + '\n')
+        f5.close()
+        #convertir el archivo texto a utf8
+        os.system('powershell.exe Get-Content sol2.txt -Encoding Oem ^| Out-File rs.txt -Encoding utf8')
+        #insertar todos los datos a la nueva base de datos
+        nsql = text("copy public.clientes ('FirstName', 'LastName', 'Country', 'Email', 'phone') from 'D:\Development\Python\Catweb\rs.txt'  DELIMITER ',';")
+        doll = db.get_engine(bind='anali').execute(nsql)
+
 
     

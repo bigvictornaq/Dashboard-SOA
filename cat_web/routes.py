@@ -5,7 +5,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -144,22 +144,10 @@ def dpos():
 #unir los daos base de datos en una
 @app.route('/analisUnidos')
 def dcorporado():
-    base1 = ClienteM.query.all()
-    base2 = ClienteP.query.all()
-    base_resultado = ClientesA.query.all()
-    if base_resultado:
-        dResultado = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in base_resultado]
-        return jsonify({"data":dResultado})
+    todos_Datos =  ClientesA.query.all()
+    if todos_Datos:
+        datos = [{"ID":a.ID_Cliente,"FirstName":a.firstname,"LastName":a.lastname,"Country":a.country,"Email":a.email,"phone":a.phone} for a in todos_Datos]
     else:
-        for dato1 in base1:
-            rs = ClientesA(dato1.nombre,dato1.LastName,dato1.Email,dato1.Country)    
-            db.session.add(rs)
-            db.session.commit()
-        db.session.close()
-        for dato2 in base2:
-            rs2 = ClientesA(dato2.Firstname,dato2.LastName,dato2.Email,dato2.Country)
-            db.session.add(rs)
-            db.session.commit()
-        db.session.close()
-        dResultado = [{"ID":a.ID_Cliente,"FirstName":a.FirstName,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in base_resultado]
-        return jsonify({"data":dResultado})      
+          d = todosDatos()
+          datos = [{"ID":a.ID_Cliente,"FirstName":a.firstname,"LastName":a.lastname,"Country":a.country,"Email":a.email,"phone":a.phone} for a in todos_Datos]
+    return jsonify({"data":datos})      
