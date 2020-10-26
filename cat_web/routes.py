@@ -146,8 +146,9 @@ def dpos():
 def dcorporado():
     todos_Datos =  ClientesA.query.all()
     if todos_Datos:
-        datos = [{"ID":a.ID_Cliente,"FirstName":a.firstname,"LastName":a.lastname,"Country":a.country,"Email":a.email,"phone":a.phone} for a in todos_Datos]
+        datos = [{"ID":a.ID_Cliente,"firstName":a.firstname,"lastName":a.lastname,"country":a.country,"email":a.email,"phone":a.phone} for a in todos_Datos]
+        return jsonify({"data":datos})
     else:
           d = todosDatos()
-          datos = [{"ID":a.ID_Cliente,"FirstName":a.firstname,"LastName":a.lastname,"Country":a.country,"Email":a.email,"phone":a.phone} for a in todos_Datos]
+          datos = [{"ID":a.ID_Cliente,"firstName":a.firstname,";lastName":a.lastname,"country":a.country,"email":a.email,"phone":a.phone} for a in todos_Datos]
     return jsonify({"data":datos})      

@@ -148,7 +148,7 @@ def todosDatos():
         data_all = db.get_engine(bind='mssql').execute(sql_all)
         data_all2 = db.get_engine(bind='mssql').execute(sql_null2)
         data_USA2 = db.get_engine(bind='mssql').execute(sql_null1)
-        pos = db.session.execute(slq_pos)
+        pos = db.engine.execute(slq_pos)
         #Database Posgresql
 
         f = open('sol.txt','w')
@@ -173,14 +173,18 @@ def todosDatos():
         f4.close()
 
         f5 = open('sol.txt','a')
+        if pos:
+            print("si hay we ")
+        else:
+            print("No hay")    
         for g in pos:
             f5.write(str(g[1]) + ','+str(g[2])+ ','+str(g[3])+ ','+str(g[4])+ ','+str(g[5]) + '\n')
         f5.close()
         #convertir el archivo texto a utf8
-        os.system('powershell.exe Get-Content sol2.txt -Encoding Oem ^| Out-File rs.txt -Encoding utf8')
+        os.system('powershell.exe Get-Content sol2.txt -Encoding Oem ^| Out-File lgs.txt -Encoding utf8')
         #insertar todos los datos a la nueva base de datos
-        nsql = text("copy public.clientes ('FirstName', 'LastName', 'Country', 'Email', 'phone') from 'D:\Development\Python\Catweb\rs.txt'  DELIMITER ',';")
+        nsql = text("copy public.clientes (firstName, lastName, country, email, phone) from 'D:\Development\Python\Catweb\yaw_data.txt'  DELIMITER ',';commit;")
         doll = db.get_engine(bind='anali').execute(nsql)
-
+      
 
     

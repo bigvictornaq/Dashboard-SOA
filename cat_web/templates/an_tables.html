@@ -85,6 +85,7 @@
           <th>Apellido</th>
           <th>Pais</th>
           <th>Email</th>
+          <th>Phone</th>
         </tr>
       </thead>
       <tbody>  
@@ -189,10 +190,10 @@ function mostrarDatos() {
     ajax:"{{url_for('dcorporado')}}",
     columns:[
             { "data": "ID" },
-            { "data": "FirstName" },
-            { "data": "LastName" },
-            { "data": "Country" },
-            { "data": "Email" }
+            { "data": "firstName" },
+            { "data": "lastName" },
+            { "data": "country" },
+            { "data": "email" },
             { "data": "phone" }
 
     ],
