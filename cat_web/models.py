@@ -3,6 +3,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
 from flask_login import UserMixin
 from sqlalchemy import text
+import statistics
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -187,4 +188,46 @@ def todosDatos():
         doll = db.get_engine(bind='anali').execute(nsql)
       
 
+def groupByPais():
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
     
+    data_USA2 = db.get_engine(bind='anali').execute(querie)
+    #anali
+    if data_USA2:
+        datos = [{"Pais":a[0],"NumeroClientes":a[1]} for a in data_USA2]
+        return datos
+    else:
+        no_data = [{"Pais":"NO HAY DATOS","NumeroClientes":"NO HAY DATOS"}]
+        return no_data
+
+
+def calcularThreeM():
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    data = db.get_engine(bind='anali').execute(querie)
+    sumita =0
+    sumisa = []
+    for t in data:
+        sumisa.append(t[1])
+    mean = statistics.mean(sumisa)
+    print("Media del: " , mean)
+    mediana = statistics.median(sumisa)
+    print("Mediana: ",mediana)
+    modas = statistics.mode(sumisa)
+    print("Moda",modas)
+    estadistica = [mean,mediana,modas]
+    return estadistica
+
+
+def dataforMap():
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    data = db.get_engine(bind='anali').execute(querie)
+    resultado = [{sa[0]:sa[1]} for sa in data]
+    return resultado
+
+#
+def dataMap():
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    data = db.get_engine(bind='anali').execute(querie)
+    resultado = [{"Pais":sa[0],"NumeroClientes":sa[1]} for sa in data]
+     
+    return resultado

@@ -94,6 +94,64 @@
     <hr>
     
   </div>
+
+  <div class="card-deck">
+    <div class="card text-white bg-primary" style="max-width: 28rem;">
+      <h5 class="card-header">Mediana</h5>
+      <div class="card-body">
+        <h5 class="card-title text-center">35</h5>
+        <p class="card-text">nuki</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary" style="max-width: 28rem;">
+      <h5 class="card-header">Media</h5>
+      <div class="card-body">
+        <h5 class="card-title text-center">25</h5>
+        <p class="card-text">S</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card text-white bg-primary" style="max-width: 28rem;">
+      <h5 class="card-header">Moda</h5>
+      <div class="card-body">
+        <h5 class="card-title text-center">52</h5>
+        <p class="card-text">Tsss</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+<!---style="width: 600px; height: 400px"-->
+  <div id="world-map" style="width: 600px; height: 400px"></div>
+
+  <div class="">
+    <div class="row">
+      <div class="col-4">
+        <h2>Informacion</h2>
+        <P>Lo que se planea hacer es buscar la manera de incrementar las ventas en estos países
+          y se utilizaran las técnicas de venta de los aquellos países que están por encima de la
+          media. conviene analizar si existe algún patrón o algo en común entre esos países que
+          se pueda aprovechar de tal manera que los niveles de venta sean lo más nivelados
+          posible</P>
+      </div>
+      <div class="col-8">
+        <div class="table-responsive border-bottom">
+          <table id="tbl_paiss" class="table table-striped table-sm table-hover">
+            <thead>
+              <tr class="table-primary">
+                <th>Pais</th>
+                <th>Numero De clientes</th>
+              </tr>
+            </thead>
+            <tbody>  
+            </tbody>
+          </table>
+          <hr>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <hr>
  <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
 </div>
@@ -177,8 +235,53 @@
   });
 
 btn1.on("click", function(){
+
+  var datito;
+  $.getJSON("{{url_for('mapita')}}",function(data){
+
+ 
+ /*
+  datito = data.data.map(function(d){
+    return d.Pais ;
+  });
+
+  dony  = data.data.map(function(n){
+    return n.NumeroClientes;
+  });
+*/
+
+var paps = JSON.parse(data)
+var objetito = {}
+
+for (var i = 0; i < paps.length; i++) {
+  objetito[paps[i].Pais]=paps[i].NumeroClientes;
+  
+}
+
+
+console.log(nomas)
+  $('#world-map').vectorMap({
+
+map: 'world_mill',
+series: {
+  regions: [{
+    values:objetito,
+    scale: ['#C8EEFF', '#0071A4'],
+    normalizeFunction: 'polynomial'
+  }]
+},
+onRegionTipShow: function(e, el, code){
+    el.html(el.html()+' (GDP - '+objetito[code]+')');
+  }
+
+});
+
+  });
+  
   mostrarDatos();
   $('#informacion').show();
+  
+
 });
 
   });//final
@@ -221,9 +324,40 @@ function mostrarDatos() {
     ]
   });
 
+  var table4 = $('#tbl_paiss').DataTable({
+    processing:true,
+    ajax:"{{url_for('paisG')}}",
+    columns:[
+            { "data": "Pais" },
+            { "data": "NumeroClientes" }
+    ],
+    dom:'Bfrtilp',
+    buttons:[
+
+    {
+                "extend":'pdfHtml5',
+                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+                "titleAttr":'Exportar a PDF',
+                "className":'btn btn-outline-danger'
+            },
+            {
+                "extend":'print',
+                "text":'<i class="fas fa-print">&nbsp;Print</i>',
+                "titleAttr":'Print',
+                "className":'btn btn-outline-info'
+            },
+            {
+                "extend":'excel',
+                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
+                "titleAttr":'excel',
+                "className":'btn-outline-success'
+            },
+    ]
+  });
+
+  
+
 }
-
-
 
 </script>
 

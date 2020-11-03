@@ -5,7 +5,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -118,6 +118,8 @@ def analisis():
     return render_template("an_tables.html",roshi=roshi)
 
 
+#url con los datos a analizar
+
 @app.route('/analis_tablas_mssql')
 def dMsql():
     dotos =  ClienteM.query.all()
@@ -151,4 +153,24 @@ def dcorporado():
     else:
           d = todosDatos()
           datos = [{"ID":a.ID_Cliente,"firstName":a.firstname,";lastName":a.lastname,"country":a.country,"email":a.email,"phone":a.phone} for a in todos_Datos]
-    return jsonify({"data":datos})      
+    return jsonify({"data":datos})
+
+
+
+
+@app.route('/paisAgrupado')
+def paisG():
+    datito = groupByPais()
+    return jsonify({"data":datito})
+
+
+@app.route('/pasitas')
+def pmapa():
+    da =dataforMap()
+    return jsonify(da) 
+
+
+@app.route('/pasitas/mapi')
+def mapita():
+    das =dataMap()
+    return jsonify(das)        
