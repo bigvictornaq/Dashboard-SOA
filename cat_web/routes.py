@@ -5,7 +5,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -115,7 +115,12 @@ def analisis():
     #roshi =  ClienteM.query.all()
     sql = text("SELECT * FROM [AdventureWorks2017].[dbo].[cliente]")
     roshi = db.get_engine(bind='mssql').execute(sql)
-    return render_template("an_tables.html",roshi=roshi)
+    #datos
+    estadi =  calcularThreeM()
+    mean = estadi[0]
+    mediana = estadi[1]
+    modas = estadi[2]
+    return render_template("an_tables.html",roshi=roshi,mean=mean,mediana=mediana,modas=modas)
 
 
 #url con los datos a analizar
@@ -173,4 +178,12 @@ def pmapa():
 @app.route('/pasitas/mapi')
 def mapita():
     das =dataMap()
-    return jsonify(das)        
+    return jsonify(das)
+
+
+@app.route('/codex')
+def codeguito():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT,'static/data','names.json')
+    dato = json.load(open(json_url))
+    return dato

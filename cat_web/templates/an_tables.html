@@ -99,7 +99,7 @@
     <div class="card text-white bg-primary" style="max-width: 28rem;">
       <h5 class="card-header">Mediana</h5>
       <div class="card-body">
-        <h5 class="card-title text-center">35</h5>
+        <h5 class="card-title text-center">{{mediana}}</h5>
         <p class="card-text">nuki</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
@@ -107,7 +107,7 @@
     <div class="card text-white bg-primary" style="max-width: 28rem;">
       <h5 class="card-header">Media</h5>
       <div class="card-body">
-        <h5 class="card-title text-center">25</h5>
+        <h5 class="card-title text-center">{{mean}}</h5>
         <p class="card-text">S</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
@@ -115,15 +115,18 @@
     <div class="card text-white bg-primary" style="max-width: 28rem;">
       <h5 class="card-header">Moda</h5>
       <div class="card-body">
-        <h5 class="card-title text-center">52</h5>
+        <h5 class="card-title text-center">{{modas}}</h5>
         <p class="card-text">Tsss</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
     </div>
   </div>
+  <br>
+  <div class="border-top my-3"></div>
 <!---style="width: 600px; height: 400px"-->
   <div id="world-map" style="width: 600px; height: 400px"></div>
-
+  <div class="border-top my-3"></div>
+  <br>
   <div class="">
     <div class="row">
       <div class="col-4">
@@ -234,44 +237,62 @@
     ]
   });
 
+
+
+
 btn1.on("click", function(){
 
+
+
+
   var datito;
-  $.getJSON("{{url_for('mapita')}}",function(data){
-
+  $.getJSON("{{url_for('paisG')}}",function(data){
  
- /*
-  datito = data.data.map(function(d){
-    return d.Pais ;
-  });
+ 
+ 
+    var salve =null;
+ $.ajax(
+{
+    url: "{{url_for('codeguito')}}",
+    dataType: "json",
+    async: false,
+    success: function(data)
+    {
+      salve = data;
+    }
+});
+ 
+var piss;
+var nCliente;
+var objs = {};
+var noodle;
+piss = data.data.map(function(d){
+  return d.Pais
+});
 
-  dony  = data.data.map(function(n){
-    return n.NumeroClientes;
-  });
-*/
+nCliente = data.data.map(function(d){
+  return d.NumeroClientes
+});
 
-var paps = JSON.parse(data)
-var objetito = {}
-
-for (var i = 0; i < paps.length; i++) {
-  objetito[paps[i].Pais]=paps[i].NumeroClientes;
-  
+for(var i=0;i< piss.length;i++){
+    objs[piss[i]] = nCliente[i];
 }
 
 
-console.log(nomas)
-  $('#world-map').vectorMap({
+
+$('#world-map').vectorMap({
 
 map: 'world_mill',
 series: {
   regions: [{
-    values:objetito,
+    values:objs,
     scale: ['#C8EEFF', '#0071A4'],
     normalizeFunction: 'polynomial'
   }]
 },
 onRegionTipShow: function(e, el, code){
-    el.html(el.html()+' (GDP - '+objetito[code]+')');
+    noodle = salve[code]
+    el.html(el.html()+' (GDP - '+objs[noodle]+')');
   }
 
 });
@@ -309,12 +330,8 @@ function mostrarDatos() {
                 "titleAttr":'Exportar a PDF',
                 "className":'btn btn-outline-danger'
             },
-            {
-                "extend":'print',
-                "text":'<i class="fas fa-print">&nbsp;Print</i>',
-                "titleAttr":'Print',
-                "className":'btn btn-outline-info'
-            },
+            
+
             {
                 "extend":'excel',
                 "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
@@ -339,12 +356,6 @@ function mostrarDatos() {
                 "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
                 "titleAttr":'Exportar a PDF',
                 "className":'btn btn-outline-danger'
-            },
-            {
-                "extend":'print',
-                "text":'<i class="fas fa-print">&nbsp;Print</i>',
-                "titleAttr":'Print',
-                "className":'btn btn-outline-info'
             },
             {
                 "extend":'excel',
