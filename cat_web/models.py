@@ -52,6 +52,52 @@ class ClienteP(db.Model):
     def __repr__(self):
         return '<cliente_id{}>'.format(self.cliente_id)
 
+#database dvdrenatal progresql la verdadera
+class KlyentP(db.Model):
+    __tablename__ = 'clyents'
+    cliente_id =db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(50),nullable=False)
+    email  = db.Column(db.String(50),nullable=False)
+    address = db.Column(db.String(50),nullable=False)
+    zips = db.Column(db.String(50),nullable=False)
+    phone = db.Column(db.String(50),nullable=False)
+    ciudad =db.Column(db.String(50),nullable=False)
+    Country   =db.Column(db.String(50),nullable=False)
+    def __init__(self, nombre, email, address,zips,phone,ciudad,Country):
+        self.nombre = nombre
+        self.email = email
+        self.address = address
+        self.zips = zips
+        self.phone = phone
+        self.ciudad = ciudad
+        self.Country = Country
+    def __repr__(self):
+        return '<cliente_id{}>'.format(self.cliente_id)        
+
+# Model from mssql database AdventureWorks2017 
+class KlyentM(db.Model):
+    __bind_key__ = 'mssql'
+    __tablename__ = 'clyent'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(50),nullable=False)
+    email  = db.Column(db.String(50),nullable=False)
+    address = db.Column(db.String(50),nullable=False)
+    zips = db.Column(db.String(50),nullable=False)
+    phone = db.Column(db.String(50),nullable=False)
+    ciudad =db.Column(db.String(50),nullable=False)
+    Country   =db.Column(db.String(50),nullable=False)
+    def __init__(self, nombre, email, address,zips,phone,ciudad,Country):
+        self.nombre = nombre
+        self.email = email
+        self.address = address
+        self.zips = zips
+        self.phone = phone
+        self.ciudad = ciudad
+        self.Country = Country
+        
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente)
+
 # Model from mssql database AdventureWorks2017 
 class ClienteM(db.Model):
     __bind_key__ = 'mssql'
