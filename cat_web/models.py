@@ -279,12 +279,23 @@ def groupByPais():
 def  continent():
     querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
     data_USA2 = db.get_engine(bind='anali').execute(querie)
-    
-    for sa in data_USA2:
-        cont = pc.country_name_to_country_alpha2(str(sa[0]), cn_name_format="default")
-        continent_name = pc.country_alpha2_to_continent_code(cont)
-        caontien = dict(continent_name=sa[1])
-    return caontien
+    caontien ={}
+
+    datos = [{"Pais":a[0],"NumeroClientes":a[1]} for a in data_USA2]
+    print(type(datos))
+##
+  #  for sa in data_USA2:
+
+   #     nomaste =  'Kazakstan'
+    #    if nomaste == sa[0]:
+     #           rosita = "Kazakhstan"
+      #          cont = pc.country_name_to_country_alpha2(rosita, cn_name_format="default")
+      #          continent_name = pc.country_alpha2_to_continent_code(cont)
+       #         caontien[continent_name] = sa[1]
+       # cont = pc.country_name_to_country_alpha2(str(sa[0]), cn_name_format="default")
+       # continent_name = pc.country_alpha2_to_continent_code(cont)
+       # caontien[continent_name] = sa[1]
+    return datos
 
 
 #se calcula estadistica de media,moda y mediana

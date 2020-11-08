@@ -207,3 +207,10 @@ def codegui():
     dato = json.load(open(json_url))
     return jsonify(dato)
 
+@app.route('/continents')
+def continentss():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT,'static/data','continent.json')
+    dato = json.load(open(json_url))
+    return jsonify(dato)
+

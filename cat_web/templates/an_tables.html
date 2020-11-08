@@ -251,6 +251,33 @@ btn1.on("click", function(){
     var codeName = {};
     var ncode;
     var ncame;
+    var cnts ={}
+    var continentsByGruoup ={}
+ 
+//datos por continent?
+$.ajax(
+{
+    url: "{{url_for('continentss')}}",
+    dataType: "json",
+    async: false,
+    success: function(data)
+    {
+      var continente = data.map(function(s){
+        return s.continent;
+      });
+      var pais = data.map(function(s){
+        return s.country;
+      })
+     
+     for (let i = 0; i < continente.length; i++) {
+          cnts[pais[i]] = continente[i]; 
+     }
+
+    }
+});
+
+
+
     //Obtner los datos con code EU necesarios par mapa
  $.ajax(
 {
@@ -284,6 +311,20 @@ $.ajax(
     }
 }); 
 
+function cats(datito){
+
+    if(datito === "Kazakstan"){
+      var menso = "Kazakhstan"
+      return menso;
+    }else if(datito == "Congo, The Democratic Republic of the"){
+      var menso = "The Democratic Republic of Congo";
+      return menso;
+    }else{
+      return datito;
+    }
+
+}
+
 var piss;
 var nCliente;
 var objs = {};
@@ -309,7 +350,21 @@ for(var i=0;i<piss.length;i++){
     var sorete = codeName[piss[i]]
     abs[sorete] = nCliente[i] 
 }
+//obtner la lista de pais por continentes continentsByGruoup
+var nelson;
+var asia = 0;
+for (let k = 0; k < piss.length; k++) {
+      var soledads = cats(piss[k])
+      var coconout = cnts[soledads]
 
+      if( coconout === "Asia"){
+
+        asia  = (nCliente[k] * 100) / 19107;
+      }
+        
+      
+}
+console.log(asia)
 
 //var valores = jvm.values.apply({},jvm.values(objs))
 $('#world-map').vectorMap({
