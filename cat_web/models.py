@@ -1,4 +1,5 @@
 import os
+import pycountry_convert as pc
 from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
 from flask_login import UserMixin
@@ -52,6 +53,45 @@ class ClienteP(db.Model):
     def __repr__(self):
         return '<cliente_id{}>'.format(self.cliente_id)
 
+
+
+# Model from mssql database AdventureWorks2017 
+class ClienteM(db.Model):
+    __bind_key__ = 'mssql'
+    __tablename__ = 'cliente'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(50),nullable=False)
+    LastName = db.Column(db.String(50),nullable=False)
+    Country   =db.Column(db.String(50),nullable=False)
+    Email  =db.Column(db.String(50),nullable=False)
+    def __init__(self, nombre, LastName, Country,Email):
+        self.nombre = nombre
+        self.LastName = LastName
+        self.Country = Country
+        self.Email = Email
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
+# New Table from Database containe with database from diferent DatabaseManager
+class ClientesA(db.Model):
+    __bind_key__ = 'anali'
+    __tablename__ = 'clientes'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    firstname = db.Column(db.String(50))
+    lastname = db.Column(db.String(50))
+    country   =db.Column(db.String(50))
+    email  =db.Column(db.String(50))
+    phone  =db.Column(db.String(50))
+    def __init__(self, firstname, lastname, email, country,phone):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.email = email
+        self.country = country
+        self.phone = phone
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
+
+#modelos estranos alv 
+
 #database dvdrenatal progresql la verdadera
 class KlyentP(db.Model):
     __tablename__ = 'clyents'
@@ -97,41 +137,6 @@ class KlyentM(db.Model):
         
     def __repr__(self):
         return '<ID_Cliente{}>'.format(self.ID_Cliente)
-
-# Model from mssql database AdventureWorks2017 
-class ClienteM(db.Model):
-    __bind_key__ = 'mssql'
-    __tablename__ = 'cliente'
-    ID_Cliente = db.Column(db.Integer,primary_key=True)
-    nombre = db.Column(db.String(50),nullable=False)
-    LastName = db.Column(db.String(50),nullable=False)
-    Country   =db.Column(db.String(50),nullable=False)
-    Email  =db.Column(db.String(50),nullable=False)
-    def __init__(self, nombre, LastName, Country,Email):
-        self.nombre = nombre
-        self.LastName = LastName
-        self.Country = Country
-        self.Email = Email
-    def __repr__(self):
-        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
-# New Table from Database containe with database from diferent DatabaseManager
-class ClientesA(db.Model):
-    __bind_key__ = 'anali'
-    __tablename__ = 'clientes'
-    ID_Cliente = db.Column(db.Integer,primary_key=True)
-    firstname = db.Column(db.String(50))
-    lastname = db.Column(db.String(50))
-    country   =db.Column(db.String(50))
-    email  =db.Column(db.String(50))
-    phone  =db.Column(db.String(50))
-    def __init__(self, firstname, lastname, email, country,phone):
-        self.firstname = firstname
-        self.lastname = lastname
-        self.email = email
-        self.country = country
-        self.phone = phone
-    def __repr__(self):
-        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
 
 def usa_info():
     try:
@@ -182,6 +187,29 @@ def add_tablePos():
      except IndentationError:
         db.session.rollback()
         return None     
+
+#modelo que si vamos usar jaja
+class KlienteA(db.Model):
+    __bind_key__ = 'anali'
+    __tablename__ = 'klyients'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    nombre = db.Column(db.String(50),nullable=False)
+    email  = db.Column(db.String(50),nullable=False)
+    address = db.Column(db.String(50),nullable=False)
+    zips = db.Column(db.String(50),nullable=False)
+    phone = db.Column(db.String(50),nullable=False)
+    ciudad =db.Column(db.String(50),nullable=False)
+    country   =db.Column(db.String(50),nullable=False)
+    def __init__(self, nombre, email, address,zips,phone,ciudad,country):
+        self.nombre = nombre
+        self.email = email
+        self.address = address
+        self.zips = zips
+        self.phone = phone
+        self.ciudad = ciudad
+        self.country = country
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
 
 
 #metodo para insertar datos
@@ -234,8 +262,9 @@ def todosDatos():
         doll = db.get_engine(bind='anali').execute(nsql)
       
 
+#se aagrupan los datos por pais
 def groupByPais():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
     
     data_USA2 = db.get_engine(bind='anali').execute(querie)
     #anali
@@ -246,15 +275,28 @@ def groupByPais():
         no_data = [{"Pais":"NO HAY DATOS","NumeroClientes":"NO HAY DATOS"}]
         return no_data
 
+#get data by conutry
+def  continent():
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
+    data_USA2 = db.get_engine(bind='anali').execute(querie)
+    
+    for sa in data_USA2:
+        cont = pc.country_name_to_country_alpha2(str(sa[0]), cn_name_format="default")
+        continent_name = pc.country_alpha2_to_continent_code(cont)
+        caontien = dict(continent_name=sa[1])
+    return caontien
 
+
+#se calcula estadistica de media,moda y mediana
 def calcularThreeM():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
     data = db.get_engine(bind='anali').execute(querie)
     sumita =0
     sumisa = []
     for t in data:
         sumisa.append(t[1])
-    mean = statistics.mean(sumisa)
+    sd = statistics.mean(sumisa)
+    mean = round(sd,2)
     print("Media del: " , mean)
     mediana = statistics.median(sumisa)
     print("Mediana: ",mediana)
@@ -263,17 +305,21 @@ def calcularThreeM():
     estadistica = [mean,mediana,modas]
     return estadistica
 
-
+#datos para el maapa
 def dataforMap():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
     data = db.get_engine(bind='anali').execute(querie)
     resultado = [{sa[0]:sa[1]} for sa in data]
     return resultado
 
-#
+#datos del mapa
 def dataMap():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.clientes GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
     data = db.get_engine(bind='anali').execute(querie)
     resultado = [{"Pais":sa[0],"NumeroClientes":sa[1]} for sa in data]
-     
     return resultado
+
+#Vamos a crear Datos mamalones
+def insert_Alld():
+    q = text("COPY public.klyients( nombre, email, address, zips, phone, ciudad, country) FROM 'D:\Development\Python\Catweb\msnas.csv' DELIMITER ',' CSV HEADER;commit;")
+    doll = db.get_engine(bind='anali').execute(q)

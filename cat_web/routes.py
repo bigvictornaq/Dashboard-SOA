@@ -5,7 +5,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld
 from flask_login import login_user,current_user,logout_user,login_required
 
 
@@ -161,29 +161,49 @@ def dcorporado():
     return jsonify({"data":datos})
 
 
+@app.route('/todos_capo')
+def kombine():
+    todo = KlienteA.query.all()
+    if todo:
+       datos = [{"ID":a.ID_Cliente,"firstName":a.nombre,"email":a.email,"address":a.address,"zip":a.zips,"phone":a.phone,"ciudad":a.ciudad,"country":a.country} for a in todo]
+       return jsonify({"data":datos})
+    else:
+        insert_Alld()
+        datos = [{"ID":a.ID_Cliente,"firstName":a.nombre,"email":a.email,"address":a.address,"zip":a.zips,"phone":a.phone,"ciudad":a.ciudad,"country":a.country} for a in todo]
+        return jsonify({"data":datos})
 
 
+
+#son los datos agrupaso en json
 @app.route('/paisAgrupado')
 def paisG():
     datito = groupByPais()
     return jsonify({"data":datito})
 
-
+#son los datos sin nombre variable en json en forma [{}]
 @app.route('/pasitas')
 def pmapa():
     da =dataforMap()
     return jsonify(da) 
 
-
+#son los datos con nombre variable en json en forma [{}]
 @app.route('/pasitas/mapi')
 def mapita():
     das =dataMap()
     return jsonify(das)
 
-
+#son los datos todos los paises del munod en codigo EU como ejemplo
 @app.route('/codex')
 def codeguito():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
     json_url = os.path.join(SITE_ROOT,'static/data','names.json')
     dato = json.load(open(json_url))
     return dato
+
+@app.route('/ncodes')
+def codegui():
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT,'static/data','reeves.json')
+    dato = json.load(open(json_url))
+    return jsonify(dato)
+
