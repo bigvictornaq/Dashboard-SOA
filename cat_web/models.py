@@ -209,8 +209,22 @@ class KlienteA(db.Model):
         self.ciudad = ciudad
         self.country = country
     def __repr__(self):
-        return '<ID_Cliente{}>'.format(self.ID_Cliente) 
+        return '<ID_Cliente{}>'.format(self.ID_Cliente)
 
+
+class Continek(db.Model):
+    __bind_key__ = 'anali'
+    __tablename__ = 'coninek'
+    ID_continent = db.Column(db.Integer,primary_key=True)
+    country   =db.Column(db.String(50),nullable=False)
+    code = db.Column(db.String(50),nullable=False)
+    numclients = db.Column(db.Integer)
+    def __init__(self,country,code,numclients):
+        self.country = country
+        self.code = code
+        self.numclients = numclients
+    def __repr__(self):
+       return '<ID_continent{}>'.format(self.ID_continent)
 
 #metodo para insertar datos
 def todosDatos():
@@ -281,22 +295,22 @@ def  continent():
     data_USA2 = db.get_engine(bind='anali').execute(querie)
     caontien ={}
 
-    datos = [{"Pais":a[0],"NumeroClientes":a[1]} for a in data_USA2]
-    print(type(datos))
-##
-  #  for sa in data_USA2:
-
-   #     nomaste =  'Kazakstan'
-    #    if nomaste == sa[0]:
-     #           rosita = "Kazakhstan"
-      #          cont = pc.country_name_to_country_alpha2(rosita, cn_name_format="default")
-      #          continent_name = pc.country_alpha2_to_continent_code(cont)
-       #         caontien[continent_name] = sa[1]
-       # cont = pc.country_name_to_country_alpha2(str(sa[0]), cn_name_format="default")
-       # continent_name = pc.country_alpha2_to_continent_code(cont)
-       # caontien[continent_name] = sa[1]
-    return datos
-
+    for a in data_USA2:
+        rufles = get_continent(a[0])
+        roco = Continek(a[0],rufles,a[1])
+        db.session.add(roco)
+        db.session.commit()
+    db.session.close()
+def get_continent(col):
+    try:
+        cn_a2_code =  pc.country_name_to_country_alpha2(col)
+    except:
+        cn_a2_code = 'Unknown' 
+    try:
+        cn_continent = pc.country_alpha2_to_continent_code(cn_a2_code)
+    except:
+        cn_continent = 'Unknown'
+    return  cn_continent 
 
 #se calcula estadistica de media,moda y mediana
 def calcularThreeM():
