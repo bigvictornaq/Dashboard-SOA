@@ -1,343 +1,286 @@
-{% extends 'base_home.html'%}
+<!doctype html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Checkout example · Bootstrap</title>
+  <!-- Bootstrap core CSS -->
+  <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
 
-{% block head %}
-<title>Analisis Inteligentes de datos</title>
-{% endblock %}
+  <!-- Favicons -->
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
 
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
 
-{% block body %}
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Bievenido {{current_user.username}}!!!</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button  type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        <a href="{{url_for('pdfDownload')}}" class="btn btn-outline-secondary">Exportar a pdf</a>
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
+<body class="bg-light">
+  <div class="container">
+    <div class="m-4 text-right">
+      <img class="" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     </div>
-  </div>
-
-  
-  <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
-
-<div id="informacion" >
-  <div class="table-responsive border-bottom">
-    <table id="tbl_cutipa" class="table table-striped table-sm table-hover">
+    <div class="py-2 text-center">    
+      <h2>Checkout form</h2>
+    </div>
+    <table class=" table table-sm table-active">
       <thead>
-        <tr class="table-primary">
-          <th>id</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Direcccion</th>
-          <th>Zip code</th>
-          <th>Phone</th>
-          <th>Ciudad</th>
-          <th>Pais</th>
-        </tr>
+
       </thead>
-      <tbody>  
+      <tbody>
+        <tr class="border">
+          <th scope="row">Nombre del proyecto: Generacion de PDF template con informacion de la base de datos</th>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr >
+          <th scope="row">Numero de reporte: ssss </th>
+          <td></td>
+          <td>Fecha: 0/5/5</td>
+          <td></td>
+        </tr>
+
       </tbody>
     </table>
-    <hr>
-    
-  </div>
-
-  <div class="card-deck">
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Mediana</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{mediana}}</h5>
-        <p class="card-text">nuki</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Media</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{mean}}</h5>
-        <p class="card-text">S</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Moda</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{modas}}</h5>
-        <p class="card-text">Tsss</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-  </div>
-  <br>
-  <div class="border-top my-3"></div>
-<!---style="width: 600px; height: 400px"-->
-  <div id="world-map" style="width: 600px; height: 400px"></div>
-  <div class="border-top my-3"></div>
-  <br>
-  <div class="">
-    <div class="row">
-      <div class="col-4">
-        <h2>Informacion</h2>
-        <P>Lo que se planea hacer es buscar la manera de incrementar las ventas en estos países
-          y se utilizaran las técnicas de venta de los aquellos países que están por encima de la
-          media. conviene analizar si existe algún patrón o algo en común entre esos países que
-          se pueda aprovechar de tal manera que los niveles de venta sean lo más nivelados
-          posible</P>
-      </div>
-      <div class="col-8">
-        <div class="table-responsive border-bottom">
-          <table id="tbl_paiss" class="table table-striped table-sm table-hover">
-            <thead>
-              <tr class="table-primary">
-                <th>Pais</th>
-                <th>Numero De clientes</th>
-              </tr>
-            </thead>
-            <tbody>  
-            </tbody>
-          </table>
-          <hr>
+    <div class="row border-bottom">
+        <div class="col ">
+          <h5>{{usernombre}}</h5>
+          <h6>Nombre del usuario</h6>
         </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <hr class="dashed">
+        <h5>{{emailus}}</h5>
+        
+        <h6>Correo</h6>
+        <hr class="dashed">
+      </div>
+    
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Your cart</span>
+          <span class="badge badge-secondary badge-pill">3</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Product name</h6>
+              <small class="text-muted">Brief description</small>
+            </div>
+            <span class="text-muted">$12</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Second product</h6>
+              <small class="text-muted">Brief description</small>
+            </div>
+            <span class="text-muted">$8</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Third item</h6>
+              <small class="text-muted">Brief description</small>
+            </div>
+            <span class="text-muted">$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between bg-light">
+            <div class="text-success">
+              <h6 class="my-0">Promo code</h6>
+              <small>EXAMPLECODE</small>
+            </div>
+            <span class="text-success">-$5</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>$20</strong>
+          </li>
+        </ul>
+
+        <form class="card p-2">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Promo code">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-secondary">Redeem</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-8 order-md-1">
+        <h4 class="mb-3">Billing address</h4>
+        <form class="needs-validation" novalidate>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="lastName">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="username">Username</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">@</span>
+              </div>
+              <input type="text" class="form-control" id="username" placeholder="Username" required>
+              <div class="invalid-feedback" style="width: 100%;">
+                Your username is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email">Email <span class="text-muted">(Optional)</span></label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+            <div class="invalid-feedback">
+              Please enter a valid email address for shipping updates.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+            <div class="invalid-feedback">
+              Please enter your shipping address.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+            <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+          </div>
+
+          <div class="row">
+            <div class="col-md-5 mb-3">
+              <label for="country">Country</label>
+              <select class="custom-select d-block w-100" id="country" required>
+                <option value="">Choose...</option>
+                <option>United States</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select a valid country.
+              </div>
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="state">State</label>
+              <select class="custom-select d-block w-100" id="state" required>
+                <option value="">Choose...</option>
+                <option>California</option>
+              </select>
+              <div class="invalid-feedback">
+                Please provide a valid state.
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="zip">Zip</label>
+              <input type="text" class="form-control" id="zip" placeholder="" required>
+              <div class="invalid-feedback">
+                Zip code required.
+              </div>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="same-address">
+            <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
+              address</label>
+          </div>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="save-info">
+            <label class="custom-control-label" for="save-info">Save this information for next time</label>
+          </div>
+          <hr class="mb-4">
+
+          <h4 class="mb-3">Payment</h4>
+
+          <div class="d-block my-3">
+            <div class="custom-control custom-radio">
+              <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+              <label class="custom-control-label" for="credit">Credit card</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+              <label class="custom-control-label" for="debit">Debit card</label>
+            </div>
+            <div class="custom-control custom-radio">
+              <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+              <label class="custom-control-label" for="paypal">PayPal</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="cc-name">Name on card</label>
+              <input type="text" class="form-control" id="cc-name" placeholder="" required>
+              <small class="text-muted">Full name as displayed on card</small>
+              <div class="invalid-feedback">
+                Name on card is required
+              </div>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="cc-number">Credit card number</label>
+              <input type="text" class="form-control" id="cc-number" placeholder="" required>
+              <div class="invalid-feedback">
+                Credit card number is required
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label for="cc-expiration">Expiration</label>
+              <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+              <div class="invalid-feedback">
+                Expiration date required
+              </div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="cc-cvv">CVV</label>
+              <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+              <div class="invalid-feedback">
+                Security code required
+              </div>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+        </form>
       </div>
     </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+      <p class="mb-1">&copy; 2017-2020 Company Name</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Privacy</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Support</a></li>
+      </ul>
+    </footer>
   </div>
 
-  <hr>
- <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
-</div>
-{% endblock %}
-{% block tail_js %}
+</body>
 
-<script>
-  var btn1 = $('#btnMostrar');
-
-  $(document).ready( function () {
-    
-    var table2 = $('#tbl_cutipa').DataTable({
-    processing:true,
-    ajax:"{{url_for('kombine')}}",
-    columns:[
-            { "data": "ID" },
-            { "data": "firstName" },
-            { "data": "email" },
-            { "data": "address" },
-            { "data": "zip" },
-            { "data": "phone" },
-            { "data": "ciudad" },
-            { "data": "country" }
-
-    ],
-    dom:'Bfrtilp',
-    buttons:[
-
-    {
-                "extend":'pdfHtml5',
-                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-                "titleAttr":'Exportar a PDF',
-                "className":'btn btn-outline-danger'
-            },
-            
-
-            {
-                "extend":'excel',
-                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-                "titleAttr":'excel',
-                "className":'btn-outline-success'
-            },
-    ]
-  });
-
-  var table4 = $('#tbl_paiss').DataTable({
-    processing:true,
-    ajax:"{{url_for('paisG')}}",
-    columns:[
-            { "data": "Pais" },
-            { "data": "NumeroClientes" }
-    ],
-    dom:'Bfrtilp',
-    buttons:[
-
-    {
-                "extend":'pdfHtml5',
-                "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-                "titleAttr":'Exportar a PDF',
-                "className":'btn btn-outline-danger'
-            },
-            {
-                "extend":'excel',
-                "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-                "titleAttr":'excel',
-                "className":'btn-outline-success'
-            },
-    ]
-  });
-
-
-
-  var datito;
-  //Obtner los datos agrupados
-  $.getJSON("{{url_for('paisG')}}",function(data){
-    var salve =null;
-    var codeName = {};
-    var ncode;
-    var ncame;
-    var cnts ={}
-    var continentsByGruoup ={}
- 
-//datos por continent?
-$.ajax(
-{
-    url: "{{url_for('continentss')}}",
-    dataType: "json",
-    async: false,
-    success: function(data)
-    {
-      var continente = data.map(function(s){
-        return s.continent;
-      });
-      var pais = data.map(function(s){
-        return s.country;
-      })
-     
-     for (let i = 0; i < continente.length; i++) {
-          cnts[pais[i]] = continente[i]; 
-     }
-
-    }
-});
-
-
-
-    //Obtner los datos con code EU necesarios par mapa
- $.ajax(
-{
-    url: "{{url_for('codeguito')}}",
-    dataType: "json",
-    async: false,
-    success: function(data)
-    {
-      salve = data;
-    }
-});
-//obtner los datos por pais code?
-
-$.ajax(
-{
-    url: "{{url_for('codegui')}}",
-    dataType: "json",
-    async: false,
-    success: function(data)
-    {
-      ncode = data.map(function(d){
-        return d.Code
-      });
-      ncame = data.map(function(d){
-        return d.Name
-      });
-      
-      for(var j=0; j <ncode.length;j++){
-        codeName[ncame[j]] =ncode[j]; 
-      }
-    }
-}); 
-
-function cats(datito){
-
-    if(datito === "Kazakstan"){
-      var menso = "Kazakhstan"
-      return menso;
-    }else if(datito == "Congo, The Democratic Republic of the"){
-      var menso = "The Democratic Republic of Congo";
-      return menso;
-    }else{
-      return datito;
-    }
-
-}
-
-var piss;
-var nCliente;
-var objs = {};
-//objeto de pruebas
-var abs = {}
-var noodle;
-//obtner los datos del json en separados
-piss = data.data.map(function(d){
-  return d.Pais
-});
-
-nCliente = data.data.map(function(d){
-  return d.NumeroClientes
-});
-//los datos obtneidos convertidos en objeto para su manupulacion
-for(var i=0;i< piss.length;i++){
-    objs[piss[i]] = nCliente[i];
-}
-
-//pruebas
-for(var i=0;i<piss.length;i++){
-   
-    var sorete = codeName[piss[i]]
-    abs[sorete] = nCliente[i] 
-}
-//obtner la lista de pais por continentes continentsByGruoup
-var nelson;
-var asia = 0;
-for (let k = 0; k < piss.length; k++) {
-      var soledads = cats(piss[k])
-      var coconout = cnts[soledads]
-
-      if( coconout === "Asia"){
-
-        asia  = (nCliente[k] * 100) / 19107;
-      }
-        
-      
-}
-console.log(asia)
-
-//var valores = jvm.values.apply({},jvm.values(objs))
-$('#world-map').vectorMap({
-map: 'world_mill',
-series: {
-  regions: [{
-    values:abs,
-    scale:  ['#FEE5D9', '#A50F15'],
-    normalizeFunction: 'polynomial',
-    legend:{
-      vertical:true
-    }
-  }]
-},
-onRegionTipShow: function(e, el, code){
-    noodle = salve[code]
-    el.html(el.html()+' Numero de clientes - '+abs[code]+')');
-  }
-
-});
-
-  
-  });
-
-
-  
-
-  });//final
-
-function mostrarDatos() {
-  //Tabla de analisis con los datos unidos
-
-
-  
-
-}
-
-</script>
-
-{% endblock %}
+</html>
