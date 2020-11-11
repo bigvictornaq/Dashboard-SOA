@@ -1,12 +1,13 @@
 import os
 import secrets
-from flask import render_template, url_for,flash,redirect,request,json,jsonify
+from flask import render_template, url_for,flash,redirect,request,json,jsonify,make_response
 from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
 from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld
 from flask_login import login_user,current_user,logout_user,login_required
+import pdfkit
 
 
 
@@ -214,3 +215,21 @@ def continentss():
     dato = json.load(open(json_url))
     return jsonify(dato)
 
+@app.route('/downlods')
+def pdfDownload():
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    pdf = pdfkit.from_url('http://127.0.0.1:5000/reports',False,configuration=config)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    return response
+
+@app.route('/reports')
+def report():
+      #datos
+     estadi =  calcularThreeM()
+     mean = estadi[0]
+     mediana = estadi[1]
+     modas = estadi[2]
+     return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean)   
