@@ -348,3 +348,9 @@ def dataMap():
 def insert_Alld():
     q = text("COPY public.klyients( nombre, email, address, zips, phone, ciudad, country) FROM 'D:\Development\Python\Catweb\msnas.csv' DELIMITER ',' CSV HEADER;commit;")
     doll = db.get_engine(bind='anali').execute(q)
+
+
+def firstTendatos():
+    query = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC FETCH FIRST 10 ROWS ONLY;")
+    paisbyCl = db.get_engine(bind='anali').execute(query)
+    return paisbyCl

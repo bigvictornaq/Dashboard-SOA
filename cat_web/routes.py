@@ -1,11 +1,13 @@
 import os
+import datetime
+from os import kill
 import secrets
 from flask import render_template, url_for,flash,redirect,request,json,jsonify,make_response
 from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
 
@@ -215,21 +217,65 @@ def continentss():
     dato = json.load(open(json_url))
     return jsonify(dato)
 
+@app.route('/casassss')
+def report():
+    fecha = datetime.datetime.now()
+    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
+    #datos del usarios
+    usernombre = current_user.username
+    emailus = current_user.email
+    #fotos de la nube
+    logo = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605124737/project/lgogo_mychqs.png")
+    mapfoto = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605129072/project/mapita_jcb0cp.jpg")
+     #datos de los paises
+    numClients =  firstTendatos()
+     #datos
+    estadi =  calcularThreeM()
+    mean = estadi[0]
+    mediana = estadi[1]
+    modas = estadi[2]
+    return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
+                                    ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)  
+
+
 @app.route('/downlods')
 def pdfDownload():
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
     config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    pdf = pdfkit.from_url('http://127.0.0.1:5000/reports',False,configuration=config)
+    #pdf = pdfkit.from_url('http://127.0.0.1:5000/reports',False,configuration=config,css=css)
+    pdf = pdfkit.from_url('http://127.0.0.1:5000/casassss',False)
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
     return response
 
-@app.route('/reports')
-def report():
-      #datos
-     estadi =  calcularThreeM()
-     mean = estadi[0]
-     mediana = estadi[1]
-     modas = estadi[2]
-     return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean)   
+
+
+
+def Rendereds():
+    """
+    Datos necesarios para generar el Reporte
+    """
+      #DAtos NEcesarios para el reporte
+    fecha = datetime.datetime.now()
+    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
+    #datos del usarios
+    usernombre = current_user.username
+    emailus = current_user.email
+    #fotos de la nube
+    logo = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605124737/project/lgogo_mychqs.png")
+    mapfoto = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605129072/project/mapita_jcb0cp.jpg")
+     #datos de los paises
+    numClients =  firstTendatos()
+     #datos
+    estadi =  calcularThreeM()
+    mean = estadi[0]
+    mediana = estadi[1]
+    modas = estadi[2]
+    rendered = render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
+                                    ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)
+    return rendered
+
+
+
+                                       
