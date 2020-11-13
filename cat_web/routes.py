@@ -7,7 +7,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
 
@@ -237,7 +237,7 @@ def report():
     return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
                                     ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)  
 
-
+'''
 @app.route('/downlods')
 def pdfDownload():
     path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
@@ -249,7 +249,27 @@ def pdfDownload():
     response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
     return response
 
+'''
+@app.route('/downlods')
+def pdfDownload():
+    #Fechas
+    fecha = datetime.datetime.now()
+    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
+    #datos del usarios
+    usernombre = current_user.username
+    emailus = current_user.email
+    #datos de los paises
+    numClients =  firstTendatos()
+     #datos
+    estadi =  calcularThreeM()
 
+    pdf = PDF()
+    pdf.alias_nb_pages()
+    pdf.print_chapter(estadi,fechita,usernombre,emailus,numClients)
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    return response
 
 
 def Rendereds():

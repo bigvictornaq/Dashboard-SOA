@@ -1,5 +1,6 @@
 import os
 import pycountry_convert as pc
+from fpdf import FPDF
 from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
 from flask_login import UserMixin
@@ -354,3 +355,112 @@ def firstTendatos():
     query = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC FETCH FIRST 10 ROWS ONLY;")
     paisbyCl = db.get_engine(bind='anali').execute(query)
     return paisbyCl
+
+#Creacion del template PDF
+class PDF(FPDF):
+    #Encabezado del pdf
+    def header(self):
+        # Logo
+        self.image('cat_web\static\profile_img\lgogo.png', 165, 8, 33)
+        # Arial bold 15
+        self.set_font('Arial', 'B', 25)
+        # Se mueve a la derecha
+        self.cell(80)
+        # Titulo
+        self.cell(30, 49, 'Reporte de Analisis de datos', 0, 0, 'C')
+        # Line break
+        self.ln(20)
+
+    def chapter_body(self,estadistica,date,user,email,num_clients):
+        self.ln(10)
+        # Times 12
+        self.set_font('Times', '', 12)
+        self.cell(0,8,"Nombre del Proyecto: Generacion de PDF template con informacion con base de datos",1,1)
+        self.set_font('Times', '', 12)
+        self.cell(0,8,"Nombre de Reporte: ",1,1)
+        self.set_font('Times', '', 12)
+        self.cell(150,-8,f"Fecha: {date}",0,0,"R")
+        self.ln(2)
+        self.set_font('Times', '', 12)
+        self.cell(0,8,f"{user}",0,0)
+        # Linea horizontal
+        self.line(10,68,200,68)
+        
+        self.ln(8)
+        self.set_font('Times', 'I', 12)
+        self.cell(0,8,"Nombre Usario quien realizo la consulta",0,0)
+        self.ln(10)
+        self.set_font('Times', '', 12)
+        self.cell(0,8,f"{email}",0,0)
+        # Linea horizontal
+        self.line(10,85,200,85)
+        self.ln(8)
+        self.set_font('Times', 'I', 12)
+        self.cell(0,8,"Correo Electronico del Usario ",0,0)
+        self.ln(8)
+        self.set_font('Times','B',14)
+        self.cell(78,50,"Proposito De la Investigacion datos",1,2)
+        self.set_xy(88,92)
+        self.set_font('Times', '', 12)
+        texto = '''
+ Nosotros previamente seleccionamos las tablas de cliente
+ de ambas bases datos, con el objetivo buscar una
+ estrategia para las diferentes áreas,en donde no tenga un
+ gran impacto,por ejemplo,como los países con menos
+ clientes de 20 o menos. Además de buscar un patrón en
+ esos países no compiten con los países con mayores
+ clientes. Dar unasoluciónpara fortalecer las áreas con
+ menores clientes.
+        '''
+        self.multi_cell(112,5,texto,1,2,"L")
+        self.ln()
+        self.set_font('Times','B',14)
+        self.cell(0,8,"Fase 2 Preprocesamiento",0,0)
+        self.ln()
+        self.set_font('Times','',12) 
+        self.cell(0,8,"Conceptos",0,0)
+        self.ln(-1)
+        text2 = '''
+Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, mediana y moda, las cuales son la herramientanecesaria para poder observar que parte es en la que más me conviene trabajar
+        '''
+        self.set_font('Times','',12) 
+        self.multi_cell(0,5,text2,0,0)
+        self.ln()
+        self.set_font('Times','',12)
+        self.cell(0,8,f"Mediana: {estadistica[1]}",0,0)
+        self.ln()
+        self.set_font('Times','',12)
+        self.cell(0,8,f"Media: {estadistica[0]}",0,0)
+        self.ln()
+        self.set_font('Times','',12)
+        self.cell(0,8,f"Moda: {estadistica[2]}",0,0)
+        self.ln(17)
+        self.set_font('Times','B',14)
+        self.cell(0,8,"Conslucion",0,0)
+        self.ln(5)
+        #tratar de hacer una tabla
+        self.set_font('Times','',12)
+        th = self.font_size
+        num=0
+        for row in num_clients:
+            num = num + 8
+            self.set_xy(120,170 + num)
+            for dats in row:              
+                self.cell(40,8,str(dats),1)
+            self.ln()    
+        #alternative
+        self.ln(-5)    
+                
+    
+    # Page footer
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Arial', 'I', 8)
+        # Page number
+        self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+    def print_chapter(self,estadistica,date,user,email,num_clients):
+        self.add_page()
+        self.chapter_body(estadistica,date,user,email,num_clients)    
+        
