@@ -1,13 +1,15 @@
+from ast import dump
 import os
 import datetime
 from os import kill
 import secrets
+import pandas as pd
 from flask import render_template, url_for,flash,redirect,request,json,jsonify,make_response
 from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF,analizis
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
 
@@ -123,9 +125,20 @@ def analisis():
     mean = estadi[0]
     mediana = estadi[1]
     modas = estadi[2]
+
+   
     return render_template("an_tables.html",roshi=roshi,mean=mean,mediana=mediana,modas=modas)
 
-
+@app.route('/json/en_mi_casa')
+def showdd():
+    db = analizis.query.all()
+    if db:
+        datos = [{"ID":a.ID_Cliente,"firstName":a.name,"email":a.email,"address":a.address,"zip":a.zip,"phone":a.phone,"ciudad":a.ciudad,"country":a.pais} for a in db]
+        return jsonify({"data":datos})
+    else:
+        no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
+        return jsonify({"data":no_data})
+    
 #url con los datos a analizar
 
 @app.route('/analis_tablas_mssql')

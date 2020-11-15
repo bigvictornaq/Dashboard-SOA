@@ -465,10 +465,36 @@ Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
         self.add_page()
         self.chapter_body(estadistica,date,user,email,num_clients)    
 
+#modelo que si vamos usar jaja
+class analizis(db.Model):
+    __bind_key__ = 'anali'
+    __tablename__ = 'analisis'
+    ID_Cliente = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String(50),nullable=False)
+    email  = db.Column(db.String(50),nullable=False)
+    address = db.Column(db.String(50),nullable=False)
+    zip = db.Column(db.String(50),nullable=False)
+    phone = db.Column(db.String(50),nullable=False)
+    ciudad =db.Column(db.String(50),nullable=False)
+    pais   =db.Column(db.String(50),nullable=False)
+    def __init__(self, name, email, address,zip,phone,ciudad,pais):
+        self.name = name
+        self.email = email
+        self.address = address
+        self.zips = zip
+        self.phone = phone
+        self.ciudad = ciudad
+        self.pais = pais
+    def __repr__(self):
+        return '<ID_Cliente{}>'.format(self.ID_Cliente)
+
 #Uso de dataframes con pandas
-# luego se tratar de crar datos con csv
+# con los dataframes se agrena en la nueva base de datos
 # 
 def create_dataframe_sql():
+            #base de datos adventuresworks2017
+            engine_pos = db.get_engine()
+            enginen = db.get_engine(bind='anali')
             engine_ms = db.get_engine(bind='mssql')
             sql_query = pd.read_sql_query(
                 '''with t1 as (Select *, p.FirstName+' '+p.LastName AS full_name from [AdventureWorks2017].Person.Person p)
@@ -498,7 +524,52 @@ def create_dataframe_sql():
                 on st.TerritoryID = cu.TerritoryID 
                 INNER join Person.CountryRegion cr
 		        on cr.CountryRegionCode	= st.CountryRegionCode ''',con=engine_ms)
-            return sql_query
+                #base de datos dvdrental
+            sql_q = pd.read_sql_query(
+                '''with t1 as (Select *, first_name || ' ' || last_name AS full_name from customer)  
+                select full_name as Name, email as Email, address as Address,postal_code as zip, phone as Phone, city as Ciudad, country as Pais
+                from t1 
+                Join address  using (address_id)    join city   using (city_id) join country using (country_id) 
+                join payment 
+                using(customer_id) 
+                group by 1,2,3,4,5,6,7''',con=engine_pos)
+                #insertar datos a la nueva base datos llamado analisis 
+            sql_query.to_sql("analisis",con=enginen,if_exists="append",index=False)
+            sql_q.to_sql("analisis",con=enginen,if_exists="append",index=False)
+
+def ms_to_dataframe():
+         engine_ms = db.get_engine(bind='mssql')
+         sql_query = pd.read_sql_query(
+                '''with t1 as (Select *, p.FirstName+' '+p.LastName AS full_name from [AdventureWorks2017].Person.Person p)
+                SELECT 
+	            full_name as name,
+	            em.EmailAddress as email,
+	            addr.AddressLine1 as address,
+		        addr.PostalCode as zip,
+                pho.PhoneNumber as phone,
+	            addr.City as ciudad,
+	            cr.Name as pais	  
+                FROM
+                t1
+	            INNER JOIN [AdventureWorks2017].Sales.Customer cu
+                ON cu.PersonID = t1.BusinessEntityID
+                INNER JOIN Person.EmailAddress em
+                ON em.BusinessEntityID = t1.BusinessEntityID 
+		        inner join Person.BusinessEntity bus
+		        on bus.BusinessEntityID = t1.BusinessEntityID
+                inner join Person.PersonPhone pho
+                on pho.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.BusinessEntityAddress bea
+                on bea.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.Address addr
+                on bea.AddressID = addr.AddressID 
+                INNER join sales.SalesTerritory st 
+                on st.TerritoryID = cu.TerritoryID 
+                INNER join Person.CountryRegion cr
+		        on cr.CountryRegionCode	= st.CountryRegionCode ''',con=engine_ms)
+         return sql_query       
+
+
 def pos_to_dataframe():
         engine_pos = db.get_engine()
         sql_querys = pd.read_sql_query(
@@ -509,4 +580,76 @@ def pos_to_dataframe():
             join payment 
             using(customer_id) 
             group by 1,2,3,4,5,6,7''',con=engine_pos)
-        return sql_querys                    
+        return sql_querys
+
+
+def insert():
+    q = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\posgresal.csv' DELIMITER ',' CSV HEADER;commit;")
+    doll = db.get_engine(bind='anali').execute(q)
+
+def intete():
+    q = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\msss.csv' DELIMITER ',' CSV HEADER;commit;")
+    doll = db.get_engine(bind='anali').execute(q)
+
+
+def create_dataframe_an():
+    engine_an = db.get_engine(bind='anali')
+    datafm = pd.read_sql_table('analisis',con=engine_an)
+    return datafm
+
+#Agregan los datos a la base de datos
+def definitive_master():
+     engine_ms = db.get_engine(bind='mssql')
+     sql_query = pd.read_sql_query(
+                '''with t1 as (Select *, p.FirstName+' '+p.LastName AS full_name from [AdventureWorks2017].Person.Person p)
+                SELECT 
+	            full_name as name,
+	            em.EmailAddress as email,
+	            addr.AddressLine1 as address,
+		        addr.PostalCode as zip,
+                pho.PhoneNumber as phone,
+	            addr.City as ciudad,
+	            cr.Name as pais	  
+                FROM
+                t1
+	            INNER JOIN [AdventureWorks2017].Sales.Customer cu
+                ON cu.PersonID = t1.BusinessEntityID
+                INNER JOIN Person.EmailAddress em
+                ON em.BusinessEntityID = t1.BusinessEntityID 
+		        inner join Person.BusinessEntity bus
+		        on bus.BusinessEntityID = t1.BusinessEntityID
+                inner join Person.PersonPhone pho
+                on pho.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.BusinessEntityAddress bea
+                on bea.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.Address addr
+                on bea.AddressID = addr.AddressID 
+                INNER join sales.SalesTerritory st 
+                on st.TerritoryID = cu.TerritoryID 
+                INNER join Person.CountryRegion cr
+		        on cr.CountryRegionCode	= st.CountryRegionCode ''',con=engine_ms)
+     engine_pos = db.get_engine()
+     sql_querys = pd.read_sql_query(
+            '''with t1 as (Select *, first_name || ' ' || last_name AS full_name from customer)  
+            select full_name as Name, email as Email, address as Address,postal_code as zip, phone as Phone, city as Ciudad, country as Pais
+            from t1 
+            Join address  using (address_id)    join city   using (city_id) join country using (country_id) 
+            join payment 
+            using(customer_id) 
+            group by 1,2,3,4,5,6,7''',con=engine_pos)
+     #create csv for load new database
+    #se borra los archivos
+     if os.path.isfile('D:\Development\Python\Catweb\msss.csv'):
+         os.remove('D:\Development\Python\Catweb\msss.csv')
+     if os.path.isfile('D:\Development\Python\Catweb\pss.csv'):
+         os.remove('D:\Development\Python\Catweb\pss.csv')
+
+     #se genera csv
+     sql_query.to_csv('D:\Development\Python\Catweb\msss.csv',index=False)
+     sql_querys.to_csv('D:\Development\Python\Catweb\pss.csv',index=False)
+
+     #se agregan los datos a la nueva base de datos
+     ms_data = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\msss.csv' DELIMITER ',' CSV HEADER;commit;")
+     exc = db.get_engine(bind='anali').execute(ms_data)
+     ps_data = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\pss.csv' DELIMITER ',' CSV HEADER;commit;")
+     exc2 = db.get_engine(bind='anali').execute(ps_data)
