@@ -1,5 +1,6 @@
 import os
 import pycountry_convert as pc
+import pandas as pd
 from fpdf import FPDF
 from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
@@ -463,4 +464,49 @@ Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
     def print_chapter(self,estadistica,date,user,email,num_clients):
         self.add_page()
         self.chapter_body(estadistica,date,user,email,num_clients)    
-        
+
+#Uso de dataframes con pandas
+# luego se tratar de crar datos con csv
+# 
+def create_dataframe_sql():
+            engine_ms = db.get_engine(bind='mssql')
+            sql_query = pd.read_sql_query(
+                '''with t1 as (Select *, p.FirstName+' '+p.LastName AS full_name from [AdventureWorks2017].Person.Person p)
+                SELECT 
+	            full_name as name,
+	            em.EmailAddress as email,
+	            addr.AddressLine1 as address,
+		        addr.PostalCode as zip,
+                pho.PhoneNumber as phone,
+	            addr.City as ciudad,
+	            cr.Name as pais	  
+                FROM
+                t1
+	            INNER JOIN [AdventureWorks2017].Sales.Customer cu
+                ON cu.PersonID = t1.BusinessEntityID
+                INNER JOIN Person.EmailAddress em
+                ON em.BusinessEntityID = t1.BusinessEntityID 
+		        inner join Person.BusinessEntity bus
+		        on bus.BusinessEntityID = t1.BusinessEntityID
+                inner join Person.PersonPhone pho
+                on pho.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.BusinessEntityAddress bea
+                on bea.BusinessEntityID = t1.BusinessEntityID
+                INNER join Person.Address addr
+                on bea.AddressID = addr.AddressID 
+                INNER join sales.SalesTerritory st 
+                on st.TerritoryID = cu.TerritoryID 
+                INNER join Person.CountryRegion cr
+		        on cr.CountryRegionCode	= st.CountryRegionCode ''',con=engine_ms)
+            return sql_query
+def pos_to_dataframe():
+        engine_pos = db.get_engine()
+        sql_querys = pd.read_sql_query(
+            '''with t1 as (Select *, first_name || ' ' || last_name AS full_name from customer)  
+            select full_name as Name, email as Email, address as Address,postal_code as zip, phone as Phone, city as Ciudad, country as Pais
+            from t1 
+            Join address  using (address_id)    join city   using (city_id) join country using (country_id) 
+            join payment 
+            using(customer_id) 
+            group by 1,2,3,4,5,6,7''',con=engine_pos)
+        return sql_querys                    
