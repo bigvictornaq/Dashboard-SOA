@@ -5,7 +5,7 @@ from fpdf import FPDF
 from itsdangerous import TimedJSONWebSignatureSerializer as seralizer
 from cat_web import db,login_manager,app
 from flask_login import UserMixin
-from sqlalchemy import text
+from sqlalchemy import text,func
 import statistics
 
 @login_manager.user_loader
@@ -465,7 +465,7 @@ Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
         self.add_page()
         self.chapter_body(estadistica,date,user,email,num_clients)    
 
-#modelo que si vamos usar jaja
+#medelo importante
 class analizis(db.Model):
     __bind_key__ = 'anali'
     __tablename__ = 'analisis'
@@ -488,9 +488,31 @@ class analizis(db.Model):
     def __repr__(self):
         return '<ID_Cliente{}>'.format(self.ID_Cliente)
 
+#se aagrupan los datos por pais
+def group_low():
+    querie = text("SELECT pais, COUNT(pais) as clientes FROM public.analisis GROUP BY pais  having count(pais) < 175 ORDER BY clientes DESC;")
+    datos_byP = db.get_engine(bind='anali').execute(querie)
+    return datos_byP
+def groupgre():
+    querie = text("SELECT pais, COUNT(pais) as clientes FROM public.analisis GROUP BY pais  having count(pais) > 175  ORDER BY clientes DESC;")
+    datos_byP = db.get_engine(bind='anali').execute(querie)
+    return datos_byP
+def groupmoda():
+    querie = text("SELECT pais, COUNT(pais) as clientes FROM public.analisis GROUP BY pais having count(pais) = 1 ORDER BY clientes DESC;")
+    datos_byP = db.get_engine(bind='anali').execute(querie)
+    return datos_byP
+#metodo para obtner los datos
+def datos_agrupados_porPais(grupo):
+    switch = {
+        1: groupgre,
+        2: group_low,
+        3: groupmoda
+    }
+    func = switch.get(grupo,"Nelseon")
+    return func()                       
+
 #Uso de dataframes con pandas
 # con los dataframes se agrena en la nueva base de datos
-# 
 def create_dataframe_sql():
             #base de datos adventuresworks2017
             engine_pos = db.get_engine()
@@ -537,67 +559,14 @@ def create_dataframe_sql():
             sql_query.to_sql("analisis",con=enginen,if_exists="append",index=False)
             sql_q.to_sql("analisis",con=enginen,if_exists="append",index=False)
 
-def ms_to_dataframe():
-         engine_ms = db.get_engine(bind='mssql')
-         sql_query = pd.read_sql_query(
-                '''with t1 as (Select *, p.FirstName+' '+p.LastName AS full_name from [AdventureWorks2017].Person.Person p)
-                SELECT 
-	            full_name as name,
-	            em.EmailAddress as email,
-	            addr.AddressLine1 as address,
-		        addr.PostalCode as zip,
-                pho.PhoneNumber as phone,
-	            addr.City as ciudad,
-	            cr.Name as pais	  
-                FROM
-                t1
-	            INNER JOIN [AdventureWorks2017].Sales.Customer cu
-                ON cu.PersonID = t1.BusinessEntityID
-                INNER JOIN Person.EmailAddress em
-                ON em.BusinessEntityID = t1.BusinessEntityID 
-		        inner join Person.BusinessEntity bus
-		        on bus.BusinessEntityID = t1.BusinessEntityID
-                inner join Person.PersonPhone pho
-                on pho.BusinessEntityID = t1.BusinessEntityID
-                INNER join Person.BusinessEntityAddress bea
-                on bea.BusinessEntityID = t1.BusinessEntityID
-                INNER join Person.Address addr
-                on bea.AddressID = addr.AddressID 
-                INNER join sales.SalesTerritory st 
-                on st.TerritoryID = cu.TerritoryID 
-                INNER join Person.CountryRegion cr
-		        on cr.CountryRegionCode	= st.CountryRegionCode ''',con=engine_ms)
-         return sql_query       
-
-
-def pos_to_dataframe():
-        engine_pos = db.get_engine()
-        sql_querys = pd.read_sql_query(
-            '''with t1 as (Select *, first_name || ' ' || last_name AS full_name from customer)  
-            select full_name as Name, email as Email, address as Address,postal_code as zip, phone as Phone, city as Ciudad, country as Pais
-            from t1 
-            Join address  using (address_id)    join city   using (city_id) join country using (country_id) 
-            join payment 
-            using(customer_id) 
-            group by 1,2,3,4,5,6,7''',con=engine_pos)
-        return sql_querys
-
-
-def insert():
-    q = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\posgresal.csv' DELIMITER ',' CSV HEADER;commit;")
-    doll = db.get_engine(bind='anali').execute(q)
-
-def intete():
-    q = text("COPY public.analisis( name, email, address, zip, phone, ciudad, pais) FROM 'D:\Development\Python\Catweb\msss.csv' DELIMITER ',' CSV HEADER;commit;")
-    doll = db.get_engine(bind='anali').execute(q)
-
-
 def create_dataframe_an():
     engine_an = db.get_engine(bind='anali')
     datafm = pd.read_sql_table('analisis',con=engine_an)
     return datafm
 
-#Agregan los datos a la base de datos
+
+
+#Agregan los datos a la base de datos usando dataframe -> csv -> base de datos
 def definitive_master():
      engine_ms = db.get_engine(bind='mssql')
      sql_query = pd.read_sql_query(

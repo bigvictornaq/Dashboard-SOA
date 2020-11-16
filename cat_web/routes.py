@@ -9,7 +9,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF,analizis
+from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF,analizis,datos_agrupados_porPais
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
 
@@ -46,7 +46,9 @@ def register():
 @app.route('/Iniciar_sesion')
 @login_required
 def home_page():
-    return render_template('inicio.html')
+    usario = current_user.username
+    foto = current_user.image_file
+    return render_template('inicio.html',usario=usario,foto=foto)
 
 def save_foto(form_picture):
     subir = cloud.uploader.upload(form_picture,folder='project/',use_filename = True)
@@ -125,9 +127,9 @@ def analisis():
     mean = estadi[0]
     mediana = estadi[1]
     modas = estadi[2]
-
-   
-    return render_template("an_tables.html",roshi=roshi,mean=mean,mediana=mediana,modas=modas)
+    return render_template("an_tables.html",roshi=roshi,mean=mean,mediana=mediana,modas=modas,
+                                grupo_mayor =datos_agrupados_porPais(1),grupo_menor=datos_agrupados_porPais(2),
+                                grupo_moda=datos_agrupados_porPais(3))
 
 @app.route('/json/en_mi_casa')
 def showdd():
@@ -229,6 +231,7 @@ def continentss():
     json_url = os.path.join(SITE_ROOT,'static/data','continent.json')
     dato = json.load(open(json_url))
     return jsonify(dato)
+#33333333333333333333333333333333333333333333333333333333333333
 
 @app.route('/casassss')
 def report():
