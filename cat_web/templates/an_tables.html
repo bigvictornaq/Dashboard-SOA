@@ -160,56 +160,157 @@
     </div>
   </div>
 
-  <div class="table-responsive border-bottom">
-    <table id="tbl_cutipa" class="table table-striped table-sm table-hover display nowrap" cellspacing="0">
-      <thead>
-        <tr class="table-primary">
-          <th>id</th>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Direcccion</th>
-          <th>Zip code</th>
-          <th>Phone</th>
-          <th>Ciudad</th>
-          <th>Pais</th>
+  <!--Contenedor con los daos de la fase 2-->
+  <div class="shadow-lg p-3 mb-5 bg-white rounded"> 
+    <h3><kbd>Fase 2:</kbd>Preprocesamiento</h3>
+    <br>
+    <h4>Conceptos</h4>
+    <p class="text-justify" style="font-size: 16px;">Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
+      mediana y moda, las cuales son la herramienta necesaria para poder observar que parte es en la que más me conviene trabajar.</p>
+    <p class="text-justify" style="font-size: 16px;">
+      Nosotros previamente seleccionamos las tablas de cliente de ambas bases datos, con el objetivo buscar una estrategia para las 
+      diferentes áreas, en donde no tenga un gran impacto, por ejemplo, como los países con menos clientes de 20 o menos. 
+      Además de buscar un patrón en esos países no compiten con los países con mayores clientes. Dar una solución para fortalecer 
+      as áreas con menores clientes.    
+    </p>
+    <hr/>
+    <h3>Tabla Con los Clientes de ambas base de datos</h3>
+    <div class="table-responsive border-bottom">
+      <table id="tbl_cutipa" class="table table-striped table-sm table-hover display nowrap" cellspacing="0">
+        <thead>
+          <tr class="table-primary">
+            <th>id</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Direcccion</th>
+            <th>Zip code</th>
+            <th>Phone</th>
+            <th>Ciudad</th>
+            <th>Pais</th>
+          </tr>
+        </thead>
+        <tbody>  
+        </tbody>
+        <tfoot></tfoot>
+      </table>
+      <hr>
+    </div>
+<!--Informacion sobre la media,moda,media-->
+<div class="card-deck">
+  <div class="card border-success mb-3" style="max-width: 28rem;">
+    <h5 class="card-header">Países en total</h5>
+    <div class="card-body">
+      <h3 class="card-title text-center">109</h3>
+      <p class="card-text">Total De Registros: 19,107</p>
+      <p class="card-text"><small class="text-muted">Total De resgitros 19107</small></p>
+    </div>
+  </div>
+  <div class="card text-white bg-primary" style="max-width: 28rem;">
+    <h5 class="card-header">Mediana</h5>
+    <div class="card-body">
+      <h3 class="card-title text-center">{{mediana}}</h3>
+      <p class="card-text">Clientes</p>
+      <p class="card-text"><small class="text-muted"></small></p>
+    </div>
+  </div>
+  <div class="card text-white bg-primary" style="max-width: 28rem;">
+    <h5 class="card-header">Media</h5>
+    <div class="card-body">
+      <h3 class="card-title text-center">{{mean}}</h3>
+      <p class="card-text">Clientes</p>
+      <p class="card-text"><small class="text-muted"></small></p>
+    </div>
+  </div>
+  <div class="card text-white bg-primary" style="max-width: 28rem;">
+    <h5 class="card-header">Moda</h5>
+    <div class="card-body">
+      <h3 class="card-title text-center">{{modas}}</h3>
+      <p class="card-text">Clientes</p>
+      <p class="card-text"><small class="text-muted"></small></p>
+    </div>
+  </div>
+</div>
+<div class="border-top my-3"></div>
+<!--Tablas con los valores -->
+<div class="text-center">
+  <h2>Datos Agrupados por Clientes</h2>
+</div>
+<div class="row">
+ <!--Tablas-->
+  <div class="col">
+    <h3>Datos Por debajo de la media</h3>
+    <!--Tabla  con los valor menores-->
+<div class="table-responsive-sm border-bottom">
+<table id="tbl_s" class="table table-striped  table-sm table-hover">
+<thead>
+  <tr class="table-primary">
+    <th>Pais</th>
+    <th>Numero De clientes</th>
+  </tr>
+</thead>
+<tbody> 
+  {% for i in grupo_menor %}
+      <tr>
+        <td>{{i[0]}}</td>
+        <td style="text-align: center;">{{i[1]}}</td>
+      </tr>
+  {% endfor %} 
+</tbody>
+</table>
+<hr>
+</div>
+  </div>
+<!--Valores de media-->
+  <div class="col">
+    <h3>Datos Por encima de la media</h3>
+     <!--Tabla  con los valor mayores-->
+     <div id="t_gr" class="table-responsive-sm border-bottom ">
+<table id="tbl_g" class="table table-striped table-sm table-hover" style="width: 100%;" cellpadding="0">
+  <thead>
+    <tr class="table-primary">
+      <th>Pais</th>
+      <th>Numero De clientes</th>
+    </tr>
+  </thead>
+  <tbody> 
+    {% for fs in grupo_mayor %}
+        <tr>
+          <td>{{fs[0]}}</td>
+          <td style="text-align: center; padding: 0px;">{{fs[1]}}</td>
         </tr>
-      </thead>
-      <tbody>  
-      </tbody>
-      <tfoot></tfoot>
-    </table>
-    <hr>
-    
+    {% endfor %} 
+  </tbody>
+</table>
+<hr>
+</div>
   </div>
-
-  <div class="card-deck">
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Mediana</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{mediana}}</h5>
-        <p class="card-text">nuki</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Media</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{mean}}</h5>
-        <p class="card-text">S</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
-    <div class="card text-white bg-primary" style="max-width: 28rem;">
-      <h5 class="card-header">Moda</h5>
-      <div class="card-body">
-        <h5 class="card-title text-center">{{modas}}</h5>
-        <p class="card-text">Tsss</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-    </div>
+  <!--Valores de la moda-->
+  <div class="col">
+    <h3>Valores son iguales a la moda</h3>
+    <!--Tabla  con los valor igulaes a la moda-->
+<div class="table-responsive-sm border-bottom">
+ <table id="tbl_m" class="table table-striped table-sm  table-hover">
+   <thead>
+     <tr class="table-primary">
+       <th>Pais</th>
+       <th>Numero De clientes</th>
+     </tr>
+   </thead>
+   <tbody> 
+     {% for j in grupo_moda %}
+         <tr>
+           <td>{{j[0]}}</td>
+           <td style="text-align: center;" >{{j[1]}}</td>
+         </tr>
+     {% endfor %} 
+   </tbody>
+ </table>
+ <hr>
+</div>
   </div>
+</div>
   <br>
-  <div class="border-top my-3"></div>
+  
 <!---style="width: 600px; height: 400px"-->
   <div id="world-map" style="width: 600px; height: 400px"></div>
   <div class="border-top my-3"></div>
@@ -243,85 +344,7 @@
     
     <!---->
   </div>
-  <!--Tablas con los valores -->
-  <div class="text-center">
-    <h2>Datos Agrupados por Clientes</h2>
-  </div>
-  <div class="row">
-    <div class="col">
-      <h3>Datos Por encima de la media</h3>
-       <!--Tabla  con los valor mayores-->
-       <div id="t_gr" class="table-responsive-sm border-bottom ">
-  <table id="tbl_g" class="table table-striped table-sm table-hover" style="width: 100%;" cellpadding="0">
-    <thead>
-      <tr class="table-primary">
-        <th>Pais</th>
-        <th>Numero De clientes</th>
-      </tr>
-    </thead>
-    <tbody> 
-      {% for fs in grupo_mayor %}
-          <tr>
-            <td>{{fs[0]}}</td>
-            <td style="text-align: center; padding: 0px;">{{fs[1]}}</td>
-          </tr>
-      {% endfor %} 
-    </tbody>
-  </table>
-  <hr>
-</div>
-    </div>
-    <div class="col">
-      <h3>Datos Por debajo de la media</h3>
-      <!--Tabla  con los valor menores-->
-<div class="table-responsive-sm border-bottom">
-<table id="tbl_s" class="table table-striped  table-sm table-hover">
-  <thead>
-    <tr class="table-primary">
-      <th>Pais</th>
-      <th>Numero De clientes</th>
-    </tr>
-  </thead>
-  <tbody> 
-    {% for i in grupo_menor %}
-        <tr>
-          <td>{{i[0]}}</td>
-          <td style="text-align: center;">{{i[1]}}</td>
-        </tr>
-    {% endfor %} 
-  </tbody>
-</table>
-<hr>
-</div>
-    </div>
-  </div>
 
-<div class="row">
-  <div class="col">
-    <h3>Valores son iguales a la moda</h3>
-     <!--Tabla  con los valor igulaes a la moda-->
- <div class="table-responsive-sm border-bottom">
-  <table id="tbl_m" class="table table-striped table-sm  table-hover">
-    <thead>
-      <tr class="table-primary">
-        <th>Pais</th>
-        <th>Numero De clientes</th>
-      </tr>
-    </thead>
-    <tbody> 
-      {% for j in grupo_moda %}
-          <tr>
-            <td>{{j[0]}}</td>
-            <td style="text-align: center;" >{{j[1]}}</td>
-          </tr>
-      {% endfor %} 
-    </tbody>
-  </table>
-  <hr>
-</div>
-  </div>
-  <div class="col"></div>
-</div>
   <hr>
  <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
 </div>
@@ -332,10 +355,13 @@
   var btn1 = $('#btnMostrar');
 
   $(document).ready( function () {
+   //tabla con mayores
     $('#tbl_g').DataTable({
       dom:"rti"
     });
+    //tabla con los valores menores
     $('#tbl_s').DataTable();
+    //tabla con los valores moda
     $('#tbl_m').DataTable();
     //tabla dde MS-SQL
     $('#dataframe').DataTable({
@@ -445,7 +471,7 @@
 
 
 
-
+//boton que muestra la informacion de la fase 2
 btn1.on("click", function(){
 
   var datito;
@@ -457,7 +483,6 @@ btn1.on("click", function(){
     var ncame;
     var cnts ={}
     var continentsByGruoup ={}
- 
 //datos por continent?
 $.ajax(
 {
@@ -479,9 +504,6 @@ $.ajax(
 
     }
 });
-
-
-
     //Obtner los datos con code EU necesarios par mapa
  $.ajax(
 {
@@ -494,7 +516,6 @@ $.ajax(
     }
 });
 //obtner los datos por pais code?
-
 $.ajax(
 {
     url: "{{url_for('codegui')}}",
@@ -528,7 +549,6 @@ function cats(datito){
     }
 
 }
-
 var piss;
 var nCliente;
 var objs = {};

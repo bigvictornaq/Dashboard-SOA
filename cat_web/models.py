@@ -280,7 +280,7 @@ def todosDatos():
 
 #se aagrupan los datos por pais
 def groupByPais():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT pais, COUNT('ID_Cliente') as cliente FROM public.analisis GROUP BY pais ORDER BY cliente DESC;")
     
     data_USA2 = db.get_engine(bind='anali').execute(querie)
     #anali
@@ -293,7 +293,7 @@ def groupByPais():
 
 #get data by conutry
 def  continent():
-    querie = text("SELECT country, COUNT('ID_Cliente') as cliente FROM public.klyients GROUP BY country ORDER BY cliente DESC;")
+    querie = text("SELECT pais, COUNT('ID_Cliente') as cliente FROM public.analisis GROUP BY pais ORDER BY cliente DESC;")
     data_USA2 = db.get_engine(bind='anali').execute(querie)
     caontien ={}
 
