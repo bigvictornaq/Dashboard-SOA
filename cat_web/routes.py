@@ -9,7 +9,7 @@ from cat_web import app,db,bcrypt,cloud
 from sqlalchemy import text
 import cloudinary.uploader
 from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestResetForm,ResetPasswordForm
-from cat_web.models import User,ClienteM,ClienteP,ClientesA,todosDatos,groupByPais,dataforMap,dataMap,calcularThreeM,KlienteA,insert_Alld,firstTendatos,PDF,analizis,datos_agrupados_porPais
+from cat_web.models import User,groupByPais,dataforMap,dataMap,calcularThreeM,firstTendatos,PDF,analizis,datos_agrupados_porPais,datos_por_separados,definitive_master
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
 
@@ -115,22 +115,18 @@ def reset_token(token):
     form = ResetPasswordForm()
     return render_template('reset_token.html',form=form) 
 
-
+#ruta para la pagina donde muestra los datos importantes
 @app.route('/analis_tablas_mssql_and_posgresql',methods=['GET','POST'])
 @login_required   
 def analisis():
-    #roshi =  ClienteM.query.all()
-    sql = text("SELECT * FROM [AdventureWorks2017].[dbo].[cliente]")
-    roshi = db.get_engine(bind='mssql').execute(sql)
     #datos
     estadi =  calcularThreeM()
     mean = estadi[0]
     mediana = estadi[1]
     modas = estadi[2]
-    return render_template("an_tables.html",roshi=roshi,mean=mean,mediana=mediana,modas=modas,
-                                grupo_mayor =datos_agrupados_porPais(1),grupo_menor=datos_agrupados_porPais(2),
-                                grupo_moda=datos_agrupados_porPais(3))
-
+    return render_template("an_tables.html",mean=mean,mediana=mediana,modas=modas,grupo_mayor=datos_agrupados_porPais(1),
+                                    grupo_menor=datos_agrupados_porPais(2),grupo_moda=datos_agrupados_porPais(3))
+#Ruta donde muestra los datos de ambas base  de datos
 @app.route('/json/en_mi_casa')
 def showdd():
     db = analizis.query.all()
@@ -138,65 +134,83 @@ def showdd():
         datos = [{"ID":a.ID_Cliente,"firstName":a.name,"email":a.email,"address":a.address,"zip":a.zip,"phone":a.phone,"ciudad":a.ciudad,"country":a.pais} for a in db]
         return jsonify({"data":datos})
     else:
-        no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
-        return jsonify({"data":no_data})
+        definitive_master()
+        datos = [{"ID":a.ID_Cliente,"firstName":a.name,"email":a.email,"address":a.address,"zip":a.zip,"phone":a.phone,"ciudad":a.ciudad,"country":a.pais} for a in db]
+        return jsonify({"data":datos})
     
 #url con los datos a analizar
-
+#MSSQL
 @app.route('/analis_tablas_mssql')
 def dMsql():
-    dotos =  ClienteM.query.all()
+    dotos = datos_por_separados(1)
     #existe = hasattr(dotos,"an_attribute")
     if dotos:
-        datos = [{"ID":a.ID_Cliente,"FirstName":a.nombre,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
+        datos = [{"ID":a[0],"firstName":a[1],"email":a[2],"address":a[3],"zip":a[4],"phone":a[5],"ciudad":a[6],"country":a[7]} for a in dotos]
         return jsonify({"data":datos})
     else:
         no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
         return jsonify({"data":no_data})
-
-    
+#PosgreSQL
 @app.route('/analis_tablas_pos')
 def dpos():
-    dotos =  ClienteP.query.all()
+    dotos =  datos_por_separados(2)
     #existe = hasattr(dotos,"an_attribute")
     if dotos:
-        datos = [{"ID":a.cliente_id,"FirstName":a.Firstname,"LastName":a.LastName,"Country":a.Country,"Email":a.Email} for a in dotos]
+        datos = [{"ID":a[0],"firstName":a[1],"email":a[2],"address":a[3],"zip":a[4],"phone":a[5],"ciudad":a[6],"country":a[7]} for a in dotos]
         return jsonify({"data":datos})
     else:
         no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
         return jsonify({"data":no_data})
-
-#unir los daos base de datos en una
-@app.route('/analisUnidos')
-def dcorporado():
-    todos_Datos =  ClientesA.query.all()
-    if todos_Datos:
-        datos = [{"ID":a.ID_Cliente,"firstName":a.firstname,"lastName":a.lastname,"country":a.country,"email":a.email,"phone":a.phone} for a in todos_Datos]
-        return jsonify({"data":datos})
-    else:
-          d = todosDatos()
-          datos = [{"ID":a.ID_Cliente,"firstName":a.firstname,";lastName":a.lastname,"country":a.country,"email":a.email,"phone":a.phone} for a in todos_Datos]
-    return jsonify({"data":datos})
-
-
-@app.route('/todos_capo')
-def kombine():
-    todo = KlienteA.query.all()
-    if todo:
-       datos = [{"ID":a.ID_Cliente,"firstName":a.nombre,"email":a.email,"address":a.address,"zip":a.zips,"phone":a.phone,"ciudad":a.ciudad,"country":a.country} for a in todo]
-       return jsonify({"data":datos})
-    else:
-        insert_Alld()
-        datos = [{"ID":a.ID_Cliente,"firstName":a.nombre,"email":a.email,"address":a.address,"zip":a.zips,"phone":a.phone,"ciudad":a.ciudad,"country":a.country} for a in todo]
-        return jsonify({"data":datos})
-
-
 
 #son los datos agrupaso en json
 @app.route('/paisAgrupado')
 def paisG():
     datito = groupByPais()
     return jsonify({"data":datito})
+
+
+@app.route('/casassss')
+def report():
+    fecha = datetime.datetime.now()
+    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
+    #datos del usarios
+    usernombre = current_user.username
+    emailus = current_user.email
+    #fotos de la nube
+    logo = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605124737/project/lgogo_mychqs.png")
+    mapfoto = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605129072/project/mapita_jcb0cp.jpg")
+     #datos de los paises
+    numClients =  firstTendatos()
+     #datos
+    estadi =  calcularThreeM()
+    mean = estadi[0]
+    mediana = estadi[1]
+    modas = estadi[2]
+    return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
+                                    ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)  
+
+@app.route('/downlods')
+def pdfDownload():
+    #Fechas
+    fecha = datetime.datetime.now()
+    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
+    #datos del usarios
+    usernombre = current_user.username
+    emailus = current_user.email
+    #datos de los paises
+    numClients =  firstTendatos()
+     #datos
+    estadi =  calcularThreeM()
+
+    pdf = PDF()
+    pdf.alias_nb_pages()
+    pdf.print_chapter(estadi,fechita,usernombre,emailus,numClients)
+    response = make_response(pdf.output(dest='S').encode('latin-1'))
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
+    return response
+
+#####Datos para suministarr la Mapita de la dora exploradora
 
 #son los datos sin nombre variable en json en forma [{}]
 @app.route('/pasitas')
@@ -232,86 +246,4 @@ def continentss():
     dato = json.load(open(json_url))
     return jsonify(dato)
 #33333333333333333333333333333333333333333333333333333333333333
-
-@app.route('/casassss')
-def report():
-    fecha = datetime.datetime.now()
-    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
-    #datos del usarios
-    usernombre = current_user.username
-    emailus = current_user.email
-    #fotos de la nube
-    logo = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605124737/project/lgogo_mychqs.png")
-    mapfoto = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605129072/project/mapita_jcb0cp.jpg")
-     #datos de los paises
-    numClients =  firstTendatos()
-     #datos
-    estadi =  calcularThreeM()
-    mean = estadi[0]
-    mediana = estadi[1]
-    modas = estadi[2]
-    return render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
-                                    ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)  
-
-'''
-@app.route('/downlods')
-def pdfDownload():
-    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
-    #pdf = pdfkit.from_url('http://127.0.0.1:5000/reports',False,configuration=config,css=css)
-    pdf = pdfkit.from_url('http://127.0.0.1:5000/casassss',False)
-    response = make_response(pdf)
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
-    return response
-
-'''
-@app.route('/downlods')
-def pdfDownload():
-    #Fechas
-    fecha = datetime.datetime.now()
-    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
-    #datos del usarios
-    usernombre = current_user.username
-    emailus = current_user.email
-    #datos de los paises
-    numClients =  firstTendatos()
-     #datos
-    estadi =  calcularThreeM()
-
-    pdf = PDF()
-    pdf.alias_nb_pages()
-    pdf.print_chapter(estadi,fechita,usernombre,emailus,numClients)
-    response = make_response(pdf.output(dest='S').encode('latin-1'))
-    response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
-    return response
-
-
-def Rendereds():
-    """
-    Datos necesarios para generar el Reporte
-    """
-      #DAtos NEcesarios para el reporte
-    fecha = datetime.datetime.now()
-    fechita = str(fecha.day) + '/'+ fecha.strftime("%A")+'/'+str(fecha.year)
-    #datos del usarios
-    usernombre = current_user.username
-    emailus = current_user.email
-    #fotos de la nube
-    logo = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605124737/project/lgogo_mychqs.png")
-    mapfoto = cloud.CloudinaryImage("https://res.cloudinary.com/pixies/image/upload/v1605129072/project/mapita_jcb0cp.jpg")
-     #datos de los paises
-    numClients =  firstTendatos()
-     #datos
-    estadi =  calcularThreeM()
-    mean = estadi[0]
-    mediana = estadi[1]
-    modas = estadi[2]
-    rendered = render_template('pdf_template.html',mediana=mediana,modas=modas,mean=mean
-                                    ,numClients=numClients,fechita=fechita,usernombre=usernombre,emailus=emailus,logo=logo,mapfoto=mapfoto)
-    return rendered
-
-
-
                                        
