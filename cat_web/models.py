@@ -76,7 +76,7 @@ def bd_adventurew():
 def bd_dvrental():
     try:
         queri = text("with t1 as (Select *, first_name || ' ' || last_name AS full_name from customer) select full_name as Name, email as Email, address as Address,postal_code as zip, phone as Phone, city as Ciudad, country as Pais from t1  Join address  using (address_id)    join city   using (city_id) join country using (country_id)  join payment  using(customer_id)  group by 1,2,3,4,5,6,7")
-        data_todo = db.get_engine.execute(queri)
+        data_todo = db.get_engine().execute(queri)
         return data_todo
     except IndentationError:
         db.session.rollback()

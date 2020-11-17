@@ -145,7 +145,7 @@ def dMsql():
     dotos = datos_por_separados(1)
     #existe = hasattr(dotos,"an_attribute")
     if dotos:
-        datos = [{"ID":a[0],"firstName":a[1],"email":a[2],"address":a[3],"zip":a[4],"phone":a[5],"ciudad":a[6],"country":a[7]} for a in dotos]
+        datos = [{"firstName":a[0],"email":a[1],"address":a[2],"zip":a[3],"phone":a[4],"ciudad":a[5],"country":a[6]} for a in dotos]
         return jsonify({"data":datos})
     else:
         no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
@@ -156,7 +156,7 @@ def dpos():
     dotos =  datos_por_separados(2)
     #existe = hasattr(dotos,"an_attribute")
     if dotos:
-        datos = [{"ID":a[0],"firstName":a[1],"email":a[2],"address":a[3],"zip":a[4],"phone":a[5],"ciudad":a[6],"country":a[7]} for a in dotos]
+        datos = [{"firstName":a[0],"email":a[1],"address":a[2],"zip":a[3],"phone":a[4],"ciudad":a[5],"country":a[6]} for a in dotos]
         return jsonify({"data":datos})
     else:
         no_data = [{"id":"NO HAY DATOS","Pais":"NO HAY DATOS","Numero":"NO HAY DATOS"}]
