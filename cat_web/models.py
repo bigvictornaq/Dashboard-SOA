@@ -1,3 +1,4 @@
+from itertools import repeat
 import os
 
 from pandas.core.frame import DataFrame
@@ -108,10 +109,15 @@ def groupByPais():
 def calcularThreeM():
     querie = text("SELECT pais, COUNT('ID_Cliente') as cliente FROM public.analisis GROUP BY pais ORDER BY cliente DESC;")
     data = db.get_engine(bind='anali').execute(querie)
+
     sumita =0
     sumisa = []
     for t in data:
         sumisa.append(t[1])
+    if not sumisa:
+        definitive_master()
+        return next(calcularThreeM())
+
     sd = statistics.mean(sumisa)
     mean = round(sd,2)
     print("Media del: " , mean)
@@ -120,7 +126,8 @@ def calcularThreeM():
     modas = statistics.mode(sumisa)
     print("Moda",modas)
     estadistica = [mean,mediana,modas]
-    return estadistica   
+    return estadistica
+          
 
 #se aagrupan los datos por pais por comando
 def group_low():
