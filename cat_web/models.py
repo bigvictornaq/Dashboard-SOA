@@ -110,7 +110,7 @@ def calcularThreeM():
     querie = text("SELECT pais, COUNT('ID_Cliente') as cliente FROM public.analisis GROUP BY pais ORDER BY cliente DESC;")
     data = db.get_engine(bind='anali').execute(querie)
 
-    sumita =0
+    
     sumisa = []
     for t in data:
         sumisa.append(t[1])
