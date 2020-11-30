@@ -85,7 +85,7 @@
      para poder construir la página web. Se utilizará el comando COPY para agregar todo el dato a la nueva base de datos en PostgreSQL
   </p>
   <div class="col d-flex align-items-center justify-content-center">
-    <img src="https://res.cloudinary.com/pixies/image/upload/v1605510557/project/diagramsss_mum83n.png" alt="">
+    <img src="https://res.cloudinary.com/pixies/image/upload/v1605510557/project/DIAGRAMArosa_imsnhj.png" alt="">
   </div>
   <h3>Base de Datos</h3>
   <div class="row">
@@ -134,7 +134,7 @@
   </div>
 </div>
 <br>
-  <div class="card border-bottom text-white bg-primary">
+  <div class="card border-bottom text-white bg-dark">
     <div class="card-header">
       Analisis de datos 
     </div>
@@ -142,7 +142,7 @@
       <h5 class="card-title">Nueva Base de datos {{griselda}}</h5>
       <p class="card-text">Siguiente Informacion contierne los datos obtenidos de la base de datos dvdrental y ADVENTUREWORKS2017</p>
      
-        <button id="btnMostrar" name="submit_button" value="Hola bebe" class="btn btn-outline-info">Unir datos</button>
+        <button id="btnMostrar" name="submit_button" value="Hola bebe" class="btn btn-outline-warning">Unir datos</button>
      <!-- <button id="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button> -->
       
       
@@ -182,7 +182,7 @@
     <div class="table-responsive border-bottom">
       <table id="dataframe" class="table table-striped table-sm table-hover display nowrap" cellspacing="0">
         <thead>
-          <tr class="table-primary">
+          <tr class="table-dark">
             <th>id</th>
             <th>Nombre</th>
             <th>Email</th>
@@ -201,7 +201,7 @@
     </div>
 <!--Informacion sobre la media,moda,media-->
 <div class="card-deck">
-  <div class="card border-success mb-3" style="max-width: 28rem;">
+  <div class="card border-dark mb-3" style="max-width: 28rem;">
     <h5 class="card-header">Países en total</h5>
     <div class="card-body">
       <h3 class="card-title text-center">109</h3>
@@ -209,7 +209,7 @@
       <p class="card-text"><small class="text-muted">Total De resgitros 19107</small></p>
     </div>
   </div>
-  <div class="card text-white bg-primary" style="max-width: 28rem;">
+  <div class="card text-white bg-dark" style="max-width: 28rem;">
     <h5 class="card-header">Mediana</h5>
     <div class="card-body">
       <h3 class="card-title text-center">{{mediana}}</h3>
@@ -217,7 +217,7 @@
       <p class="card-text"><small class="text-muted"></small></p>
     </div>
   </div>
-  <div class="card text-white bg-primary" style="max-width: 28rem;">
+  <div class="card text-white bg-dark" style="max-width: 28rem;">
     <h5 class="card-header">Media</h5>
     <div class="card-body">
       <h3 class="card-title text-center">{{mean}}</h3>
@@ -225,7 +225,7 @@
       <p class="card-text"><small class="text-muted"></small></p>
     </div>
   </div>
-  <div class="card text-white bg-primary" style="max-width: 28rem;">
+  <div class="card text-white bg-dark" style="max-width: 28rem;">
     <h5 class="card-header">Moda</h5>
     <div class="card-body">
       <h3 class="card-title text-center">{{modas}}</h3>
@@ -244,12 +244,12 @@
   <div class="col">
     <div class="border-bottom border-primary"><h3>Datos Por debajo de la media</h3></div>
     
-    <h4 style="font-style: italic;">Total Registros: <span id="cantid" class="badge badge-pill badge-success">n</span></h4>
+    <h4 style="font-style: italic;">Total Registros: <span id="cantid" class="badge badge-pill badge-primary">n</span></h4>
     <!--Tabla  con los valor menores-->
 <div class="table-responsive-sm border-bottom">
 <table id="tbl_s" class="table table-striped  table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
 <thead>
-  <tr class="table-primary">
+  <tr class="table-dark">
     <th>Pais</th>
     <th>Numero De clientes</th>
   </tr>
@@ -271,12 +271,12 @@
     <div class="col">
       <div class="border-bottom border-primary"><h3>Valores son iguales a la moda</h3></div>
 
-      <h4 style="font-style: italic;">Total Registros: <span id="cantidad" class="badge badge-pill badge-success">n</span></h4>
+      <h4 style="font-style: italic;">Total Registros: <span id="cantidad" class="badge badge-pill badge-primary">n</span></h4>
       <!--Tabla  con los valor igulaes a la moda-->
   <div class="table-responsive-sm border-bottom">
    <table id="tbl_m" class="table table-striped table-sm  table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
      <thead>
-       <tr class="table-primary">
+       <tr class="table-dark">
          <th>Pais</th>
          <th>Numero De clientes</th>
        </tr>
@@ -290,7 +290,7 @@
        {% endfor %} 
      </tbody>
      <tfoot>
-      <tr class="table-primary">
+      <tr class="table-dark">
         <th>Pais</th>
         <th>Numero De clientes</th>
       </tr>
@@ -303,12 +303,12 @@
 <!--Valores de media-->
   <div class="col">
     <div class="border-bottom border-primary"><h3>Datos Por encima de la media</h3></div>
-    <h4 style="font-style: italic;">Total Registros: <span id="cantida" class="badge badge-pill badge-success">n</span></h4>
+    <h4 style="font-style: italic;">Total Registros: <span id="cantida" class="badge badge-pill badge-primary">n</span></h4>
      <!--Tabla  con los valor mayores-->
      <div id="t_gr" class="table-responsive-sm border-bottom ">
 <table id="tbl_g" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
   <thead>
-    <tr class="table-primary">
+    <tr class="table-dark">
       <th>Pais</th>
       <th>Numero De clientes</th>
     </tr>
@@ -328,19 +328,108 @@
 
 </div>
   <br>
-  
+  </div>
+  <div class="shadow-lg p-3 mb-5 bg-white rounded">
+    <h3><kbd>Fase 3:</kbd>Representacion</h3>
+    <br>
+    <h4>Conceptos</h4>
+    <p class="text-justify" style="font-size: 16px;">Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
+      mediana y moda, las cuales son la herramienta necesaria para poder observar que parte es en la que más me conviene trabajar.</p>
+    <p class="text-justify" style="font-size: 16px;">
+      Nosotros previamente seleccionamos las tablas de cliente de ambas bases datos, con el objetivo buscar una estrategia para las 
+      diferentes áreas, en donde no tenga un gran impacto, por ejemplo, como los países con menos clientes de 20 o menos. 
+      Además de buscar un patrón en esos países no compiten con los países con mayores clientes. Dar una solución para fortalecer 
+      as áreas con menores clientes.    
+    </p>
+    <hr/>
+
+<div class="row">
+  <div class="col">
+    <!--Mapa Con todo carnal-->
 <!---style="width: 600px; height: 400px"-->
-  <div id="world-map" style="width: 600px; height: 400px"></div>
-  <hr>
- <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
+<div id="world-map" style="width: 600px; height: 400px"></div>
+  </div>
+  <div class="col">
+    <!--Mapa con los dtitos-->
+    <div id="world-moda" style="width: 600px; height: 400px"></div>
+  </div>
+</div>
+
+<hr>
+<canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
+
+  </div>
 </div>
 {% endblock %}
 {% block tail_js %}
 <!-- <script src="{{url_for('static',filename='js/data-json.js')}}"></script> -->
 <script>
-  //
-// Pipelining function for DataTables. To be used to the `ajax` option of DataTables
-//
+var pointBackgroundColors = [];
+var back=[];
+
+var datas = {
+  labels: [{% for a in media_name %} 
+                      "{{a}}",
+                   {% endfor %}
+                {% for j in riverside %} 
+                      "{{j}}",
+                   {% endfor %} 
+  ],
+  datasets: [
+    {
+      
+      lineTension: 0,
+      backgroundColor: 'transparent',
+      borderColor: back,
+      borderWidth: 4,
+      pointBackgroundColor: pointBackgroundColors,
+      data: [{% for fuego in media_valor %} 
+                        "{{fuego}}",
+                      {% endfor %}
+                  {% for pio in pala %} 
+                        "{{pio}}",
+                      {% endfor %}
+      ]
+    },
+  ]
+};
+
+
+
+
+ 
+var ctx = document.getElementById('gph_cutipa');
+var mygrafica = new Chart(ctx,{
+  type:'line',
+    data:datas,
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false
+        }
+      }
+});
+
+for (i = 0; i < mygrafica.data.datasets[0].data.length; i++) {
+    if (mygrafica.data.datasets[0].data[i] > 175) {
+        pointBackgroundColors.push("#90cd8a");
+        back.push("#90cd8a");
+    }  
+    else if(mygrafica.data.datasets[0].data[i] == 1) {
+        pointBackgroundColors.push("#1a05ff");
+        back.push("#1a05ff");
+    }else{
+      pointBackgroundColors.push("#a3ff05");
+      back.push("#a3ff05");
+    }
+}
+
 $.fn.dataTable.pipeline = function ( opts ) {
     // Configuration options
     var conf = $.extend( {
@@ -421,7 +510,7 @@ $.fn.dataTable.pipeline = function ( opts ) {
                 "data":     request,
                 "dataType": "json",
                 "cache":    false,
-                "success":  function ( json ) {
+                "primary":  function ( json ) {
                     cacheLastJson = $.extend(true, {}, json);
  
                     if ( cacheLower != drawStart ) {
@@ -473,6 +562,9 @@ var tbl_s =   $('#tbl_s').DataTable({
  var tb =   $('#tbl_m').DataTable({
     responsive:true,
     pageLength:50,
+    scrollY:"350px",
+    scrollCollapse:true,
+    paging: false,
     dom:'<"top"i>rt<"bottom"f><"clear">'
   });
 
@@ -595,7 +687,7 @@ var table2 = $('#tbl_dvd').DataTable({
           },
   ]
 });
-//boton que muestra la informacion de la fase 2
+//boton que muestra la informacion de la fases
 btn1.on("click", function(){
 
 var datito;
@@ -698,6 +790,7 @@ for(var i=0;i<piss.length;i++){
   var sorete = codeName[piss[i]]
   abs[sorete] = nCliente[i] 
 }
+
 //obtner la lista de pais por continentes continentsByGruoup
 var nelson;
 var asia = 0;
@@ -734,13 +827,95 @@ onRegionTipShow: function(e, el, code){
 
 });
 
-});
+});//Fin de la recolecion de los datos para el maapita
 
 mostrarDatos();
 $('#informacion').show();
 
 
+
+//segundo json carnal
+$.getJSON("{{url_for('modass')}}",function(data){
+  
+  var ncode;
+  var ncame;
+  var codeName={}
+  var abs= {}
+  
+ 
+  //obtner los datos por pais code?
+$.ajax(
+{
+  url: "{{url_for('codegui')}}",
+  dataType: "json",
+  async: false,
+  success: function(data)
+  {
+    ncode = data.map(function(d){
+      return d.Code
+    });
+    ncame = data.map(function(d){
+      return d.Name
+    });
+    
+    for(var j=0; j <ncode.length;j++){
+      codeName[ncame[j]] =ncode[j]; 
+    }
+  }
 });
+//obtner los datos del json en separados
+var piss = data.map(function(d){
+return d.pais
+});
+
+var nCliente = data.map(function(d){
+return d.Numero
+});
+
+//pruebas
+for(var i=0;i<piss.length;i++){
+ 
+ var sorete = codeName[piss[i]];
+ abs[sorete] = nCliente[i]; 
+}
+
+//mapa con los daoto menores que la media
+$('#world-moda').vectorMap({
+map: 'world_mill',
+markerStyle:{
+  initial:{
+    fill:"#ffc800"
+  }
+},
+markers:[
+    {latLng: [41.90, 12.45], name: 'Vatican City'},
+    {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},
+    {latLng: [-21.114, 55.5325], name: 'Reunión'}
+],
+series: {
+regions: [{
+  values:abs,
+  scale:  ['#FEE5D9', '#ffc800'],
+  normalizeFunction: 'polynomial',
+  legend:{
+    vertical:true
+  }
+}]
+},
+onRegionTipShow: function(e, el, code){
+  //noodle = salve[code]
+  el.html(el.html()+' N - '+abs[code]+')');
+}
+
+});
+
+
+
+});//find de obtner los codes
+
+
+
+});//fin json
 
 });//final
 

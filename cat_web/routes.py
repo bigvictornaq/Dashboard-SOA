@@ -124,8 +124,22 @@ def analisis():
     mean = estadi[0]
     mediana = estadi[1]
     modas = estadi[2]
+    riverside = []
+    pala = []
+    media_name = []
+    media_valor = []
+    valor_media = datos_agrupados_porPais(1)
+    valores = datos_agrupados_porPais(2)
+    for neson in valores:
+        riverside.append(neson[0])
+        pala.append(neson[1])
+    for redstone in valor_media:
+        media_name.append(redstone[0])
+        media_valor.append(redstone[1])    
+
     return render_template("an_tables.html",mean=mean,mediana=mediana,modas=modas,grupo_mayor=datos_agrupados_porPais(1),
-                                    grupo_menor=datos_agrupados_porPais(2),grupo_moda=datos_agrupados_porPais(3))
+                                    grupo_menor=datos_agrupados_porPais(2),grupo_moda=datos_agrupados_porPais(3),
+                                    riverside=riverside,pala=pala,media_name=media_name,media_valor=media_valor)
 #Ruta donde muestra los datos de ambas base  de datos
 @app.route('/json/en_mi_casa')
 def showdd():
@@ -245,5 +259,11 @@ def continentss():
     json_url = os.path.join(SITE_ROOT,'static/data','continent.json')
     dato = json.load(open(json_url))
     return jsonify(dato)
+
+@app.route('/moda/pg')
+def modass():
+    grupo_moda=datos_agrupados_porPais(3)
+    datos = [{"pais":n[0],"Numero":n[1]} for n in grupo_moda]
+    return jsonify(datos)    
 #33333333333333333333333333333333333333333333333333333333333333
                                        
