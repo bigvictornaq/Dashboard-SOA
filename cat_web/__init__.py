@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://ifxvfpua:4552V0r2IkVujztnh3F5puUE79kTmuQM@lallah.db.elephantsql.com:5432/ifxvfpua"
 params = urllib.parse.quote_plus('Driver={SQL Server};Server=VECTORPC;Database=AdventureWorks2017;uid=sup;pwd=123;')
 app.config['SQLALCHEMY_BINDS']  ={
-    "anali":"postgres://postgres:soda123@192.168.0.102:5432/analisis_data",
+    "anali":"postgres://postgres:soda123@localhost:5432/analisis_data",
     "mssql":"mssql+pyodbc:///?odbc_connect=%s" % params
     }
 #Configuracion del API IMAGE STORAGE
