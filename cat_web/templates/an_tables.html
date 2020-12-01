@@ -332,14 +332,10 @@
   <div class="shadow-lg p-3 mb-5 bg-white rounded">
     <h3><kbd>Fase 3:</kbd>Representacion</h3>
     <br>
-    <h4>Conceptos</h4>
-    <p class="text-justify" style="font-size: 16px;">Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
-      mediana y moda, las cuales son la herramienta necesaria para poder observar que parte es en la que más me conviene trabajar.</p>
+    <h4></h4>
+    <p class="text-justify" style="font-size: 16px;"></p>
     <p class="text-justify" style="font-size: 16px;">
-      Nosotros previamente seleccionamos las tablas de cliente de ambas bases datos, con el objetivo buscar una estrategia para las 
-      diferentes áreas, en donde no tenga un gran impacto, por ejemplo, como los países con menos clientes de 20 o menos. 
-      Además de buscar un patrón en esos países no compiten con los países con mayores clientes. Dar una solución para fortalecer 
-      as áreas con menores clientes.    
+         
     </p>
     <hr/>
 
@@ -347,17 +343,45 @@
   <div class="col">
     <!--Mapa Con todo carnal-->
 <!---style="width: 600px; height: 400px"-->
-<div id="world-map" style="width: 600px; height: 400px"></div>
+<div class="card text-white bg-dark" >
+  <div class="card-header">Grafica De Barras Con Numero de Clientes</div>
+  <div class="card-body">
+    <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
+  </div>
+</div>
+
   </div>
   <div class="col">
     <!--Mapa con los dtitos-->
-    <div id="world-moda" style="width: 600px; height: 400px"></div>
+    <div class="card text-white bg-dark ">
+      <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+      <div class="card-body">
+        <div id="world-moda" style="width: 600px; height: 400px"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <hr>
-<canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
-
+<div class="card text-white bg-dark" >
+  <div class="card-header">Media, Moda y mediana Representada Grafica de Linea</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <span class="badge badge-pill badge-danger">Media</span>
+      </div>
+      <div class="col">
+        <span class="badge badge-pill badge-warning">Moda</span>
+      </div>
+      <div class="col">
+        <span class="badge badge-pill badge-info">Mediana</span>
+      </div>
+    </div>
+    <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
+  </div>
+</div>
+<!--<canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas> --->
+<div id="world-map" style="width: 600px; height: 400px"></div>
   </div>
 </div>
 {% endblock %}
@@ -418,15 +442,15 @@ var mygrafica = new Chart(ctx,{
 
 for (i = 0; i < mygrafica.data.datasets[0].data.length; i++) {
     if (mygrafica.data.datasets[0].data[i] > 175) {
-        pointBackgroundColors.push("#90cd8a");
-        back.push("#90cd8a");
+        pointBackgroundColors.push("#f57b00");
+        back.push("#f57b00");
     }  
     else if(mygrafica.data.datasets[0].data[i] == 1) {
-        pointBackgroundColors.push("#1a05ff");
-        back.push("#1a05ff");
+        pointBackgroundColors.push("#f5e625");
+        back.push("#f5e625");
     }else{
-      pointBackgroundColors.push("#a3ff05");
-      back.push("#a3ff05");
+      pointBackgroundColors.push("#336699");
+      back.push("#336699");
     }
 }
 
@@ -832,6 +856,68 @@ onRegionTipShow: function(e, el, code){
 mostrarDatos();
 $('#informacion').show();
 
+//grafica de barras
+$.getJSON("{{url_for('names_s')}}",function(data){
+//obtenemos los valores de la base de datos
+  var values = data.map(function(e){
+    return e.Num
+  })
+
+ var labels =data.map(function(e){
+   return e.continents
+ })
+//grafica
+var datitoss = {
+    labels : ["África","Antártica","Asia","Europa","Norte américa","Oceanía","Sur america"],
+    datasets : [
+      {
+        label : "Numeros de Clientes(MODA): ",
+        data : values,
+        backgroundColor : [
+          "#eb6864", "#22b24d", "#336699", "#f5e625", "#f57b00","#3d00f5","#f50035"
+        ],
+        borderColor : [
+          "#111", "#111", "#111", "#111", "#111"
+        ],
+        borderWidth : 1
+      }
+    ]
+  };
+  var options = {
+    title : {
+      display : true,
+      position : "top",
+      text : "Numero De clientes por continentes (MODA)",
+      fontSize : 18,
+      fontColor : "#ffffff"
+    },
+    legend : {
+      display : false
+    },
+    scales : {
+      yAxes : [{
+        ticks : {
+          min : 0,
+          fontColor : "#ffffff"
+        }
+      }],
+      xAxes:[{
+        ticks:{
+          fontColor : "#ffffff"
+        }
+      }]
+    }
+
+  };
+
+var ctx = document.getElementById('gph_barritas')
+var grafi  = new Chart(ctx,{
+  type : "bar",
+    data : datitoss,
+  options:options
+})
+
+});
 
 
 //segundo json carnal
@@ -887,6 +973,7 @@ markerStyle:{
     fill:"#ffc800"
   }
 },
+backgroundColor: '#000000',
 markers:[
     {latLng: [41.90, 12.45], name: 'Vatican City'},
     {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},

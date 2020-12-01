@@ -12,6 +12,7 @@ from cat_web.forms import RegistrationForm,LoginForm,UpdateCuentaForm,RequestRes
 from cat_web.models import User,groupByPais,dataforMap,dataMap,calcularThreeM,firstTendatos,PDF,analizis,datos_agrupados_porPais,datos_por_separados,definitive_master
 from flask_login import login_user,current_user,logout_user,login_required
 import pdfkit
+from pycountry_convert import country_alpha2_to_continent_code, country_name_to_country_alpha2
 
 
 
@@ -266,4 +267,62 @@ def modass():
     datos = [{"pais":n[0],"Numero":n[1]} for n in grupo_moda]
     return jsonify(datos)    
 #33333333333333333333333333333333333333333333333333333333333333
-                                       
+
+
+def get_continent(col):
+    try:
+        cn_a2_code =  country_name_to_country_alpha2(col)
+    except:
+        cn_a2_code = 'Unknown' 
+    try:
+        cn_continent = country_alpha2_to_continent_code(cn_a2_code)
+    except:
+        cn_continent = 'Unknown' 
+    if cn_continent == 'Unknown':
+        return(col)     
+    return (cn_continent)
+
+
+@app.route('/continentes_by_moda')
+def names_s():
+    continets = []
+    Africa = 0
+    Antarctica =0
+    Asia = 0
+    Europe=0
+    North_america =0
+    Oceania=0
+    South_america=0
+    grupo_moda=datos_agrupados_porPais(3)
+   # datos = [{"Continent":get_continent(mijo[0]),"Numero":mijo[1]} for mijo in grupo_moda]
+    for nel in grupo_moda:
+        continets.append((get_continent(nel[0]),nel[1]))
+    for i in range(len(continets)):
+            if continets[i][0] == 'AF':
+                Africa +=  continets[i][1] 
+            if continets[i][0] == 'AN':
+                Antarctica += continets[i][1]     
+            if continets[i][0] == 'AS':
+                Asia += continets[i][1]
+            if continets[i][0] == 'EU':   
+                Europe += continets[i][1]     
+            if continets[i][0] == 'NA':
+                North_america += continets[i][1] 
+            if continets[i][0] == 'OC':
+                Oceania += continets[i][1] 
+            if continets[i][0] == 'SA':   
+                South_america += continets[i][1]
+            if continets[i][0] == 'Runion':   
+                Europe += continets[i][1]
+            if continets[i][0] == 'Holy See (Vatican City State)':   
+                Europe += continets[i][1]        
+    rogelio = [('AF',Africa),('AN',Antarctica),('AS',Asia),('EU',Europe),('NA',North_america),('OC',Oceania),('SA',South_america)]
+    datos  = [{"continents":rogelio[j][0],"Num":rogelio[j][1]}for j in range(len(rogelio))]          
+    return jsonify(datos)
+
+
+@app.route('/testingss')
+def testing_a():
+    grupo_moda=datos_agrupados_porPais(3)
+    datos = [{"Continent":get_continent(mijo[0]),"Numero":mijo[1]} for mijo in grupo_moda]       
+    return jsonify(datos) 
