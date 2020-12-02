@@ -362,6 +362,13 @@
   </div>
 </div>
 
+<div class="card text-white bg-dark ">
+  <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+  <div class="card-body">
+    <div id="continek-map" style="width: 600px; height: 400px"></div>
+  </div>
+</div>
+
 <hr>
 <div class="card text-white bg-dark" >
   <div class="card-header">Media, Moda y mediana Representada Grafica de Linea</div>
@@ -382,6 +389,7 @@
 </div>
 <!--<canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas> --->
 <div id="world-map" style="width: 600px; height: 400px"></div>
+<div id="continek-map" style="width: 600px; height: 400px"></div>
   </div>
 </div>
 {% endblock %}
@@ -919,6 +927,43 @@ var grafi  = new Chart(ctx,{
 
 });
 
+//Mapa con los continetes
+$.getJSON("{{url_for('names_s')}}",function(data){
+  var continentes = {}
+var con = data.map(function(d){
+return d.continents
+});
+
+var nCliente = data.map(function(d){
+return d.Num
+});
+
+//crear un objeto de datos de Json
+for(var i=0;i<con.length;i++){
+  continentes[con[i]] = nCliente[i] 
+}
+//mapita
+$('#continek-map').vectorMap({
+map: 'continents_merc',
+backgroundColor: '#000000',
+series: {
+regions: [{
+  values:continentes,
+  scale:  ['#9d99b0', '#2300bf'],
+  normalizeFunction: 'polynomial',
+  legend:{
+    vertical:true
+  }
+}]
+},
+onRegionTipShow: function(e, el, code){
+  
+  el.html(el.html()+' Numero de clientes - '+continentes[code]+')');
+}
+
+});
+
+});
 
 //segundo json carnal
 $.getJSON("{{url_for('modass')}}",function(data){
@@ -977,7 +1022,17 @@ backgroundColor: '#000000',
 markers:[
     {latLng: [41.90, 12.45], name: 'Vatican City'},
     {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},
-    {latLng: [-21.114, 55.5325], name: 'Reunión'}
+    {latLng: [-21.114, 55.5325], name: 'Reunión'},
+    {latLng: [62, -6.783333], name: 'Faroe Islands'},
+    {latLng: [4, -53], name: 'French Guiana'},
+    {latLng: [22.278333, 114.158611], name: 'Hong Kong'},
+    {latLng: [47.139722, 9.521944], name: 'Liechtenstein'},
+    {latLng: [47, 28.916667], name: 'Moldova'},
+    {latLng: [-0.5477, 166.920867], name: 'Nauru'},
+    {latLng: [39.033333, 125.75], name: 'North Korea'},
+    {latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines'},
+    {latLng: [-21.134722, -175.208333], name: 'Tonga'},
+    {latLng: [-8.516667, 179.216667], name: 'Tuvalu'},
 ],
 series: {
 regions: [{

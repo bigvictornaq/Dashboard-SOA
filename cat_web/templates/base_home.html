@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{url_for('static',filename='css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/bootstrap.css')}}" rel="stylesheet">
     <script src="https://kit.fontawesome.com/e066577e15.js" crossorigin="anonymous"></script>
     <!-- Favicons -->
     <style>
@@ -177,6 +177,7 @@
        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.5/jquery-jvectormap.min.js"></script> -->
         <script src="{{url_for('static',filename='js/jquery-jvectormap-2.0.5.min.js')}}"></script>
         <script src="{{url_for('static',filename='js/jquery-jvectormap-world-mill.js')}}"></script>
+        <script src="{{url_for('static',filename='js/jquery-jvectormap-continents-merc.js')}}"></script>
         <script src="{{url_for('static',filename='js/dashboarde.js')}}"></script></body>
         {% block tail_js %}{% endblock %}
 </html>
