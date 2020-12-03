@@ -243,7 +243,7 @@ class PDF(FPDF):
     #Encabezado del pdf
     def header(self):
         # Logo
-        self.image('cat_web\static\profile_img\lgogo.png', 165, 8, 33)
+        #self.image('static\profile_img\lgogo.png', 165, 8, 33)
         # Arial bold 15
         self.set_font('Arial', 'B', 25)
         # Se mueve a la derecha

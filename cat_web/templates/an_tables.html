@@ -159,7 +159,7 @@
     <h1 class="h2">Reporte de Analisis</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <a href="{{url_for('pdfDownload')}}" class="btn btn-outline-secondary">Exportar a pdf</a>
+        <a href="{{url_for('pdfDownload')}}" class="btn btn-info" target="_blank" >Exportar a pdf</a>
       </div>
     </div>
   </div>
@@ -497,6 +497,7 @@ var tbl_s =   $('#tbl_s').DataTable({
     dom:'<"top"i>rt<"bottom"f><"clear">'
   });
 
+//pone los datos el badge pill
 document.querySelector('#cantida').innerHTML ="N:" + tb_m.rows().count();
 document.querySelector('#cantid').innerHTML ="N:" + tbl_s.rows().count();
 document.querySelector('#cantidad').innerHTML ="N:" + tb.rows().count();
@@ -615,48 +616,13 @@ var table2 = $('#tbl_dvd').DataTable({
 //boton que muestra la informacion de la fases
 btn1.on("click", function(){
 
-var datito;
-//Obtner los datos agrupados
+/**Mapa Con todo los datos de los paises*/
 $.getJSON("{{url_for('paisG')}}",function(data){
-  var salve =null;
   var codeName = {};
   var ncode;
   var ncame;
-  var cnts ={}
-  var continentsByGruoup ={}
-//datos por continent?
-$.ajax(
-{
-  url: "{{url_for('continentss')}}",
-  dataType: "json",
-  async: false,
-  success: function(data)
-  {
-    var continente = data.map(function(s){
-      return s.continent;
-    });
-    var pais = data.map(function(s){
-      return s.country;
-    })
-   
-   for (let i = 0; i < continente.length; i++) {
-        cnts[pais[i]] = continente[i]; 
-   }
 
-  }
-});
-  //Obtner los datos con code EU necesarios par mapa
-$.ajax(
-{
-  url: "{{url_for('codeguito')}}",
-  dataType: "json",
-  async: false,
-  success: function(data)
-  {
-    salve = data;
-  }
-});
-//obtner los datos por pais code?
+//obtner los code de los paises
 $.ajax(
 {
   url: "{{url_for('codegui')}}",
@@ -677,60 +643,25 @@ $.ajax(
   }
 }); 
 
-function cats(datito){
 
-  if(datito === "Kazakstan"){
-    var menso = "Kazakhstan"
-    return menso;
-  }else if(datito == "Congo, The Democratic Republic of the"){
-    var menso = "The Democratic Republic of Congo";
-    return menso;
-  }else{
-    return datito;
-  }
 
-}
-var piss;
-var nCliente;
-var objs = {};
-//objeto de pruebas
 var abs = {}
-var noodle;
 //obtner los datos del json en separados
-piss = data.data.map(function(d){
+var piss = data.data.map(function(d){
 return d.Pais
 });
 
-nCliente = data.data.map(function(d){
+var nCliente = data.data.map(function(d){
 return d.NumeroClientes
 });
-//los datos obtneidos convertidos en objeto para su manupulacion
-for(var i=0;i< piss.length;i++){
-  objs[piss[i]] = nCliente[i];
-}
 
-//pruebas
+//Creacion de objetos con los datos
 for(var i=0;i<piss.length;i++){
  
   var sorete = codeName[piss[i]]
   abs[sorete] = nCliente[i] 
 }
 
-//obtner la lista de pais por continentes continentsByGruoup
-var nelson;
-var asia = 0;
-for (let k = 0; k < piss.length; k++) {
-    var soledads = cats(piss[k])
-    var coconout = cnts[soledads]
-
-    if( coconout === "Asia"){
-
-      asia  = (nCliente[k] * 100) / 19107;
-    }
-      
-    
-}
-console.log(asia)
 
 //var valores = jvm.values.apply({},jvm.values(objs))
 $('#world-map').vectorMap({
@@ -746,24 +677,22 @@ regions: [{
 }]
 },
 onRegionTipShow: function(e, el, code){
-  noodle = salve[code]
+  
   el.html(el.html()+' Numero de clientes - '+abs[code]+')');
 }
-
 });
 
-});//Fin de la recolecion de los datos para el maapita
+});//Fin de la recolecion de los datos para el maapita Todo Los datos
 
 mostrarDatos();
 $('#informacion').show();
 
-//grafica de barras
+/**Grafica de barras con los valores Moda*/
 $.getJSON("{{url_for('names_s')}}",function(data){
 //obtenemos los valores de la base de datos
   var values = data.map(function(e){
     return e.Num
   })
-
  var labels =data.map(function(e){
    return e.continents
  })
@@ -820,7 +749,7 @@ var grafi  = new Chart(ctx,{
 
 });
 
-//Mapa con los continetes
+/**Mapa con  los pais con la moda*/
 $.getJSON("{{url_for('names_s')}}",function(data){
   var continentes = {}
 var con = data.map(function(d){
@@ -938,7 +867,7 @@ regions: [{
 }]
 },
 onRegionTipShow: function(e, el, code){
-  //noodle = salve[code]
+
   el.html(el.html()+' N - '+abs[code]+')');
 }
 
