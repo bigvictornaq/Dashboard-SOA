@@ -12,7 +12,7 @@ import cloudinary as cloud
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://ifxvfpua:4552V0r2IkVujztnh3F5puUE79kTmuQM@lallah.db.elephantsql.com:5432/ifxvfpua"
-params = urllib.parse.quote_plus('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.6.so.1.1};Server=192.168.0.102;Database=AdventureWorks2017;uid=sup;pwd=123;')
+params = urllib.parse.quote_plus('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.6.so.1.1};Server=localhost;Database=AdventureWorks2017;uid=sup;pwd=123;')
 app.config['SQLALCHEMY_BINDS']  ={
     "anali":"postgres://postgres:soda123@localhost:5432/analisis_data",
     "mssql":"mssql+pyodbc:///?odbc_connect=%s" % params

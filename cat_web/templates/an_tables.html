@@ -269,35 +269,7 @@
 
     <!--Valores de la moda-->
     <div class="col">
-      <div class="border-bottom border-primary"><h3>Valores son iguales a la moda</h3></div>
-
-      <h4 style="font-style: italic;">Total Registros: <span id="cantidad" class="badge badge-pill badge-primary">n</span></h4>
-      <!--Tabla  con los valor igulaes a la moda-->
-  <div class="table-responsive-sm border-bottom">
-   <table id="tbl_m" class="table table-striped table-sm  table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
-     <thead>
-       <tr class="table-dark">
-         <th>Pais</th>
-         <th>Numero De clientes</th>
-       </tr>
-     </thead>
-     <tbody> 
-       {% for j in grupo_moda %}
-           <tr>
-             <td>{{j[0]}}</td>
-             <td style="text-align: center;" >{{j[1]}}</td>
-           </tr>
-       {% endfor %} 
-     </tbody>
-     <tfoot>
-      <tr class="table-dark">
-        <th>Pais</th>
-        <th>Numero De clientes</th>
-      </tr>
-     </tfoot>
-   </table>
-   <hr>
-  </div>
+      
     </div>
 
 <!--Valores de media-->
@@ -329,6 +301,73 @@
 </div>
   <br>
   </div>
+  <!--Datos a mostrar cl-->
+  <div class="shadow-lg p-3 mb-5 bg-white rounded" data-spy="scroll" data-target="#se_menu" data-offset="0">
+
+    <div class="row">
+      <div class="col">
+        <div class="border-bottom border-primary"><h3>Valores son iguales a la moda</h3></div>
+
+        <h4 style="font-style: italic;">Total Registros: <span id="cantidad" class="badge badge-pill badge-primary">n</span></h4>
+        <!--Tabla  con los valor igulaes a la moda-->
+    <div class="table-responsive-sm border-bottom">
+     <table id="tbl_m" class="table table-striped table-sm  table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
+       <thead>
+         <tr class="table-dark">
+           <th>Pais</th>
+           <th>Numero De clientes</th>
+         </tr>
+       </thead>
+       <tbody> 
+         {% for j in grupo_moda %}
+             <tr>
+               <td>{{j[0]}}</td>
+               <td style="text-align: center;" >{{j[1]}}</td>
+             </tr>
+         {% endfor %} 
+       </tbody>
+       <tfoot>
+        <tr class="table-dark">
+          <th>Pais</th>
+          <th>Numero De clientes</th>
+        </tr>
+       </tfoot>
+     </table>
+     <hr>
+    </div><!--fin de  la tabla-->
+    
+      <div class="card text-white bg-dark ">
+        <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+        <div class="card-body">
+          <div id="eu-moda" style="width: 600px; height: 400px"></div>
+        </div>
+      </div><!--Pais con los datos de la moda-->
+      
+</div>
+      <div class="col">
+        <div class="justify-content-center">
+          <div class="card text-white bg-dark ">
+            <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+            <div class="card-body">
+              <div id="world-moda" style="width: 600px; height: 400px"></div>
+            </div>
+          </div><!--Pais con los datos de la moda-->
+          <div class="card text-white bg-dark" >
+            <div class="card-header">Grafica De Barras Con Numero de Clientes</div>
+            <div class="card-body">
+              <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
+            </div>
+          </div> <!--Grafica de barra grupados por continetes-->
+        </div>
+      </div><!--Graficas-->
+</div>
+   
+
+
+  </div>
+
+
+
   <div class="shadow-lg p-3 mb-5 bg-white rounded">
     <h3><kbd>Fase 3:</kbd>Representacion</h3>
     <br>
@@ -405,6 +444,7 @@
 {% block tail_js %}
 <!-- <script src="{{url_for('static',filename='js/data-json.js')}}"></script> -->
 <script>
+  $('#se_menu').show();
 var pointBackgroundColors = [];
 var back=[];
 
@@ -871,8 +911,47 @@ onRegionTipShow: function(e, el, code){
   el.html(el.html()+' N - '+abs[code]+')');
 }
 
-});
+});//final del mapa del mundo
 
+$('#eu-moda').vectorMap({
+map: 'europe_mill',
+markerStyle:{
+  initial:{
+    fill:"#ffc800"
+  }
+},
+backgroundColor: '#000000',
+markers:[
+    {latLng: [41.90, 12.45], name: 'Vatican City'},
+    {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},
+    {latLng: [-21.114, 55.5325], name: 'Reunión'},
+    {latLng: [62, -6.783333], name: 'Faroe Islands'},
+    {latLng: [4, -53], name: 'French Guiana'},
+    {latLng: [22.278333, 114.158611], name: 'Hong Kong'},
+    {latLng: [47.139722, 9.521944], name: 'Liechtenstein'},
+    {latLng: [47, 28.916667], name: 'Moldova'},
+    {latLng: [-0.5477, 166.920867], name: 'Nauru'},
+    {latLng: [39.033333, 125.75], name: 'North Korea'},
+    {latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines'},
+    {latLng: [-21.134722, -175.208333], name: 'Tonga'},
+    {latLng: [-8.516667, 179.216667], name: 'Tuvalu'},
+],
+series: {
+regions: [{
+  values:abs,
+  scale:  ['#FEE5D9', '#ffc800'],
+  normalizeFunction: 'polynomial',
+  legend:{
+    vertical:true
+  }
+}]
+},
+onRegionTipShow: function(e, el, code){
+
+  el.html(el.html()+' N - '+abs[code]+')');
+}
+
+});//final del mapa de Europa
 
 
 });//find de obtner los codes
