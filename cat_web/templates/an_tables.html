@@ -9,28 +9,28 @@
 {% block body %}
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Análisis Inteligente de Datos</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-      <div class="btn-group mr-2">
-        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-        <button  type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-        <a href="{{url_for('pdfDownload')}}" class="btn btn-outline-secondary">Exportar a pdf</a>
-      </div>
-      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-      </button>
+  <h1 class="h2">Análisis Inteligente de Datos</h1>
+  <div class="btn-toolbar mb-2 mb-md-0">
+    <div class="btn-group mr-2">
+      <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+      <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+      <a href="{{url_for('pdfDownload')}}" class="btn btn-outline-secondary">Exportar a pdf</a>
     </div>
+    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+      <span data-feather="calendar"></span>
+      This week
+    </button>
   </div>
+</div>
 
-  
-  <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+<!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 <div id="in">
 
   <h2>Introducción</h2>
   <p class="text-justify" style="font-size: 16px;">
-    El análisis inteligente de datos se refiere a métodos de análisis que utilizan herramientas 
-    de análisis de datos como estadísticas, reconocimiento de patrones, aprendizaje 
+    El análisis inteligente de datos se refiere a métodos de análisis que utilizan herramientas
+    de análisis de datos como estadísticas, reconocimiento de patrones, aprendizaje
     automático y abstracción de datos para descubrir el conocimiento de los datos.
   </p>
   <div class="">
@@ -39,50 +39,67 @@
   <div class="row">
     <div class="col-4">
       <div class="list-group" id="list-tab" role="tablist">
-        <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Recolección:</a>
-        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Pre-procesamiento: </a>
-        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Representación: </a>
-        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Análisis:</a>
+        <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list"
+          href="#list-home" role="tab" aria-controls="home">Recolección:</a>
+        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile"
+          role="tab" aria-controls="profile">Pre-procesamiento: </a>
+        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list"
+          href="#list-messages" role="tab" aria-controls="messages">Representación: </a>
+        <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list"
+          href="#list-settings" role="tab" aria-controls="settings">Análisis:</a>
       </div>
     </div>
     <div class="col-8">
       <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list"><p class="text-justify" style="font-size: 16px;">
-          Este proceso se caracteriza por el hecho que la entrada está constituida 
-          por los datos originales, tomados de las fuentes originales y la salida son los datos 
-          difusos, de los cuales podemos extraer información. Por eso también se le como 
-          “adquisición” tomar todos los datos con variedad de fuentes
-        </p></div>
-        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list"><p class="text-justify" style="font-size: 16px;">
-          Esta etapa se caracteriza porque tanto entrada como salida son datos de la misma naturaleza.
-        </p></div>
-        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list"><p class="text-justify" style="font-size: 16px;">
-          En esta etapa los datos pre-procesados son transformados en una 
-          nueva forma que es la adecuada para el procesamiento posterior en otras palabras es 
-          como lo vamos a representar (ejemplo: grafica o tablas).
-        </p></div>
-        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list"><p class="text-justify" style="font-size: 16px;">
-          Proceso en el cual encontramos el significado de los datos originales, o al 
-          menos una parte de ellos Podemos reconocer la ocurrencia de cierta información´ 
-          previamente almacenada y podemos tomar una decisión o conclusión.
-        </p></div>
+        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+          <p class="text-justify" style="font-size: 16px;">
+            Este proceso se caracteriza por el hecho que la entrada está constituida
+            por los datos originales, tomados de las fuentes originales y la salida son los datos
+            difusos, de los cuales podemos extraer información. Por eso también se le como
+            “adquisición” tomar todos los datos con variedad de fuentes
+          </p>
+        </div>
+        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+          <p class="text-justify" style="font-size: 16px;">
+            Esta etapa se caracteriza porque tanto entrada como salida son datos de la misma naturaleza.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">
+          <p class="text-justify" style="font-size: 16px;">
+            En esta etapa los datos pre-procesados son transformados en una
+            nueva forma que es la adecuada para el procesamiento posterior en otras palabras es
+            como lo vamos a representar (ejemplo: grafica o tablas).
+          </p>
+        </div>
+        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+          <p class="text-justify" style="font-size: 16px;">
+            Proceso en el cual encontramos el significado de los datos originales, o al
+            menos una parte de ellos Podemos reconocer la ocurrencia de cierta información´
+            previamente almacenada y podemos tomar una decisión o conclusión.
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<hr/>
+<hr />
 
 <div class="shadow-lg p-3 mb-5 bg-white rounded">
   <h3><kbd>Fase 1:</kbd>Recoleccion</h3>
   <br>
-  <p class="text-justify" style="font-size: 16px;">Para la recolección de datos se hará uso de las bases de datos DVDRental(PostgreSQL) y 
-    Adventureworks (MSSQL).información debe “normalizarse” descartando datos que no se puedan juntar en ambas Base de datos. Por tal motivo el formato 
+  <p class="text-justify" style="font-size: 16px;">Para la recolección de datos se hará uso de las bases de datos
+    DVDRental(PostgreSQL) y
+    Adventureworks (MSSQL).información debe “normalizarse” descartando datos que no se puedan juntar en ambas Base de
+    datos. Por tal motivo el formato
     de la tabla resultante tendrá los siguientes datos: id, name, address, zip, phone, city, contry y email.</p>
   <p class="text-justify" style="font-size: 16px;">
-     Finalmente, para poder juntar las bases de datos se realizará un programa escrito en Python, con el que se usará el controlador 
-     pyODBC para las conexiones de ambas bases de datos. Además, al ser un programa orientado al web, tiene como uso el framework Flask 
-     para poder construir la página web. Se utilizará el comando COPY para agregar todo el dato a la nueva base de datos en PostgreSQL
+    Finalmente, para poder juntar las bases de datos se realizará un programa escrito en Python, con el que se usará el
+    controlador
+    pyODBC para las conexiones de ambas bases de datos. Además, al ser un programa orientado al web, tiene como uso el
+    framework Flask
+    para poder construir la página web. Se utilizará el comando COPY para agregar todo el dato a la nueva base de datos
+    en PostgreSQL
   </p>
   <div class="col d-flex align-items-center justify-content-center">
     <img src="https://res.cloudinary.com/pixies/image/upload/v1605510557/project/DIAGRAMArosa_imsnhj.png" alt="">
@@ -92,10 +109,11 @@
     <div class="col">
       <h2>(Base de datos AdventureWorks2017)</h2>
       <div class="table-responsive">
-        <table id="tbl_ad" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
+        <table id="tbl_ad" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap"
+          style="width: 100%;">
           <thead>
             <tr class="table-primary">
-              
+
               <th>Nombre</th>
               <th>Email</th>
               <th>Direcccion</th>
@@ -113,10 +131,11 @@
     <div class="col">
       <h2>(Base de datos Progressql dvdrental)</h2>
       <div class="table-responsive">
-        <table id="tbl_dvd" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
+        <table id="tbl_dvd" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap"
+          style="width: 100%;">
           <thead>
             <tr class="table-primary">
-             
+
               <th>Nombre</th>
               <th>Email</th>
               <th>Direcccion</th>
@@ -134,23 +153,24 @@
   </div>
 </div>
 <br>
-  <div class="card border-bottom text-white bg-dark">
-    <div class="card-header">
-      Analisis de datos 
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">Nueva Base de datos {{griselda}}</h5>
-      <p class="card-text">Siguiente Informacion contierne los datos obtenidos de la base de datos dvdrental y ADVENTUREWORKS2017</p>
-     
-        <button id="btnMostrar" name="submit_button" value="Hola bebe" class="btn btn-outline-warning">Unir datos</button>
-     <!-- <button id="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button> -->
-      
-      
-    </div>
-    <div class="card-footer text-muted">
-     Equipo Desarrollo: Alex Cassio,Hiram Sifuentes y Victor Nava
-    </div>
+<div class="card border-bottom text-white bg-dark">
+  <div class="card-header">
+    Analisis de datos
   </div>
+  <div class="card-body">
+    <h5 class="card-title">Nueva Base de datos {{griselda}}</h5>
+    <p class="card-text">Siguiente Informacion contierne los datos obtenidos de la base de datos dvdrental y
+      ADVENTUREWORKS2017</p>
+
+    <button id="btnMostrar" name="submit_button" value="Hola bebe" class="btn btn-outline-warning">Unir datos</button>
+    <!-- <button id="submit" name="submit_button" value="Hola bebes" class="btn btn-outline-danger">Borrar datos</button> -->
+
+
+  </div>
+  <div class="card-footer text-muted">
+    Equipo Desarrollo: Alex Cassio,Hiram Sifuentes y Victor Nava
+  </div>
+</div>
 
 <div id="informacion" style="display: none;">
 
@@ -159,25 +179,30 @@
     <h1 class="h2">Reporte de Analisis</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
       <div class="btn-group mr-2">
-        <a href="{{url_for('pdfDownload')}}" class="btn btn-info" target="_blank" >Exportar a pdf</a>
+        <a href="{{url_for('pdfDownload')}}" class="btn btn-info" target="_blank">Exportar a pdf</a>
       </div>
     </div>
   </div>
 
   <!--Contenedor con los daos de la fase 2-->
-  <div class="shadow-lg p-3 mb-5 bg-white rounded"> 
+  <div class="shadow-lg p-3 mb-5 bg-white rounded">
     <h3><kbd>Fase 2:</kbd>Preprocesamiento</h3>
     <br>
     <h4>Conceptos</h4>
-    <p class="text-justify" style="font-size: 16px;">Para poder comenzar a trabajar en la segunda fase se investigó sobre la media, 
-      mediana y moda, las cuales son la herramienta necesaria para poder observar que parte es en la que más me conviene trabajar.</p>
+    <p class="text-justify" style="font-size: 16px;">Para poder comenzar a trabajar en la segunda fase se investigó
+      sobre la media,
+      mediana y moda, las cuales son la herramienta necesaria para poder observar que parte es en la que más me conviene
+      trabajar.</p>
     <p class="text-justify" style="font-size: 16px;">
-      Nosotros previamente seleccionamos las tablas de cliente de ambas bases datos, con el objetivo buscar una estrategia para las 
-      diferentes áreas, en donde no tenga un gran impacto, por ejemplo, como los países con menos clientes de 20 o menos. 
-      Además de buscar un patrón en esos países no compiten con los países con mayores clientes. Dar una solución para fortalecer 
-      as áreas con menores clientes.    
+      Nosotros previamente seleccionamos las tablas de cliente de ambas bases datos, con el objetivo buscar una
+      estrategia para las
+      diferentes áreas, en donde no tenga un gran impacto, por ejemplo, como los países con menos clientes de 20 o
+      menos.
+      Además de buscar un patrón en esos países no compiten con los países con mayores clientes. Dar una solución para
+      fortalecer
+      as áreas con menores clientes.
     </p>
-    <hr/>
+    <hr />
     <h3>Tabla Con los Clientes de ambas base de datos</h3>
     <div class="table-responsive border-bottom">
       <table id="dataframe" class="table table-striped table-sm table-hover display nowrap" cellspacing="0">
@@ -193,178 +218,195 @@
             <th>Pais</th>
           </tr>
         </thead>
-        <tbody>  
+        <tbody>
         </tbody>
         <tfoot></tfoot>
       </table>
       <hr>
     </div>
-<!--Informacion sobre la media,moda,media-->
-<div class="card-deck">
-  <div class="card border-dark mb-3" style="max-width: 28rem;">
-    <h5 class="card-header">Países en total</h5>
-    <div class="card-body">
-      <h3 class="card-title text-center">109</h3>
-      <p class="card-text">Total De Registros: 19,107</p>
-      <p class="card-text"><small class="text-muted">Total De resgitros 19107</small></p>
+    <!--Informacion sobre la media,moda,media-->
+    <div class="card-deck">
+      <div class="card border-dark mb-3" style="max-width: 28rem;">
+        <h5 class="card-header">Países en total</h5>
+        <div class="card-body">
+          <h3 class="card-title text-center">109</h3>
+          <p class="card-text">Total De Registros: 19,107</p>
+          <p class="card-text"><small class="text-muted">Total De resgitros 19107</small></p>
+        </div>
+      </div>
+      <div class="card text-white bg-dark" style="max-width: 28rem;">
+        <h5 class="card-header">Mediana</h5>
+        <div class="card-body">
+          <h3 class="card-title text-center">{{mediana}}</h3>
+          <p class="card-text">Clientes</p>
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
+      <div class="card text-white bg-dark" style="max-width: 28rem;">
+        <h5 class="card-header">Media</h5>
+        <div class="card-body">
+          <h3 class="card-title text-center">{{mean}}</h3>
+          <p class="card-text">Clientes</p>
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
+      <div class="card text-white bg-dark" style="max-width: 28rem;">
+        <h5 class="card-header">Moda</h5>
+        <div class="card-body">
+          <h3 class="card-title text-center">{{modas}}</h3>
+          <p class="card-text">Clientes</p>
+          <p class="card-text"><small class="text-muted"></small></p>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="card text-white bg-dark" style="max-width: 28rem;">
-    <h5 class="card-header">Mediana</h5>
-    <div class="card-body">
-      <h3 class="card-title text-center">{{mediana}}</h3>
-      <p class="card-text">Clientes</p>
-      <p class="card-text"><small class="text-muted"></small></p>
+    <div class="border-top my-3"></div>
+    <!--Tablas con los valores -->
+    <div class="text-center">
+      <h2>Datos Agrupados por Clientes</h2>
     </div>
-  </div>
-  <div class="card text-white bg-dark" style="max-width: 28rem;">
-    <h5 class="card-header">Media</h5>
-    <div class="card-body">
-      <h3 class="card-title text-center">{{mean}}</h3>
-      <p class="card-text">Clientes</p>
-      <p class="card-text"><small class="text-muted"></small></p>
-    </div>
-  </div>
-  <div class="card text-white bg-dark" style="max-width: 28rem;">
-    <h5 class="card-header">Moda</h5>
-    <div class="card-body">
-      <h3 class="card-title text-center">{{modas}}</h3>
-      <p class="card-text">Clientes</p>
-      <p class="card-text"><small class="text-muted"></small></p>
-    </div>
-  </div>
-</div>
-<div class="border-top my-3"></div>
-<!--Tablas con los valores -->
-<div class="text-center">
-  <h2>Datos Agrupados por Clientes</h2>
-</div>
-<div class="row">
- <!--Tablas-->
-  <div class="col">
-    <div class="border-bottom border-primary"><h3>Datos Por debajo de la media</h3></div>
-    
-    <h4 style="font-style: italic;">Total Registros: <span id="cantid" class="badge badge-pill badge-primary">n</span></h4>
-    <!--Tabla  con los valor menores-->
-<div class="table-responsive-sm border-bottom">
-<table id="tbl_s" class="table table-striped  table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
-<thead>
-  <tr class="table-dark">
-    <th>Pais</th>
-    <th>Numero De clientes</th>
-  </tr>
-</thead>
-<tbody> 
-  {% for i in grupo_menor %}
-      <tr>
-        <td>{{i[0]}}</td>
-        <td style="text-align: center;">{{i[1]}}</td>
-      </tr>
-  {% endfor %} 
-</tbody>
-</table>
-<hr>
-</div>
-  </div>
+    <div class="row">
+      <!--Tablas-->
+      <div class="col">
+        <div class="border-bottom border-primary">
+          <h3>Datos Por debajo de la media</h3>
+        </div>
 
-    <!--Valores de la moda-->
-    <div class="col">
-      
+        <h4 style="font-style: italic;">Total Registros: <span id="cantid"
+            class="badge badge-pill badge-primary">n</span></h4>
+        <!--Tabla  con los valor menores-->
+        <div class="table-responsive-sm border-bottom">
+          <table id="tbl_s" class="table table-striped  table-sm table-hover table-bordered dt-responsive nowrap"
+            style="width: 100%;">
+            <thead>
+              <tr class="table-dark">
+                <th>Pais</th>
+                <th>Numero De clientes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in grupo_menor %}
+              <tr>
+                <td>{{i[0]}}</td>
+                <td style="text-align: center;">{{i[1]}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <hr>
+        </div>
+      </div>
+
+      <!--Valores de la moda-->
+      <div class="col">
+
+      </div>
+
+      <!--Valores de media-->
+      <div class="col">
+        <div class="border-bottom border-primary">
+          <h3>Datos Por encima de la media</h3>
+        </div>
+        <h4 style="font-style: italic;">Total Registros: <span id="cantida"
+            class="badge badge-pill badge-primary">n</span></h4>
+        <!--Tabla  con los valor mayores-->
+        <div id="t_gr" class="table-responsive-sm border-bottom ">
+          <table id="tbl_g" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap"
+            style="width: 100%;">
+            <thead>
+              <tr class="table-dark">
+                <th>Pais</th>
+                <th>Numero De clientes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for fs in grupo_mayor %}
+              <tr>
+                <td>{{fs[0]}}</td>
+                <td style="text-align: center; padding: 0px;">{{fs[1]}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <hr>
+        </div>
+      </div>
+
     </div>
-
-<!--Valores de media-->
-  <div class="col">
-    <div class="border-bottom border-primary"><h3>Datos Por encima de la media</h3></div>
-    <h4 style="font-style: italic;">Total Registros: <span id="cantida" class="badge badge-pill badge-primary">n</span></h4>
-     <!--Tabla  con los valor mayores-->
-     <div id="t_gr" class="table-responsive-sm border-bottom ">
-<table id="tbl_g" class="table table-striped table-sm table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
-  <thead>
-    <tr class="table-dark">
-      <th>Pais</th>
-      <th>Numero De clientes</th>
-    </tr>
-  </thead>
-  <tbody> 
-    {% for fs in grupo_mayor %}
-        <tr>
-          <td>{{fs[0]}}</td>
-          <td style="text-align: center; padding: 0px;">{{fs[1]}}</td>
-        </tr>
-    {% endfor %} 
-  </tbody>
-</table>
-<hr>
-</div>
-  </div>
-
-</div>
-  <br>
+    <br>
   </div>
   <!--Datos a mostrar cl-->
   <div class="shadow-lg p-3 mb-5 bg-white rounded" data-spy="scroll" data-target="#se_menu" data-offset="0">
 
-    <div class="row">
-      <div class="col">
-        <div class="border-bottom border-primary"><h3>Valores son iguales a la moda</h3></div>
+    <div id="modidas" class="border-bottom border-primary">
+      <h3>Valores son iguales a la moda</h3>
+    </div>
 
-        <h4 style="font-style: italic;">Total Registros: <span id="cantidad" class="badge badge-pill badge-primary">n</span></h4>
+    <h4 style="font-style: italic;">Total Registros: <span id="cantidad"
+        class="badge badge-pill badge-primary">n</span></h4>
+
+    <div id="modidas-1" class="row">
+      <div class="col-6 col-md-4 bg-dark">
         <!--Tabla  con los valor igulaes a la moda-->
-    <div class="table-responsive-sm border-bottom">
-     <table id="tbl_m" class="table table-striped table-sm  table-hover table-bordered dt-responsive nowrap" style="width: 100%;">
-       <thead>
-         <tr class="table-dark">
-           <th>Pais</th>
-           <th>Numero De clientes</th>
-         </tr>
-       </thead>
-       <tbody> 
-         {% for j in grupo_moda %}
-             <tr>
-               <td>{{j[0]}}</td>
-               <td style="text-align: center;" >{{j[1]}}</td>
-             </tr>
-         {% endfor %} 
-       </tbody>
-       <tfoot>
-        <tr class="table-dark">
-          <th>Pais</th>
-          <th>Numero De clientes</th>
-        </tr>
-       </tfoot>
-     </table>
-     <hr>
-    </div><!--fin de  la tabla-->
-    
-      <div class="card text-white bg-dark ">
-        <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
-        <div class="card-body">
-          <div id="eu-moda" style="width: 600px; height: 400px"></div>
-        </div>
-      </div><!--Pais con los datos de la moda-->
-      
-</div>
-      <div class="col">
+        <div class="card text-white bg-dark ">
+          <div class="card-header"><h4>Tabla con los países que tiene índice de clientes igual a la moda</h4></div>
+          <div class="card-body">
+            <div class="table-responsive-sm border-bottom">
+              <table id="tbl_m" class="table table-dark table-striped table-sm  table-hover table-bordered dt-responsive nowrap"
+                style="width: 100%;">
+                <thead>
+                  <tr >
+                    <th>Pais</th>
+                    <th>Numero De clientes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for j in grupo_moda %}
+                  <tr>
+                    <td>{{j[0]}}</td>
+                    <td style="text-align: center;">{{j[1]}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+              <hr>
+            </div><!--fin de  la tabla-->
+          </div>
+        </div><!--Pais con los datos de la moda-->
+      </div>
+      <div class="col-12 col-md-8 bg-dark">
         <div class="justify-content-center">
           <div class="card text-white bg-dark ">
-            <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+            <div class="card-header"><h4>Mapa con los países que tiene índice de clientes igual a la moda</h4></div>
             <div class="card-body">
-              <div id="world-moda" style="width: 600px; height: 400px"></div>
+              <div id="world-moda" style="width: 850px; height: 550px"></div>
             </div>
-          </div><!--Pais con los datos de la moda-->
-          <div class="card text-white bg-dark" >
-            <div class="card-header">Grafica De Barras Con Numero de Clientes</div>
-            <div class="card-body">
-              <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
-            </div>
-          </div> <!--Grafica de barra grupados por continetes-->
+          </div>
+          <!--Pais con los datos de la moda-->
         </div>
-      </div><!--Graficas-->
-</div>
-   
+      </div>
+      <!--Graficas-->
+    </div> <!--Fin de la primera fila-->
+<div id="modidas-2" class="row">
+  <div class="col-6 col-md-4 bg-dark">
+    <div class="card text-white bg-dark ">
+      <div class="card-header"><h4>Mapa de Europa con los países que tiene índice de clientes igual a la moda</h4></div>
+      <div class="card-body">
+        <div id="eu-moda" style="width: 450px; height: 400px"></div>
+      </div>
+    </div><!--Pais con los datos de la moda-->
+  </div><!--fin con la mapa-->
+  <div class="col-12 col-md-8 bg-dark">
+    <div class="card text-white bg-dark">
+      <div class="card-header"><h4>Grafica De Barras Con Número de Clientes por Continente</h4></div>
+      <div class="card-body">
+        <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
+      </div>
+    </div><!--Grafica de barra grupados por continetes-->
+  </div><!--fin de la columan con  barras-->
+</div><!--Fin de la segunda fila-->
 
 
-  </div>
+  </div><!--Fin del contenedor con los datos de moda-->
 
 
 
@@ -374,70 +416,70 @@
     <h4></h4>
     <p class="text-justify" style="font-size: 16px;"></p>
     <p class="text-justify" style="font-size: 16px;">
-         
+
     </p>
-    <hr/>
+    <hr />
 
-<div class="row">
-  <div class="col">
-    <!--Mapa Con todo carnal-->
-<!---style="width: 600px; height: 400px"-->
-<div class="card text-white bg-dark" >
-  <div class="card-header">Grafica De Barras Con Numero de Clientes</div>
-  <div class="card-body">
-    <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
-  </div>
-</div>
-
-  </div>
-  <div class="col">
-    <!--Mapa con los dtitos-->
-    <div class="card text-white bg-dark ">
-      <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
-      <div class="card-body">
-        <div id="world-moda" style="width: 600px; height: 400px"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col">
-    <div class="card text-white bg-dark ">
-      <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
-      <div class="card-body">
-        <div id="continek-map" style="width: 600px; height: 400px"></div>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-
-  </div>
-</div>
-
-
-
-<hr>
-<div class="card text-white bg-dark" >
-  <div class="card-header">Media, Moda y mediana Representada Grafica de Linea</div>
-  <div class="card-body">
     <div class="row">
       <div class="col">
-        <span class="badge badge-pill badge-danger">Media</span>
+        <!--Mapa Con todo carnal-->
+        <!---style="width: 600px; height: 400px"-->
+        <div class="card text-white bg-dark">
+          <div class="card-header">Grafica De Barras Con Numero de Clientes</div>
+          <div class="card-body">
+            <canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas>
+          </div>
+        </div>
+
       </div>
       <div class="col">
-        <span class="badge badge-pill badge-warning">Moda</span>
-      </div>
-      <div class="col">
-        <span class="badge badge-pill badge-info">Mediana</span>
+        <!--Mapa con los dtitos-->
+        <div class="card text-white bg-dark ">
+          <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+          <div class="card-body">
+            <div id="world-moda" style="width: 600px; height: 400px"></div>
+          </div>
+        </div>
       </div>
     </div>
-    <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
-  </div>
-</div>
-<!--<canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas> --->
-<div id="world-map" style="width: 600px; height: 400px"></div>
-<div id="continek-map" style="width: 600px; height: 400px"></div>
+
+    <div class="row">
+      <div class="col">
+        <div class="card text-white bg-dark ">
+          <div class="card-header">Numeros de Clientes por Pais (MODA) Mapa</div>
+          <div class="card-body">
+            <div id="continek-map" style="width: 600px; height: 400px"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+
+      </div>
+    </div>
+
+
+
+    <hr>
+    <div class="card text-white bg-dark">
+      <div class="card-header">Media, Moda y mediana Representada Grafica de Linea</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col">
+            <span class="badge badge-pill badge-danger">Media</span>
+          </div>
+          <div class="col">
+            <span class="badge badge-pill badge-warning">Moda</span>
+          </div>
+          <div class="col">
+            <span class="badge badge-pill badge-info">Mediana</span>
+          </div>
+        </div>
+        <canvas class="my-4 w-100" id="gph_cutipa" width="900" height="380"></canvas>
+      </div>
+    </div>
+    <!--<canvas class="my-4 w-100" id="gph_barritas" width="900" height="380"></canvas> --->
+    <div id="world-map" style="width: 600px; height: 400px"></div>
+    <div id="continek-map" style="width: 600px; height: 400px"></div>
   </div>
 </div>
 {% endblock %}
@@ -445,20 +487,20 @@
 <!-- <script src="{{url_for('static',filename='js/data-json.js')}}"></script> -->
 <script>
   $('#se_menu').show();
-var pointBackgroundColors = [];
-var back=[];
+  var pointBackgroundColors = [];
+  var back = [];
 
-var datas = {
-  labels: [{% for a in media_name %} 
-                      "{{a}}",
-                   {% endfor %}
-                {% for j in riverside %} 
-                      "{{j}}",
-                   {% endfor %} 
+  var datas = {
+    labels: [{% for a in media_name %}
+  "{{a}}",
+    {% endfor %}
+  {% for j in riverside %}
+  "{{j}}",
+    {% endfor %} 
   ],
   datasets: [
     {
-      
+
       lineTension: 0,
       backgroundColor: 'transparent',
       borderColor: back,
@@ -466,10 +508,10 @@ var datas = {
       pointBackgroundColor: pointBackgroundColors,
       data: [{% for fuego in media_valor %} 
                         "{{fuego}}",
-                      {% endfor %}
-                  {% for pio in pala %} 
-                        "{{pio}}",
-                      {% endfor %}
+    {% endfor %}
+    {% for pio in pala %}
+  "{{pio}}",
+    {% endfor %}
       ]
     },
   ]
@@ -478,521 +520,519 @@ var datas = {
 
 
 
- 
-var ctx = document.getElementById('gph_cutipa');
-var mygrafica = new Chart(ctx,{
-  type:'line',
-    data:datas,
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: false
-            }
-          }]
-        },
-        legend: {
-          display: false
-        }
-      }
-});
 
-for (i = 0; i < mygrafica.data.datasets[0].data.length; i++) {
+  var ctx = document.getElementById('gph_cutipa');
+  var mygrafica = new Chart(ctx, {
+    type: 'line',
+    data: datas,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: false
+          }
+        }]
+      },
+      legend: {
+        display: false
+      }
+    }
+  });
+
+  for (i = 0; i < mygrafica.data.datasets[0].data.length; i++) {
     if (mygrafica.data.datasets[0].data[i] > 175) {
-        pointBackgroundColors.push("#f57b00");
-        back.push("#f57b00");
-    }  
-    else if(mygrafica.data.datasets[0].data[i] == 1) {
-        pointBackgroundColors.push("#f5e625");
-        back.push("#f5e625");
-    }else{
+      pointBackgroundColors.push("#f57b00");
+      back.push("#f57b00");
+    }
+    else if (mygrafica.data.datasets[0].data[i] == 1) {
+      pointBackgroundColors.push("#f5e625");
+      back.push("#f5e625");
+    } else {
       pointBackgroundColors.push("#336699");
       back.push("#336699");
     }
-}
+  }
 
 
   var btn1 = $('#btnMostrar');
 
-$(document).ready( function () {
- //tabla con mayores
- var tb_m = $('#tbl_g').DataTable({
-    responsive:true,
-    dom:"rti"
-  });
-  //tabla con los valores menores
-var tbl_s =   $('#tbl_s').DataTable({
-    responsive:true,
-    dom:"<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'i>>" +
+  $(document).ready(function () {
+    //tabla con mayores
+    var tb_m = $('#tbl_g').DataTable({
+      responsive: true,
+      dom: "rti"
+    });
+    //tabla con los valores menores
+    var tbl_s = $('#tbl_s').DataTable({
+      responsive: true,
+      dom: "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'i>>" +
         "<'row'<'col-sm-12'tr>>" +
         "<'row'<'col-sm-12 col-md-7'p><'col-sm-12 col-md-5'>>"
-  });
-  //tabla con los valores moda
- var tb =   $('#tbl_m').DataTable({
-    responsive:true,
-    pageLength:50,
-    scrollY:"350px",
-    scrollCollapse:true,
-    paging: false,
-    dom:'<"top"i>rt<"bottom"f><"clear">'
-  });
-
-//pone los datos el badge pill
-document.querySelector('#cantida').innerHTML ="N:" + tb_m.rows().count();
-document.querySelector('#cantid').innerHTML ="N:" + tbl_s.rows().count();
-document.querySelector('#cantidad').innerHTML ="N:" + tb.rows().count();
-  //tabla dde MS-SQL
-  $('#dataframe').DataTable({
-  processing:true,
-  responsive:true,
-  ajax:"{{url_for('showdd')}}",
-  columns:[
-          { "data": "ID" },
-          { "data": "firstName" },
-          { "data": "email" },
-          { "data": "address" },
-          { "data": "zip" },
-          { "data": "phone" },
-          { "data": "ciudad" },
-          { "data": "country" }
-
-  ],
-  dom:'Bfrtilp',
-  buttons:[
-
-  {
-              "extend":'pdfHtml5',
-              "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-              "titleAttr":'Exportar a PDF',
-              "className":'btn btn-outline-danger'
-          },
-          
-
-          {
-              "extend":'excel',
-              "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-              "titleAttr":'excel',
-              "className":'btn-outline-success'
-          },
-  ]
-});
-//pruebasss  "{{url_for('dMsql')}}"
-  var table = $('#tbl_ad').DataTable({
-    processing:true,
-    responsive:true,
-    ajax: "{{url_for('dMsql')}}",
-  columns:[
-          { "data": "firstName" },
-          { "data": "email" },
-          { "data": "address" },
-          { "data": "zip" },
-          { "data": "phone" },
-          { "data": "ciudad" },
-          { "data": "country" }
-
-  ],
-  dom:'Bfrtilp',
-  buttons:[
-
-  {
-              "extend":'pdfHtml5',
-              "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-              "titleAttr":'Exportar a PDF',
-              "className":'btn btn-outline-danger'
-          },
-          {
-              "extend":'print',
-              "text":'<i class="fas fa-print">&nbsp;Print</i>',
-              "titleAttr":'Print',
-              "className":'btn btn-outline-info'
-          },
-          {
-              "extend":'excel',
-              "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-              "titleAttr":'excel',
-              "className":'btn-outline-success'
-          },
-
-  ]
-});
-//tabla Posgresal
-var table2 = $('#tbl_dvd').DataTable({
-  processing:true,
-  responsive:true,
-  ajax:"{{url_for('dpos')}}",
-  columns:[
-          { "data": "firstName" },
-          { "data": "email" },
-          { "data": "address" },
-          { "data": "zip" },
-          { "data": "phone" },
-          { "data": "ciudad" },
-          { "data": "country" }
-
-  ],
-  dom:'Bfrtilp',
-  buttons:[
-
-  {
-              "extend":'pdfHtml5',
-              "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-              "titleAttr":'Exportar a PDF',
-              "className":'btn btn-outline-danger'
-          },
-          {
-              "extend":'print',
-              "text":'<i class="fas fa-print">&nbsp;Print</i>',
-              "titleAttr":'Print',
-              "className":'btn btn-outline-info'
-          },
-          {
-              "extend":'excel',
-              "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-              "titleAttr":'excel',
-              "className":'btn-outline-success'
-          },
-  ]
-});
-//boton que muestra la informacion de la fases
-btn1.on("click", function(){
-
-/**Mapa Con todo los datos de los paises*/
-$.getJSON("{{url_for('paisG')}}",function(data){
-  var codeName = {};
-  var ncode;
-  var ncame;
-
-//obtner los code de los paises
-$.ajax(
-{
-  url: "{{url_for('codegui')}}",
-  dataType: "json",
-  async: false,
-  success: function(data)
-  {
-    ncode = data.map(function(d){
-      return d.Code
     });
-    ncame = data.map(function(d){
-      return d.Name
+    //tabla con los valores moda
+    var tb = $('#tbl_m').DataTable({
+      responsive: true,
+      pageLength: 50,
+      scrollY: "350px",
+      scrollCollapse: true,
+      paging: false,
+      dom: '<"top"i>rt<"bottom"><"clear">'
     });
-    
-    for(var j=0; j <ncode.length;j++){
-      codeName[ncame[j]] =ncode[j]; 
-    }
-  }
-}); 
+
+    //pone los datos el badge pill
+    document.querySelector('#cantida').innerHTML = "N:" + tb_m.rows().count();
+    document.querySelector('#cantid').innerHTML = "N:" + tbl_s.rows().count();
+    document.querySelector('#cantidad').innerHTML = "N:" + tb.rows().count();
+    //tabla dde MS-SQL
+    $('#dataframe').DataTable({
+      processing: true,
+      responsive: true,
+      ajax: "{{url_for('showdd')}}",
+      columns: [
+        { "data": "ID" },
+        { "data": "firstName" },
+        { "data": "email" },
+        { "data": "address" },
+        { "data": "zip" },
+        { "data": "phone" },
+        { "data": "ciudad" },
+        { "data": "country" }
+
+      ],
+      dom: 'Bfrtilp',
+      buttons: [
+
+        {
+          "extend": 'pdfHtml5',
+          "text": '<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+          "titleAttr": 'Exportar a PDF',
+          "className": 'btn btn-outline-danger'
+        },
+
+
+        {
+          "extend": 'excel',
+          "text": '<i class="far fa-file-excel">&nbsp;Excel</i>',
+          "titleAttr": 'excel',
+          "className": 'btn-outline-success'
+        },
+      ]
+    });
+    //pruebasss  "{{url_for('dMsql')}}"
+    var table = $('#tbl_ad').DataTable({
+      processing: true,
+      responsive: true,
+      ajax: "{{url_for('dMsql')}}",
+      columns: [
+        { "data": "firstName" },
+        { "data": "email" },
+        { "data": "address" },
+        { "data": "zip" },
+        { "data": "phone" },
+        { "data": "ciudad" },
+        { "data": "country" }
+
+      ],
+      dom: 'Bfrtilp',
+      buttons: [
+
+        {
+          "extend": 'pdfHtml5',
+          "text": '<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+          "titleAttr": 'Exportar a PDF',
+          "className": 'btn btn-outline-danger'
+        },
+        {
+          "extend": 'print',
+          "text": '<i class="fas fa-print">&nbsp;Print</i>',
+          "titleAttr": 'Print',
+          "className": 'btn btn-outline-info'
+        },
+        {
+          "extend": 'excel',
+          "text": '<i class="far fa-file-excel">&nbsp;Excel</i>',
+          "titleAttr": 'excel',
+          "className": 'btn-outline-success'
+        },
+
+      ]
+    });
+    //tabla Posgresal
+    var table2 = $('#tbl_dvd').DataTable({
+      processing: true,
+      responsive: true,
+      ajax: "{{url_for('dpos')}}",
+      columns: [
+        { "data": "firstName" },
+        { "data": "email" },
+        { "data": "address" },
+        { "data": "zip" },
+        { "data": "phone" },
+        { "data": "ciudad" },
+        { "data": "country" }
+
+      ],
+      dom: 'Bfrtilp',
+      buttons: [
+
+        {
+          "extend": 'pdfHtml5',
+          "text": '<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+          "titleAttr": 'Exportar a PDF',
+          "className": 'btn btn-outline-danger'
+        },
+        {
+          "extend": 'print',
+          "text": '<i class="fas fa-print">&nbsp;Print</i>',
+          "titleAttr": 'Print',
+          "className": 'btn btn-outline-info'
+        },
+        {
+          "extend": 'excel',
+          "text": '<i class="far fa-file-excel">&nbsp;Excel</i>',
+          "titleAttr": 'excel',
+          "className": 'btn-outline-success'
+        },
+      ]
+    });
+    //boton que muestra la informacion de la fases
+    btn1.on("click", function () {
+
+      /**Mapa Con todo los datos de los paises*/
+      $.getJSON("{{url_for('paisG')}}", function (data) {
+        var codeName = {};
+        var ncode;
+        var ncame;
+
+        //obtner los code de los paises
+        $.ajax(
+          {
+            url: "{{url_for('codegui')}}",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+              ncode = data.map(function (d) {
+                return d.Code
+              });
+              ncame = data.map(function (d) {
+                return d.Name
+              });
+
+              for (var j = 0; j < ncode.length; j++) {
+                codeName[ncame[j]] = ncode[j];
+              }
+            }
+          });
 
 
 
-var abs = {}
-//obtner los datos del json en separados
-var piss = data.data.map(function(d){
-return d.Pais
-});
+        var abs = {}
+        //obtner los datos del json en separados
+        var piss = data.data.map(function (d) {
+          return d.Pais
+        });
 
-var nCliente = data.data.map(function(d){
-return d.NumeroClientes
-});
+        var nCliente = data.data.map(function (d) {
+          return d.NumeroClientes
+        });
 
-//Creacion de objetos con los datos
-for(var i=0;i<piss.length;i++){
- 
-  var sorete = codeName[piss[i]]
-  abs[sorete] = nCliente[i] 
-}
+        //Creacion de objetos con los datos
+        for (var i = 0; i < piss.length; i++) {
 
-
-//var valores = jvm.values.apply({},jvm.values(objs))
-$('#world-map').vectorMap({
-map: 'world_mill',
-series: {
-regions: [{
-  values:abs,
-  scale:  ['#FEE5D9', '#A50F15'],
-  normalizeFunction: 'polynomial',
-  legend:{
-    vertical:true
-  }
-}]
-},
-onRegionTipShow: function(e, el, code){
-  
-  el.html(el.html()+' Numero de clientes - '+abs[code]+')');
-}
-});
-
-});//Fin de la recolecion de los datos para el maapita Todo Los datos
-
-mostrarDatos();
-$('#informacion').show();
-
-/**Grafica de barras con los valores Moda*/
-$.getJSON("{{url_for('names_s')}}",function(data){
-//obtenemos los valores de la base de datos
-  var values = data.map(function(e){
-    return e.Num
-  })
- var labels =data.map(function(e){
-   return e.continents
- })
-//grafica
-var datitoss = {
-    labels : ["África","Antártica","Asia","Europa","Norte américa","Oceanía","Sur america"],
-    datasets : [
-      {
-        label : "Numeros de Clientes(MODA): ",
-        data : values,
-        backgroundColor : [
-          "#eb6864", "#22b24d", "#336699", "#f5e625", "#f57b00","#3d00f5","#f50035"
-        ],
-        borderColor : [
-          "#111", "#111", "#111", "#111", "#111"
-        ],
-        borderWidth : 1
-      }
-    ]
-  };
-  var options = {
-    title : {
-      display : true,
-      position : "top",
-      text : "Numero De clientes por continentes (MODA)",
-      fontSize : 18,
-      fontColor : "#ffffff"
-    },
-    legend : {
-      display : false
-    },
-    scales : {
-      yAxes : [{
-        ticks : {
-          min : 0,
-          fontColor : "#ffffff"
+          var sorete = codeName[piss[i]]
+          abs[sorete] = nCliente[i]
         }
-      }],
-      xAxes:[{
-        ticks:{
-          fontColor : "#ffffff"
+
+
+        //var valores = jvm.values.apply({},jvm.values(objs))
+        $('#world-map').vectorMap({
+          map: 'world_mill',
+          series: {
+            regions: [{
+              values: abs,
+              scale: ['#FEE5D9', '#A50F15'],
+              normalizeFunction: 'polynomial',
+              legend: {
+                vertical: true
+              }
+            }]
+          },
+          onRegionTipShow: function (e, el, code) {
+
+            el.html(el.html() + ' Numero de clientes - ' + abs[code] + ')');
+          }
+        });
+
+      });//Fin de la recolecion de los datos para el maapita Todo Los datos
+
+      mostrarDatos();
+      $('#informacion').show();
+
+      /**Grafica de barras con los valores Moda*/
+      $.getJSON("{{url_for('names_s')}}", function (data) {
+        //obtenemos los valores de la base de datos
+        var values = data.map(function (e) {
+          return e.Num
+        })
+        var labels = data.map(function (e) {
+          return e.continents
+        })
+        //grafica
+        var datitoss = {
+          labels: ["África", "Antártica", "Asia", "Europa", "Norte américa", "Oceanía", "Sur america"],
+          datasets: [
+            {
+              label: "Numeros de Clientes(MODA): ",
+              data: values,
+              backgroundColor: [
+                "#eb6864", "#22b24d", "#336699", "#f5e625", "#f57b00", "#3d00f5", "#f50035"
+              ],
+              borderColor: [
+                "#111", "#111", "#111", "#111", "#111"
+              ],
+              borderWidth: 1
+            }
+          ]
+        };
+        var options = {
+          title: {
+            display: true,
+            position: "top",
+            text: "Numero De clientes por continentes (MODA)",
+            fontSize: 18,
+            fontColor: "#ffffff"
+          },
+          legend: {
+            display: false
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                min: 0,
+                fontColor: "#ffffff"
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                fontColor: "#ffffff"
+              }
+            }]
+          }
+
+        };
+
+        var ctx = document.getElementById('gph_barritas')
+        var grafi = new Chart(ctx, {
+          type: "bar",
+          data: datitoss,
+          options: options
+        })
+
+      });
+
+      /**Mapa con  los pais con la moda*/
+      $.getJSON("{{url_for('names_s')}}", function (data) {
+        var continentes = {}
+        var con = data.map(function (d) {
+          return d.continents
+        });
+
+        var nCliente = data.map(function (d) {
+          return d.Num
+        });
+
+        //crear un objeto de datos de Json
+        for (var i = 0; i < con.length; i++) {
+          continentes[con[i]] = nCliente[i]
         }
-      }]
-    }
-
-  };
-
-var ctx = document.getElementById('gph_barritas')
-var grafi  = new Chart(ctx,{
-  type : "bar",
-    data : datitoss,
-  options:options
-})
-
-});
-
-/**Mapa con  los pais con la moda*/
-$.getJSON("{{url_for('names_s')}}",function(data){
-  var continentes = {}
-var con = data.map(function(d){
-return d.continents
-});
-
-var nCliente = data.map(function(d){
-return d.Num
-});
-
-//crear un objeto de datos de Json
-for(var i=0;i<con.length;i++){
-  continentes[con[i]] = nCliente[i] 
-}
-//mapita
-$('#continek-map').vectorMap({
-map: 'continents_merc',
-backgroundColor: '#000000',   
-series: {
-regions: [{
-  values:continentes,
-  scale:  ['#9d99b0', '#2300bf'],
-  normalizeFunction: 'polynomial',
-  legend:{
-    vertical:true
-  }
-}]
-},
-onRegionTipShow: function(e, el, code){
-  
-  el.html(el.html()+' Numero de clientes - '+continentes[code]+')');
-}
-
-});
-
-});
-
-//segundo json carnal
-$.getJSON("{{url_for('modass')}}",function(data){
-  
-  var ncode;
-  var ncame;
-  var codeName={}
-  var abs= {}
-  
- 
-  //obtner los datos por pais code?
-$.ajax(
-{
-  url: "{{url_for('codegui')}}",
-  dataType: "json",
-  async: false,
-  success: function(data)
-  {
-    ncode = data.map(function(d){
-      return d.Code
-    });
-    ncame = data.map(function(d){
-      return d.Name
-    });
-    
-    for(var j=0; j <ncode.length;j++){
-      codeName[ncame[j]] =ncode[j]; 
-    }
-  }
-});
-//obtner los datos del json en separados
-var piss = data.map(function(d){
-return d.pais
-});
-
-var nCliente = data.map(function(d){
-return d.Numero
-});
-
-//pruebas
-for(var i=0;i<piss.length;i++){
- 
- var sorete = codeName[piss[i]];
- abs[sorete] = nCliente[i]; 
-}
-
-//mapa con los daoto menores que la media
-$('#world-moda').vectorMap({
-map: 'world_mill',
-markerStyle:{
-  initial:{
-    fill:"#ffc800"
-  }
-},
-backgroundColor: '#000000',
-markers:[
-    {latLng: [41.90, 12.45], name: 'Vatican City'},
-    {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},
-    {latLng: [-21.114, 55.5325], name: 'Reunión'},
-    {latLng: [62, -6.783333], name: 'Faroe Islands'},
-    {latLng: [4, -53], name: 'French Guiana'},
-    {latLng: [22.278333, 114.158611], name: 'Hong Kong'},
-    {latLng: [47.139722, 9.521944], name: 'Liechtenstein'},
-    {latLng: [47, 28.916667], name: 'Moldova'},
-    {latLng: [-0.5477, 166.920867], name: 'Nauru'},
-    {latLng: [39.033333, 125.75], name: 'North Korea'},
-    {latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines'},
-    {latLng: [-21.134722, -175.208333], name: 'Tonga'},
-    {latLng: [-8.516667, 179.216667], name: 'Tuvalu'},
-],
-series: {
-regions: [{
-  values:abs,
-  scale:  ['#FEE5D9', '#ffc800'],
-  normalizeFunction: 'polynomial',
-  legend:{
-    vertical:true
-  }
-}]
-},
-onRegionTipShow: function(e, el, code){
-
-  el.html(el.html()+' N - '+abs[code]+')');
-}
-
-});//final del mapa del mundo
-
-$('#eu-moda').vectorMap({
-map: 'europe_mill',
-markerStyle:{
-  initial:{
-    fill:"#ffc800"
-  }
-},
-backgroundColor: '#000000',
-markers:[
-    {latLng: [41.90, 12.45], name: 'Vatican City'},
-    {latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.'},
-    {latLng: [-21.114, 55.5325], name: 'Reunión'},
-    {latLng: [62, -6.783333], name: 'Faroe Islands'},
-    {latLng: [4, -53], name: 'French Guiana'},
-    {latLng: [22.278333, 114.158611], name: 'Hong Kong'},
-    {latLng: [47.139722, 9.521944], name: 'Liechtenstein'},
-    {latLng: [47, 28.916667], name: 'Moldova'},
-    {latLng: [-0.5477, 166.920867], name: 'Nauru'},
-    {latLng: [39.033333, 125.75], name: 'North Korea'},
-    {latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines'},
-    {latLng: [-21.134722, -175.208333], name: 'Tonga'},
-    {latLng: [-8.516667, 179.216667], name: 'Tuvalu'},
-],
-series: {
-regions: [{
-  values:abs,
-  scale:  ['#FEE5D9', '#ffc800'],
-  normalizeFunction: 'polynomial',
-  legend:{
-    vertical:true
-  }
-}]
-},
-onRegionTipShow: function(e, el, code){
-
-  el.html(el.html()+' N - '+abs[code]+')');
-}
-
-});//final del mapa de Europa
-
-
-});//find de obtner los codes
-
-
-
-});//fin json
-
-});//final
-
-function mostrarDatos() {
-//Tabla de analisis con los datos unidos
-
-var table4 = $('#tbl_paiss').DataTable({
-  processing:true,
-  responsive:true,
-  ajax:"{{url_for('paisG')}}",
-  columns:[
-          { "data": "Pais" },
-          { "data": "NumeroClientes" }
-  ],
-  dom:'Bfrtilp',
-  buttons:[
-
-  {
-              "extend":'pdfHtml5',
-              "text":'<i class="fas fa-file-pdf">&nbsp;PDF</i>',
-              "titleAttr":'Exportar a PDF',
-              "className":'btn btn-outline-danger'
+        //mapita
+        $('#continek-map').vectorMap({
+          map: 'continents_merc',
+          backgroundColor: '#000000',
+          series: {
+            regions: [{
+              values: continentes,
+              scale: ['#9d99b0', '#2300bf'],
+              normalizeFunction: 'polynomial',
+              legend: {
+                vertical: true
+              }
+            }]
           },
+          onRegionTipShow: function (e, el, code) {
+
+            el.html(el.html() + ' Numero de clientes - ' + continentes[code] + ')');
+          }
+
+        });
+
+      });
+
+      //segundo json carnal
+      $.getJSON("{{url_for('modass')}}", function (data) {
+
+        var ncode;
+        var ncame;
+        var codeName = {}
+        var abs = {}
+
+
+        //obtner los datos por pais code?
+        $.ajax(
           {
-              "extend":'excel',
-              "text":'<i class="far fa-file-excel">&nbsp;Excel</i>',
-              "titleAttr":'excel',
-              "className":'btn-outline-success'
+            url: "{{url_for('codegui')}}",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+              ncode = data.map(function (d) {
+                return d.Code
+              });
+              ncame = data.map(function (d) {
+                return d.Name
+              });
+
+              for (var j = 0; j < ncode.length; j++) {
+                codeName[ncame[j]] = ncode[j];
+              }
+            }
+          });
+        //obtner los datos del json en separados
+        var piss = data.map(function (d) {
+          return d.pais
+        });
+
+        var nCliente = data.map(function (d) {
+          return d.Numero
+        });
+
+        //pruebas
+        for (var i = 0; i < piss.length; i++) {
+
+          var sorete = codeName[piss[i]];
+          abs[sorete] = nCliente[i];
+        }
+
+        //mapa con los daoto menores que la media
+        $('#world-moda').vectorMap({
+          map: 'world_mill',
+          markerStyle: {
+            initial: {
+              fill: "#ffc800"
+            }
           },
-  ]
-});
+          backgroundColor: '#000000',
+          markers: [
+            { latLng: [41.90, 12.45], name: 'Vatican City' },
+            { latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.' },
+            { latLng: [-21.114, 55.5325], name: 'Reunión' },
+            { latLng: [62, -6.783333], name: 'Faroe Islands' },
+            { latLng: [4, -53], name: 'French Guiana' },
+            { latLng: [22.278333, 114.158611], name: 'Hong Kong' },
+            { latLng: [47.139722, 9.521944], name: 'Liechtenstein' },
+            { latLng: [47, 28.916667], name: 'Moldova' },
+            { latLng: [-0.5477, 166.920867], name: 'Nauru' },
+            { latLng: [39.033333, 125.75], name: 'North Korea' },
+            { latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines' },
+            { latLng: [-21.134722, -175.208333], name: 'Tonga' },
+            { latLng: [-8.516667, 179.216667], name: 'Tuvalu' },
+          ],
+          series: {
+            regions: [{
+              values: abs,
+              scale: ['#FEE5D9', '#ffc800'],
+              normalizeFunction: 'polynomial',
+              legend: {
+                vertical: true
+              }
+            }]
+          },
+          onRegionTipShow: function (e, el, code) {
+
+            el.html(el.html() + ' N - ' + abs[code] + ')');
+          }
+
+        });//final del mapa del mundo
+
+        $('#eu-moda').vectorMap({
+          map: 'europe_mill',
+          markerStyle: {
+            initial: {
+              fill: "#ffc800"
+            }
+          },
+          backgroundColor: '#000000',
+          markers: [
+            { latLng: [41.90, 12.45], name: 'Vatican City' },
+            { latLng: [18.33, -64.83], name: 'Virgin Islands, U.S.' },
+            { latLng: [-21.114, 55.5325], name: 'Reunión' },
+            { latLng: [62, -6.783333], name: 'Faroe Islands' },
+            { latLng: [4, -53], name: 'French Guiana' },
+            { latLng: [22.278333, 114.158611], name: 'Hong Kong' },
+            { latLng: [47.139722, 9.521944], name: 'Liechtenstein' },
+            { latLng: [47, 28.916667], name: 'Moldova' },
+            { latLng: [-0.5477, 166.920867], name: 'Nauru' },
+            { latLng: [39.033333, 125.75], name: 'North Korea' },
+            { latLng: [13.166667, -61.233333], name: 'Saint Vincent and the Grenadines' },
+            { latLng: [-21.134722, -175.208333], name: 'Tonga' },
+            { latLng: [-8.516667, 179.216667], name: 'Tuvalu' },
+          ],
+          series: {
+            regions: [{
+              values: abs,
+              scale: ['#FEE5D9', '#ffc800'],
+              normalizeFunction: 'polynomial',
+              legend: {
+                vertical: true
+              }
+            }]
+          },
+          onRegionTipShow: function (e, el, code) {
+
+            el.html(el.html() + ' N - ' + abs[code] + ')');
+          }
+
+        });//final del mapa de Europa
+
+
+      });//find de obtner los codes
 
 
 
-}
+    });//fin json
+
+  });//final
+
+  function mostrarDatos() {
+    //Tabla de analisis con los datos unidos
+
+    var table4 = $('#tbl_paiss').DataTable({
+      processing: true,
+      responsive: true,
+      ajax: "{{url_for('paisG')}}",
+      columns: [
+        { "data": "Pais" },
+        { "data": "NumeroClientes" }
+      ],
+      dom: 'Bfrtilp',
+      buttons: [
+
+        {
+          "extend": 'pdfHtml5',
+          "text": '<i class="fas fa-file-pdf">&nbsp;PDF</i>',
+          "titleAttr": 'Exportar a PDF',
+          "className": 'btn btn-outline-danger'
+        },
+        {
+          "extend": 'excel',
+          "text": '<i class="far fa-file-excel">&nbsp;Excel</i>',
+          "titleAttr": 'excel',
+          "className": 'btn-outline-success'
+        },
+      ]
+    });
+
+
+
+  }
 </script>
 {% endblock %}
